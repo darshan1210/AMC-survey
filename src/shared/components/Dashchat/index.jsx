@@ -5,12 +5,10 @@ import HighchartsReact from 'highcharts-react-official';
 const DonutChart = () => {
     // Data for the donut chart
     const chartData = [
-        { name: 'Chrome', y: 61.41 },
-        { name: 'Firefox', y: 11.84 },
-        { name: 'IE', y: 10.85 },
-        { name: 'Safari', y: 4.67 },
-        { name: 'Edge', y: 4.18 },
-        { name: 'Others', y: 7.05 }
+        { name: 'In Progress Block', y: 10 },
+        { name: 'Remaining Block', y: 10 },
+        { name: 'Completed Block', y: 50 },
+        { name: 'Total Block', y: 30 },
     ];
 
     // Configuration options for the donut chart
@@ -19,7 +17,7 @@ const DonutChart = () => {
             type: 'pie'
         },
         title: {
-            text: 'Browser Market Share'
+            text: 'My Block Progress'
         },
         plotOptions: {
             pie: {
@@ -33,7 +31,7 @@ const DonutChart = () => {
             }
         },
         series: [{
-            name: 'Brands',
+            name: ' ',
             colorByPoint: true,
             data: chartData
         }]
@@ -46,7 +44,7 @@ const DonutChart = () => {
     }, []);
 
     return (
-        <div id="donut-chart" style={{ zIndex: '-10' }}>
+        <div id="donut-chart">
             <HighchartsReact highcharts={Highcharts} options={options} />
         </div>
     );

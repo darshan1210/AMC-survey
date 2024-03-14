@@ -19,3 +19,9 @@
         border-bottom: 0 !important;
     }
 }
+
+@media screen and (max-width:800px) {
+    .FilterModal {
+        width: 65vw !important;
+    }
+}

@@ -15,11 +15,12 @@
 
 export const TaskColumm = [
     { name: 'No', isSort: true },
+    { name: 'Blockname', isSort: false },
     { name: 'Ward', isSort: false },
     { name: 'zone', isSort: false },
-    { name: 'Blockname', isSort: false },
-    { name: 'Assignername', isSort: false },
-    { name: 'Assigndate', isSort: false },
+    { name: 'TotalProperty', isSort: false },
+    { name: 'Createdby', isSort: false },
+    { name: 'CreatedDate', isSort: false },
     { name: 'Actions', isSort: false },
 ]
 

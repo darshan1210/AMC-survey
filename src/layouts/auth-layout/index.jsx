@@ -9,7 +9,7 @@ function AuthLayout({ children }) {
   return (
     <div className='auth-main'>
       <div className='auth-logo'>
-        <img src={logo} height={70} width={80} alt="AMC-logo" />
+        <img src={logo} height={80} width={80} alt="AMC-logo" />
         <span>
           Ahmedabad Survey
         </span>

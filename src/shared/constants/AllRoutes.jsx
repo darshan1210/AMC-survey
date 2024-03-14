@@ -9,6 +9,12 @@ export const route = {
   transactionStats: '/Transaction-Stats',
   statistics: '/Statistics',
 
-  taskManagement: '/my-task',
-  propertyManagement: '/my-task/Property-Management'
+  taskManagement: '/My-Block',
+  inProgressBlock: '/In-progress-block',
+  reviewBlock: '/Review-block',
+  completedBlock: '/Completed-block',
+  propertyManagement: '/my-task/Property-Management',
+
+  surveyManagenet: '/my-survey'
+
 }

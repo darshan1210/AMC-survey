@@ -13,11 +13,12 @@ const TaskListRow = ({ user, index, }) => {
         <>
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
                 <td>{index + 1}</td>
+                <td>{user.Blockname || '-'}</td>
                 <td>{user.Ward || '-'}</td>
                 <td>{user.zone || '-'}</td>
-                <td>{user.Blockname || '-'}</td>
-                <td>{user.Assignername || '-'}</td>
-                <td>{user.Assigndate || '-'}</td>
+                <td>{user.TotalProperty || '-'}</td>
+                <td>{user.Createdby || '-'}</td>
+                <td>{user.CreatedDate || '-'}</td>
                 <td>
                     <div className='dropdown-datatable-items-icon' onClick={() => navigate(route.propertyManagement)}>
                         <i className='icon-create d-block' />

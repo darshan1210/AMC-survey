@@ -5,7 +5,7 @@ import MenuItem from './MenuItem'
 import useMediaQuery from 'shared/hooks/useMediaQuery'
 import PropTypes from 'prop-types';
 
-function SideBar({ isOpen }) {
+function SideBar({ isOpen, setNavMenu }) {
   const width = useMediaQuery('(max-width: 800px)')
   const [activeSubMenu, setActiveSubMenu] = useState(null)
 
@@ -18,11 +18,10 @@ function SideBar({ isOpen }) {
   }
   return (
     <div className={`side-bar ${width ? 'Hide' : isOpen && 'expanded'}`}>
-      {/* <div className={`side-bar ${width ? !isOpen && 'expanded' : isOpen && 'expanded'}`}> */}
       <div className='menu'>
         <ul className='p-0 m-0'>
           {sidebarConfig.map((item, index) => {
-            return <MenuItem key={index} item={item} isMenuOpen={width ? !isOpen : isOpen} activeSubMenu={activeSubMenu} toggleSubMenu={toggleSubMenu} />
+            return <MenuItem key={index} setNavMenu={setNavMenu} item={item} isMenuOpen={width ? !isOpen : isOpen} activeSubMenu={activeSubMenu} toggleSubMenu={toggleSubMenu} />
           })}
         </ul>
       </div>
@@ -33,6 +32,7 @@ function SideBar({ isOpen }) {
 SideBar.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
+  setNavMenu: PropTypes.any
 };
 
 export default SideBar;

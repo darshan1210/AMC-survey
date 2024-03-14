@@ -18,7 +18,7 @@
 }
 
 .login-form-container {
-  padding: 0 90px;
+  // padding: 0 90px;
   display: block;
 
   .login-form {
@@ -46,6 +46,7 @@
       .title {
         font-size: 2.4rem;
         color: #303030;
+        text-wrap: nowrap;
         font-weight: $fw-700;
         // text-shadow: -3px 3px 5px rgba(0, 0, 0, 0.36);
       }

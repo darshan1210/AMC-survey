@@ -12,11 +12,11 @@ import logo from 'assets/images/Main/amc-ahmedabad-logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import useMediaQuery from 'shared/hooks/useMediaQuery'
-// import Menu from 'assets/images/icons/menu'
-import { DownSign } from 'assets/images/SVGs/Svg'
+import Menu from 'assets/images/icons/menu'
+import { Cancel, DownSign } from 'assets/images/SVGs/Svg'
 
 
-function Header() {
+function Header({ isNavmenu, setNavMenu }) {
   const navigate = useNavigate()
   const query = useQueryClient()
   const [clickedLogOut, setClickedLogOut] = useState(false)
@@ -84,11 +84,11 @@ function Header() {
             Ahmedabad Survey
           </span>)}
         </Link>
-        {/* {width && (
+        {width && (
           <div className='menu-bar' onClick={() => setNavMenu(!isNavmenu)}>
             {isNavmenu ? <Cancel className='ms-1' height='20' width='20' fill='#000' /> : <Menu height='30' width='30' />}
           </div>
-        )} */}
+        )}
 
       </div>
       <div className='header-right'>

@@ -14,8 +14,8 @@ const Axios = axios.create({
 Axios.interceptors.request.use(
   (req) => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-    if (!req.headers.Authentication && token) {
-      req.headers.Authentication = token
+    if (!req.headers.Authorization && token) {
+      req.headers.Authorization = `Bearer ${token}`
       return req
     }
     return req

@@ -19,9 +19,15 @@ const Dashboard = lazy(() => import('views/dashboard'))
 
 
 //My Task Management
-const TaskManagement = lazy(() => import('views/TaskManagement'))
+const TaskManagement = lazy(() => import('views/BlockManagement'))
+const InprogressBlockManagement = lazy(() => import('views/BlockManagement/InProgressManagement'))
+const ReviewBlockManagement = lazy(() => import('views/BlockManagement/ReviewBlockManagement'))
+const CompletedBlockManagement = lazy(() => import('views/BlockManagement/CompletedBlockManagement'))
+
+
 const PropertyManagement = lazy(() => import('views/PropertyManagement'))
 
+const SurveyManagement = lazy(() => import('views/SurveyManagement'))
 
 
 const RoutesDetails = [
@@ -52,7 +58,12 @@ const RoutesDetails = [
       { path: route.dashboard, Component: Dashboard, exact: true },
 
       { path: route.taskManagement, Component: TaskManagement, exact: true },
+      { path: route.inProgressBlock, Component: InprogressBlockManagement, exact: true },
+      { path: route.reviewBlock, Component: ReviewBlockManagement, exact: true },
+      { path: route.completedBlock, Component: CompletedBlockManagement, exact: true },
+
       { path: route.propertyManagement, Component: PropertyManagement, exact: true },
+      { path: route.surveyManagenet, Component: SurveyManagement, exact: true },
     ]
   }
 ]

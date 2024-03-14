@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-function MenuItem ({ item, isMenuOpen, activeSubMenu, toggleSubMenu }) {
+function MenuItem({ item, isMenuOpen, activeSubMenu, toggleSubMenu, setNavMenu }) {
   const [isOpen, setIsOpen] = useState(false)
   const childPaths = item.children && item?.children?.map((i) => i?.path?.split('/')[1])
   const location = useLocation()
@@ -34,7 +34,7 @@ function MenuItem ({ item, isMenuOpen, activeSubMenu, toggleSubMenu }) {
                 className={childPaths?.includes(location.pathname.split('/')[1]) ? 'active pe-none list-name' : 'list-name'}
               >
                 <i> <FontAwesomeIcon icon={item.icon} /> </i>
-                <div className='side-bar-text'> {isMenuOpen && item.title} </div>
+                <div className='side-bar-text'> {item.title} </div>
                 {item.children && isMenuOpen && (
                   <i className='icon-arrow-drop-down drop-icon' ></i>
                 )}
@@ -46,8 +46,10 @@ function MenuItem ({ item, isMenuOpen, activeSubMenu, toggleSubMenu }) {
                   <li key={subItem.path}>
                     <NavLink
                       to={subItem.path}
+                      onClick={() => { setNavMenu(false) }}
                       activeclassName={`active ${(currentPathSlashIndex === 3 || currentPathSlashIndex === 2) && 'pe-none'}`}
                     >
+                      <i> <FontAwesomeIcon icon={subItem.icon} /> </i>
                       {subItem.title}
                     </NavLink>
                   </li>
@@ -59,15 +61,17 @@ function MenuItem ({ item, isMenuOpen, activeSubMenu, toggleSubMenu }) {
           <>
             <span className={isOpen === true ? "toggle-btn-open" : ""} >
               <NavLink
-                onClick={toggle}
+                // onClick={toggle}
                 to={item.path}
                 activeclassName={`active ${!item.children && 'pe-none'} `}
+                onClick={() => { toggle; setNavMenu(false) }}
                 className={childPaths?.includes(location.pathname.split('/')[1]) ? 'active pe-none' : ''}
               >
                 <i> <FontAwesomeIcon icon={item.icon} /> </i>
-                <div className='side-bar-text'> {isMenuOpen && item.title} </div>
+                <div className='side-bar-text'> {item.title} </div>
                 {item.children && isMenuOpen && (
                   <i className='icon-arrow-drop-down drop-icon' ></i>
+
                 )}
               </NavLink>
             </span>
@@ -80,7 +84,8 @@ function MenuItem ({ item, isMenuOpen, activeSubMenu, toggleSubMenu }) {
 MenuItem.propTypes = {
   item: PropTypes.object,
   isMenuOpen: PropTypes.bool,
-  activeSubMenu:PropTypes.any,
-  toggleSubMenu:PropTypes.any,
+  activeSubMenu: PropTypes.any,
+  toggleSubMenu: PropTypes.any,
+  setNavMenu: PropTypes.any
 }
 export default MenuItem
