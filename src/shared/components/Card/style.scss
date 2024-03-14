@@ -1,0 +1,132 @@
+@import '../../../assets/scss/helper/variables';
+
+.dash-card {
+
+  display: flex;
+  height: 100%;
+  // width: 270px;
+  border-radius: 8px;
+  box-shadow: 6px 6px 20px 0px #9cb5d861;
+  padding: 20px 24px 24px 24px;
+  transition: 0.3s ease-in-out;
+
+  .line {
+    // height: 5px;
+    width: 1px;
+    background-color: aliceblue;
+  }
+
+  &:hover {
+    box-shadow: 6px 6px 20px 0px #9cb5d8a6;
+  }
+
+  .card-body {
+    padding: 0;
+
+    display: flex;
+    gap: 20px;
+
+    .card-text {
+      color: var(--secondary-700);
+      border-radius: 4px;
+      font-size: 24px;
+      margin-bottom: 10px;
+      font-weight: 700;
+      font-family: 'Helvetica-Bold';
+    }
+
+    .card-title {
+      margin: 5px 0 0 0 !important;
+      color: var(--text-color);
+      font-size: 16px;
+      font-weight: 500;
+      font-family: 'Lato', sans-serif;
+    }
+
+    .cardIcon {
+      display: grid;
+      place-content: center;
+    }
+
+    svg {
+      background: white;
+      width: 22px;
+      height: 22px;
+      padding: 15px;
+      border-radius: 50%;
+    }
+  }
+}
+
+.dashboard-card-1 {
+  background-color: #E2EEFC;
+  border: 1px solid rgba(58, 106, 164, 0.475);
+
+  .card-body {
+    svg {
+      color: #4e77bd;
+    }
+  }
+}
+
+.dashboard-card-2 {
+  background-color: #FCEEE2;
+  border: 1px solid #b7446d4f;
+  ;
+
+  .card-body {
+    svg {
+      color: #b7446d;
+    }
+  }
+}
+
+.dashboard-card-3 {
+  background-color: #FFF5D4;
+  border: 1px solid #f39d005c;
+
+  .card-body {
+    svg {
+      color: #f39d00;
+    }
+  }
+}
+
+.dashboard-card-4 {
+  background-color: #E0FFD4;
+  border: 1px solid #74ff3db5;
+
+  .card-body {
+    svg {
+      color: #4c8b33;
+    }
+  }
+}
+
+// .DashGrid {
+//   display: flex;
+//   gap: 10px
+// }
+
+.dashboardCards {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  .dash-card {}
+}
+
+@media screen and (max-width:780px) {
+  .dashboardCards {
+    flex-wrap: nowrap;
+
+    .dash-card {
+      padding: 15px;
+
+      .card-body {
+        gap: 10px;
+      }
+    }
+  }
+}

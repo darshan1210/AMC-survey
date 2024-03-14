@@ -1,25 +1,65 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from 'react'
+import { MutationCache, QueryClient, QueryClientProvider } from 'react-query'
+import { Loader } from 'shared/components/Loader'
+const AllRoutes = React.lazy(() => import('routes'))
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+      onSettled: (_d, e) => {
+        if (e?.message === 'Network Error') {
+          queryClient.invalidateQueries('toast')
+          queryClient.setQueryData('message', () => ({ message: e?.message, type: 'error' }))
+        }
+        if (e?.response?.status > 300) {
+          queryClient.invalidateQueries('toast')
+          queryClient.setQueryData('message', () => ({
+            message: e?.response?.data.message || e?.response?.data || e?.message,
+            type: 'error'
+          }))
+        }
+      }
+    },
+    message: (msg, type) => {
+      queryClient.invalidateQueries('toast')
+      queryClient.setQueryData('message', () => ({ message: msg, type }))
+    }
+  },
+  mutationCache: new MutationCache({
+    onError: (e, query) => {
+      if (!query?.disableToast)
+        if (e?.message === 'Network Error') {
+          queryClient.defaultOptions.message(e?.message, 'error')
+        } else if (e?.response?.status === 500) {
+          queryClient.defaultOptions.message(e?.message, 'warning')
+        } else if (e?.response?.status > 300 && e?.response?.status < 500) {
+          queryClient.defaultOptions.message(e?.response?.data.message || e?.message, 'error')
+        } else if (e?.response?.status <= 500) {
+          queryClient.defaultOptions.message(e?.response?.data.message || e?.message, 'warning')
+        }
+    }
+  })
+})
 
 function App() {
+  // const temp = localStorage.getItem('mode') === 'true'
+
+  // useEffect(() => {
+  //   localStorage.setItem('mode', temp)
+
+  //   document.body.classList.remove('light')
+  //   document.body.classList.add('light' );
+  // }, [])
+  // console.error = () => { };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <QueryClientProvider client={queryClient}>
+      <Suspense fallback={<Loader />}>
+        <AllRoutes />
+      </Suspense>
+    </QueryClientProvider>
+  )
 }
 
-export default App;
+export default App
