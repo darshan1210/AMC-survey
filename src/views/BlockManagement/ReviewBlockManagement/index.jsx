@@ -7,21 +7,18 @@ import UserFilters from 'shared/components/UserListFilter'
 import { TaskColumm } from 'shared/constants/TableHeaders'
 import { appendParams, parseParams } from 'shared/utils'
 import PageTitle from 'shared/components/PageTitle'
-// import ButtonGroup from 'react-bootstrap/ButtonGroup';
-// import ToggleButton from 'react-bootstrap/ToggleButton';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 
 const ReviewBlockManegment = () => {
     const location = useLocation()
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
-    // const [radioValue, setRadioValue] = useState('1');
+    const [radioValue, setRadioValue] = useState('1');
 
-    // const radios = [
-    //     { name: 'My Block', value: '1' },
-    //     { name: 'In Progress', value: '2' },
-    //     { name: 'In Review', value: '3' },
-    //     { name: 'Complete', value: '4' },
-    // ];
+    const radios = [
+        { name: 'My In-Review Blocks', value: '1' },
+    ];
 
     function getRequestParams(e) {
         const data = e ? parseParams(e) : params.current
@@ -239,8 +236,8 @@ const ReviewBlockManegment = () => {
 
     return (
         <>
-            <PageTitle title={'Review Block'} />
-            {/* <ButtonGroup className='BlockButtonGroup'>
+            <PageTitle title={'Block Management'} />
+            <ButtonGroup className='BlockButtonGroup'>
                 {radios.map((radio, idx) => (
                     <ToggleButton
                         key={idx}
@@ -256,7 +253,7 @@ const ReviewBlockManegment = () => {
                         {radio.name}
                     </ToggleButton>
                 ))}
-            </ButtonGroup> */}
+            </ButtonGroup>
 
             <div>
                 <DataTable

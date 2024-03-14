@@ -1,20 +1,25 @@
 .offcanvas {
   width: 460px;
   background-color: var(--boxes-color);
+
   .offcanvas-header {
     padding: 15px;
+
     button {
       margin-right: 5px;
     }
   }
+
   .offcanvas-title {
     color: var(--text-color);
     font-size: $fs-20;
     font-weight: $fw-700;
   }
+
   .offcanvas-body {
     padding: 15px;
   }
+
   .filter-button-group {
     display: flex;
     justify-content: center;
@@ -28,11 +33,13 @@
 
     .reset-button {
       border-color: var(--secondary-600);
+
       &:hover {
         border-color: var(--secondary-700);
         background-color: var(--secondary-700);
       }
     }
+
     .apply-button {
       border-color: var(--primary-color) !important;
     }
@@ -51,5 +58,11 @@ body.dark {
         border-color: var(--white-color) !important;
       }
     }
+  }
+}
+
+@media screen and (max-width:800px) {
+  .offcanvas {
+    width: 65vw !important;
   }
 }

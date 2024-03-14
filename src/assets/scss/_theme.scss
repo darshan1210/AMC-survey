@@ -72,6 +72,13 @@ button:focus {
   font-weight: 600;
 }
 
+
+@media screen and (max-width:800px) {
+  .PageTitle {
+    margin: 7px 0 10px 0;
+  }
+}
+
 table {
   border-collapse: collapse;
   border-spacing: 0;

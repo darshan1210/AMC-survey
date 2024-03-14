@@ -17,10 +17,8 @@ const SurveyManagement = () => {
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-        { name: 'My Block', value: '1' },
-        { name: 'In Progress', value: '2' },
-        { name: 'In Review', value: '3' },
-        { name: 'Complete', value: '4' },
+        { name: 'Review', value: '1' },
+        { name: 'Done', value: '2' },
     ];
 
     function getRequestParams(e) {
@@ -239,7 +237,7 @@ const SurveyManagement = () => {
 
     return (
         <>
-            <PageTitle title={'My Survey'} />
+            <PageTitle title={'Survey Management'} />
             <ButtonGroup className='BlockButtonGroup'>
                 {radios.map((radio, idx) => (
                     <ToggleButton

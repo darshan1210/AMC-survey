@@ -15,6 +15,7 @@ export const route = {
   completedBlock: '/Completed-block',
   propertyManagement: '/my-task/Property-Management',
 
-  surveyManagenet: '/my-survey'
+  surveyManagenet: '/my-survey',
+  ReportManagenet: '/my-report'
 
 }

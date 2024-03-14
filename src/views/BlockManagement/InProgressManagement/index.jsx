@@ -17,10 +17,7 @@ const InProgressManagement = () => {
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-        { name: 'My Block', value: '1' },
-        { name: 'In Progress', value: '2' },
-        { name: 'In Review', value: '3' },
-        { name: 'Complete', value: '4' },
+        { name: 'My In-Progress Blocks', value: '1' }
     ];
 
     function getRequestParams(e) {
@@ -239,7 +236,7 @@ const InProgressManagement = () => {
 
     return (
         <>
-            <PageTitle title={'In Progress Block'} />
+            <PageTitle title={'Block Management'} />
             <ButtonGroup className='BlockButtonGroup'>
                 {radios.map((radio, idx) => (
                     <ToggleButton

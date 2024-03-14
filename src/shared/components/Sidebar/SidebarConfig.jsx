@@ -41,7 +41,7 @@ export const sidebarConfig = [
     title: 'Survey',
   },
   {
-    path: route.login,
+    path: route.ReportManagenet,
     icon: faSquarePollVertical,
     title: 'Progress',
   },
