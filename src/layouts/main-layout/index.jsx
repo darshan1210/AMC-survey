@@ -33,12 +33,14 @@ function MainLayout({ children }) {
 
       <div className={`main-container ${width ? !isOpen && 'active' : isOpen && 'active'}`}>
         <div className='container-fluid '>
-          {/* <Breadcrumbs /> */}
-          <Suspense fallback={<Loader />}>{children}</Suspense>
+          <Suspense fallback={<Loader />}>
+            {children}
+            {/* <NavMenu isNavmenu={true} setNavMenu={setNavMenu} /> */}
+          </Suspense>
         </div>
       </div>
-
       <NavMenu isNavmenu={true} setNavMenu={setNavMenu} />
+
     </div>
   )
 }

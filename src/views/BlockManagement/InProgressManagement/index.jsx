@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import TaskListRow from 'shared/components/TaskListRows'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
 import UserFilters from 'shared/components/UserListFilter'
@@ -9,6 +8,7 @@ import { appendParams, parseParams } from 'shared/utils'
 import PageTitle from 'shared/components/PageTitle'
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
+import InProgressBlockListRow from 'shared/components/InProgressBlockListRow'
 
 const InProgressManagement = () => {
     const location = useLocation()
@@ -17,7 +17,7 @@ const InProgressManagement = () => {
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-        { name: 'My In-Progress Blocks', value: '1' }
+        { name: 'My In-Progress Blocks - (40)', value: '1' }
     ];
 
     function getRequestParams(e) {
@@ -276,7 +276,7 @@ const InProgressManagement = () => {
                 >
                     {data && data?.bots?.map((user, index) => {
                         return (
-                            <TaskListRow
+                            <InProgressBlockListRow
                                 key={user._id}
                                 index={index}
                                 user={user}

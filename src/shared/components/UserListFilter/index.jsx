@@ -5,11 +5,11 @@ import { FormattedMessage } from 'react-intl'
 import { Button, Form } from 'react-bootstrap'
 import { Controller, useForm } from 'react-hook-form'
 import Select from 'react-select'
-import { statusColumns } from 'shared/constants/TableHeaders'
+import { wardColums, zoneColums } from 'shared/constants/TableHeaders'
 import DatePicker from 'react-datepicker'
 
 function UserFilters({ filterChange, closeDrawer, location, startDate, endDate, setDateRange }) {
-    const { handleSubmit, control, reset } = useForm({})
+    const { handleSubmit, control, reset, getValues } = useForm({})
 
     // useEffect(() => {
     //     const seletctData = defaultValue?.selectedState?.map((e) => {
@@ -73,7 +73,7 @@ function UserFilters({ filterChange, closeDrawer, location, startDate, endDate, 
         <Form className='user-filter' onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
             <Form.Group className='form-group'>
                 <Form.Label>
-                    Select Status
+                    Ward
                 </Form.Label>
                 <Controller
                     name='eStatus'
@@ -82,7 +82,8 @@ function UserFilters({ filterChange, closeDrawer, location, startDate, endDate, 
                         <Select
                             ref={ref}
                             value={value}
-                            options={statusColumns}
+                            placeholder='Select ward..'
+                            options={wardColums}
                             className='react-select'
                             classNamePrefix='select'
                             closeMenuOnSelect={true}
@@ -94,8 +95,81 @@ function UserFilters({ filterChange, closeDrawer, location, startDate, endDate, 
                 />
             </Form.Group>
 
+            <Form.Group className='form-group'>
+                <Form.Label>
+                    Zone
+                </Form.Label>
+                <Controller
+                    name='sZone'
+                    control={control}
+                    render={({ field: { onChange, value = [], ref } }) => (
+                        <Select
+                            ref={ref}
+                            value={value}
+                            placeholder='Select zone..'
+                            options={zoneColums}
+                            className='react-select'
+                            classNamePrefix='select'
+                            closeMenuOnSelect={true}
+                            onChange={(e) => {
+                                onChange(e)
+                            }}
+                        />
+                    )}
+                />
+            </Form.Group>
 
             <Form.Group className='form-group'>
+                <Form.Label className='date-lable'>
+                    Select start Date
+                </Form.Label>
+                <Controller
+                    name="dStartDate"
+                    control={control}
+                    render={({ field }) => (
+                        <DatePicker
+                            {...field}
+                            selected={field.value}
+                            placeholderText='Select Start Date'
+                            onChange={(date) => field.onChange(date)}
+                            selectsStart
+                            startDate={field.value}
+                            endDate={getValues('dEndDate')}
+                            showYearDropdown
+                            yearDropdownItemNumber={10}
+                            scrollableYearDropdown
+                            className="datepicker-inputbox"
+                        />
+                    )}
+                />
+            </Form.Group>
+            <Form.Group className='form-group'>
+                <Form.Label className='date-lable'>
+                    Select end Date
+                </Form.Label>
+                <Controller
+                    name="dEndDate"
+                    control={control}
+                    render={({ field }) => (
+                        <DatePicker
+                            {...field}
+                            selected={field.value}
+                            placeholderText='Select End Date'
+                            onChange={(date) => field.onChange(date)}
+                            selectsEnd
+                            startDate={getValues('dStartDate')}
+                            endDate={field.value}
+                            minDate={getValues('dStartDate')}
+                            showYearDropdown
+                            yearDropdownItemNumber={10}
+                            scrollableYearDropdown
+                            className="datepicker-inputbox"
+                        />
+                    )}
+                />
+            </Form.Group>
+
+            {/* <Form.Group className='form-group'>
                 <Form.Label className='date-lable'>
                     Select Date Range
                 </Form.Label>
@@ -123,7 +197,7 @@ function UserFilters({ filterChange, closeDrawer, location, startDate, endDate, 
                         />
                     )}
                 />
-            </Form.Group>
+            </Form.Group> */}
 
             <div className='filter-button-group'>
                 <Button variant='secondary' type='reset' onClick={onReset} className='square reset-button'>

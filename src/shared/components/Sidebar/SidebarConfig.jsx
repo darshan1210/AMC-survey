@@ -38,7 +38,19 @@ export const sidebarConfig = [
   {
     path: route.surveyManagenet,
     icon: faFileInvoice,
-    title: 'Survey',
+    title: 'Survey Management',
+    children: [
+      {
+        path: route.surveyManagenet,
+        icon: faChalkboardUser,
+        title: 'Review Survey'
+      },
+      {
+        path: route.doneSurveyManagenet,
+        icon: faListCheck,
+        title: 'Done Survey'
+      },
+    ]
   },
   {
     path: route.ReportManagenet,

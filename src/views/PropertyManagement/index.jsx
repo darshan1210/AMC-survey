@@ -1,4 +1,4 @@
-import { faHouse } from '@fortawesome/free-solid-svg-icons'
+import { faChalkboardUser, faCircleCheck, faListCheck, faMagnifyingGlassLocation } from '@fortawesome/free-solid-svg-icons'
 import React, { useEffect, useRef, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
@@ -8,7 +8,7 @@ import Drawer from 'shared/components/Drawer'
 import PageTitle from 'shared/components/PageTitle'
 import PropertyListRow from 'shared/components/PropertyListRow'
 import UserFilters from 'shared/components/UserListFilter'
-import { TaskColumm } from 'shared/constants/TableHeaders'
+import { ProptyColums } from 'shared/constants/TableHeaders'
 import { appendParams, parseParams } from 'shared/utils'
 
 const PropertyManagement = () => {
@@ -39,7 +39,7 @@ const PropertyManagement = () => {
     }
 
     const [requestParams, setRequestParams] = useState(getRequestParams())
-    const [columns, setColumns] = useState(getSortedColumns(TaskColumm, parsedData))
+    const [columns, setColumns] = useState(getSortedColumns(ProptyColums, parsedData))
     const [modal, setModal] = useState({ open: false, type: '' })
 
     const [dateRange, setDateRange] = useState([null, null]);
@@ -49,33 +49,103 @@ const PropertyManagement = () => {
     const data = {
         "bots": [
             {
-                "_id": "6572c6ebf142fb225eae4ca8",
-                "sEmail": "",
-                "sMobile": "",
-                "sUserName": "Soma Anthony",
-                "sAvatar": "https://pokergold-asset.s3.ap-south-1.amazonaws.com/avtar/avatar-2.png",
-                "eUserType": "ubot",
-                "eStatus": "y",
-                "eGender": "female",
-                "dCreatedDate": "2023-12-08T07:34:03.238Z",
-                "transactions": {
-                    "debit": 0,
-                    "credit": 11
-                },
-                "nChips": 11,
-                "nWinningRatio": 1,
-                "sBotStatus": "Free",
-                "nCredit": 11,
-                "nDebit": 0,
-                "nBotProfit": 0,
+                PropertytextNo: "02310860000001H",
+                Ward: 'Asarwa',
+                Zone: 'East Zone',
+                Society: 'Sunrise Apartments',
+                POI: "A8, Elenza Society, Bapunagar Road, Ahmedabad",
+                OwnerName: 'Ramesh Patel',
+                Phoneno: '9876543210'
+            },
 
-                Ward: 'Ward',
-                zone: 'zone ',
-                Blockname: 'Block name',
-                Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+            {
+                PropertytextNo: "02310860000001H",
+                Ward: 'Khadia',
+                Zone: 'Central Zone',
+                Society: 'Green Valley Residency',
+                POI: "A8, Elenza Society, Bapunagar Road, Ahmedabad",
+                OwnerName: 'Seema Shah',
+                Phoneno: '9898989898'
+            },
+
+            {
+                PropertytextNo: "02310860000001H",
+                Ward: 'Amraiwadi',
+                Zone: 'Central Zone',
+                Society: 'Royal Palm Heights',
+                POI: "A8, Elenza Society, Bapunagar Road, Ahmedabad",
+                OwnerName: 'Vijay Sharma',
+                Phoneno: '9876543210'
+            },
+
+            {
+                PropertytextNo: "02310860000001H",
+                Ward: 'Virat Nagar',
+                Zone: 'North West Zone',
+                Society: 'Pearl Paradise',
+                POI: "A8, Elenza Society, Bapunagar Road, Ahmedabad",
+                OwnerName: 'Neeta Desai',
+                Phoneno: '9898989898'
+            },
+
+            {
+                PropertytextNo: "02310860000001H",
+                Ward: 'Ramol-Hathijan',
+                Zone: 'South Zone',
+                Society: 'Silver Crest',
+                POI: "A8, Elenza Society, Bapunagar Road, Ahmedabad",
+                OwnerName: 'Mukesh Patel',
+                Phoneno: '9876543210'
+            },
+
+            {
+                PropertytextNo: "02310860000001H",
+                Ward: 'Gomtipur',
+                Zone: 'North Zone',
+                Society: 'Emerald Towers',
+                POI: "A8, Elenza Society, Bapunagar Road, Ahmedabad",
+                OwnerName: 'Nisha Shah',
+                Phoneno: '9898989898'
+            },
+
+            {
+                PropertytextNo: "02310860000001H",
+                Ward: 'Bodakdev',
+                Zone: 'South Zone',
+                Society: 'Golden Enclave',
+                POI: "A8, Elenza Society, Bapunagar Road, Ahmedabad",
+                OwnerName: 'Ajay Mehta',
+                Phoneno: '9876543210'
+            },
+
+            {
+                PropertytextNo: "02310860000001H",
+                Ward: 'Chandlodia',
+                Zone: 'North Zone',
+                Society: 'Diamond Heights',
+                POI: "A8, Elenza Society, Bapunagar Road, Ahmedabad",
+                OwnerName: 'Pooja Patel',
+                Phoneno: '9898989898'
+            },
+
+            {
+                PropertytextNo: "02310860000001H",
+                Ward: 'Odhav',
+                Zone: 'South West Zone',
+                Society: 'Platinum Towers',
+                POI: "A8, Elenza Society, Bapunagar Road, Ahmedabad",
+                OwnerName: 'Hitesh Shah',
+                Phoneno: '9876543210'
+            },
+
+            {
+                PropertytextNo: "02310860000001H",
+                Ward: 'Nikol',
+                Zone: 'North Zone',
+                Society: 'Sapphire Gardens',
+                POI: "A8, Elenza Society, Bapunagar Road, Ahmedabad",
+                OwnerName: 'Anjali Desai',
+                Phoneno: '9898989898'
             },
         ],
         "count": {
@@ -148,18 +218,18 @@ const PropertyManagement = () => {
             <div className='DashGrid'>
                 <Row className='dashboardCards' >
                     <Col className='mb-3 '>
-                        <Cards cardtext={'0'} cardtitle={'My Block'} cardIcon={faHouse} className='dashboard-card-1' />
+                        <Cards cardtext={'0'} cardtitle={'Total Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
                     </Col>
                     <Col className='mb-3 '>
-                        <Cards cardtext={'0'} cardtitle={'Block'} cardIcon={faHouse} className='dashboard-card-2' />
+                        <Cards cardtext={'0'} cardtitle={'In Progress Property'} cardIcon={faListCheck} className='dashboard-card-2' />
                     </Col>
                 </Row>
                 <Row className='dashboardCards' >
                     <Col className='mb-3 '>
-                        <Cards cardtext={'0'} cardtitle={'Remaining'} cardIcon={faHouse} className='dashboard-card-3' />
+                        <Cards cardtext={'0'} cardtitle={'Remaining Property'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
                     </Col>
                     <Col className='mb-3 '>
-                        <Cards cardtext={'0'} cardtitle={'Review'} cardIcon={faHouse} className='dashboard-card-4' />
+                        <Cards cardtext={'0'} cardtitle={'Completed Property'} cardIcon={faCircleCheck} className='dashboard-card-4' />
                     </Col>
                 </Row>
             </div>

@@ -15,13 +15,26 @@
 
 export const TaskColumm = [
     { name: 'No', isSort: true },
-    { name: 'Blockname', isSort: false },
+    { name: 'Block name', isSort: false },
     { name: 'Ward', isSort: false },
     { name: 'zone', isSort: false },
-    { name: 'TotalProperty', isSort: false },
-    { name: 'Createdby', isSort: false },
-    { name: 'CreatedDate', isSort: false },
+    { name: 'Total Property', isSort: false },
+    { name: 'Created by', isSort: false },
+    { name: 'Created Date', isSort: false },
     { name: 'Actions', isSort: false },
+]
+
+export const ProptyColums = [
+    { name: 'No', isSort: true },
+    { name: 'Property tax no', isSort: false },
+    { name: 'Zone', isSort: false },
+    { name: 'Ward', isSort: false },
+    { name: 'Society', isSort: false },
+    { name: 'POI', isSort: false },
+    { name: 'Owner name', isSort: false },
+    { name: 'Phone no', isSort: false },
+    { name: 'Actions', isSort: false },
+
 ]
 
 export const GenderColumns = [
@@ -36,4 +49,34 @@ export const statusColumns = [
     { label: 'Active', value: 'y' },
     { label: 'Inactive', value: 'n' },
     { label: 'Deleted', value: 'd' }
+]
+
+export const wardColums = [
+    { "label": "Jamalpur", "value": "Jamalpur" },
+    { "label": "Dariapur", "value": "Dariapur" },
+    { "label": "Shahibag", "value": "Shahibag" },
+    { "label": "Shahpur", "value": "Shahpur" },
+    { "label": "Khadia", "value": "Khadia" },
+    { "label": "Asarwa", "value": "Asarwa" },
+    { "label": "Virat Nagar", "value": "Virat Nagar" },
+    { "label": "Odhav", "value": "Odhav" },
+    { "label": "Amraiwadi", "value": "Amraiwadi" },
+    { "label": "Bhaipura-Hatkeshwar", "value": "Bhaipura-Hatkeshwar" },
+    { "label": "Gomtipur", "value": "Gomtipur" },
+    { "label": "Nikol", "value": "Nikol" },
+    { "label": "Vastral", "value": "Vastral" },
+    { "label": "Ramol-Hathijan", "value": "Ramol-Hathijan" },
+    { "label": "Bodakdev", "value": "Bodakdev" },
+    { "label": "Chandlodia", "value": "Chandlodia" }
+]
+
+
+export const zoneColums = [
+    { "label": "East Zone", "value": "East Zone" },
+    { "label": "West Zone", "value": "West Zone" },
+    { "label": "North Zone", "value": "North Zone" },
+    { "label": "South Zone", "value": "South Zone" },
+    { "label": "Central Zone", "value": "Central Zone" },
+    { "label": "South West Zone", "value": "South West Zone" },
+    { "label": "North West Zone", "value": "North West Zone" }
 ]

@@ -25,3 +25,69 @@
         width: 65vw !important;
     }
 }
+
+.blockLink {
+    cursor: pointer;
+
+    &:hover {
+        color: var(--primary-color);
+    }
+}
+
+.passbook-view-modal {
+    .modal-dialog {
+        box-shadow: 0 0 20px 1px #77777738;
+    }
+
+    .modal-header {
+        color: var(--primary-color);
+        padding: 15px 35px;
+
+        button {
+            background-color: var(--white-color);
+            box-shadow: 0px 0px 30px 0px #2b2b2b50;
+            border-radius: 50%;
+        }
+    }
+
+    .modal-body {
+        padding: 8px 35px 20px !important;
+
+        div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px 0;
+            font-size: 12px;
+            border-bottom: 1px solid #cecece;
+
+
+
+            span {
+                display: block;
+                padding: 5px;
+                color: #000;
+
+                &:first-child {
+                    color: rgb(51, 51, 51);
+                    font-size: 1rem;
+                    float: left;
+                }
+
+                &:last-child {
+                    color: rgb(0, 0, 0);
+                    font-size: 1rem;
+                    float: right;
+                }
+            }
+
+
+        }
+    }
+}
+
+.ButtonListRow {
+    border-radius: 10px;
+    padding: 7px 18px;
+    font-size: 12px;
+}

@@ -16,6 +16,7 @@ export const route = {
   propertyManagement: '/my-task/Property-Management',
 
   surveyManagenet: '/my-survey',
+  doneSurveyManagenet: '/my-survey-done',
   ReportManagenet: '/my-report'
 
 }

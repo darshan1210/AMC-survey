@@ -17,7 +17,7 @@ const TaskManagement = () => {
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-        { name: 'My Block Details', value: '1' },
+        { name: 'My Block Detailss - (50)', value: '1' },
     ];
 
     function getRequestParams(e) {

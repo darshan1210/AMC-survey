@@ -17,8 +17,7 @@ const SurveyManagement = () => {
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-        { name: 'Review', value: '1' },
-        { name: 'Done', value: '2' },
+        { name: 'Review - (50)', value: '1' }
     ];
 
     function getRequestParams(e) {

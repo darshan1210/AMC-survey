@@ -1,21 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { route } from 'shared/constants/AllRoutes';
 
 const PropertyListRow = ({ user, index, }) => {
+    const navigate = useNavigate()
+
 
     return (
         <>
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
                 <td>{index + 1}</td>
+                <td>{user.PropertytextNo || '-'}</td>
                 <td>{user.Ward || '-'}</td>
-                <td>{user.zone || '-'}</td>
-                <td>{user.Blockname || '-'}</td>
-                <td>{user.Assignername || '-'}</td>
-                <td>{user.Assigndate || '-'}</td>
+                <td>{user.Zone || '-'}</td>
+                <td>{user.Society || '-'}</td>
+                <td>{user.POI || '-'}</td>
+                <td>{user.OwnerName || '-'}</td>
+                <td>{user.Phoneno || '-'}</td>
                 <td>
-                    <div className='dropdown-datatable-items-icon'>
-                        <i className='icon-create d-block' />
-                    </div>
+                    <Button className='ButtonListRow' onClick={() => navigate(route.inProgressBlock)}>
+                        Start Survey
+                    </Button>
                 </td>
             </tr>
         </>

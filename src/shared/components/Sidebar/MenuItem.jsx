@@ -35,7 +35,7 @@ function MenuItem({ item, isMenuOpen, activeSubMenu, toggleSubMenu, setNavMenu }
               >
                 <i> <FontAwesomeIcon icon={item.icon} /> </i>
                 <div className='side-bar-text'> {item.title} </div>
-                {item.children && isMenuOpen && (
+                {item.children && (
                   <i className='icon-arrow-drop-down drop-icon' ></i>
                 )}
               </span>
@@ -69,7 +69,7 @@ function MenuItem({ item, isMenuOpen, activeSubMenu, toggleSubMenu, setNavMenu }
               >
                 <i> <FontAwesomeIcon icon={item.icon} /> </i>
                 <div className='side-bar-text'> {item.title} </div>
-                {item.children && isMenuOpen && (
+                {item.children && (
                   <i className='icon-arrow-drop-down drop-icon' ></i>
 
                 )}

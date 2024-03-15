@@ -3,6 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { route } from 'shared/constants/AllRoutes';
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
 
@@ -13,16 +14,16 @@ const TaskListRow = ({ user, index, }) => {
         <>
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
                 <td>{index + 1}</td>
-                <td>{user.Blockname || '-'}</td>
+                <td className='blockLink' onClick={() => navigate(route.propertyManagement)}>{user.Blockname || '-'}</td>
                 <td>{user.Ward || '-'}</td>
                 <td>{user.zone || '-'}</td>
                 <td>{user.TotalProperty || '-'}</td>
                 <td>{user.Createdby || '-'}</td>
                 <td>{user.CreatedDate || '-'}</td>
                 <td>
-                    <div className='dropdown-datatable-items-icon' onClick={() => navigate(route.propertyManagement)}>
-                        <i className='icon-create d-block' />
-                    </div>
+                    <Button className='ButtonListRow' onClick={() => navigate(route.inProgressBlock)}>
+                        Start Survey
+                    </Button>
                 </td>
             </tr>
         </>

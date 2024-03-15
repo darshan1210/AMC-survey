@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import TaskListRow from 'shared/components/TaskListRows'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
 import UserFilters from 'shared/components/UserListFilter'
@@ -9,6 +8,7 @@ import { appendParams, parseParams } from 'shared/utils'
 import PageTitle from 'shared/components/PageTitle'
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
+import ReviewBlockListRow from 'shared/components/reviewBlockListRow'
 
 const ReviewBlockManegment = () => {
     const location = useLocation()
@@ -17,7 +17,7 @@ const ReviewBlockManegment = () => {
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-        { name: 'My In-Review Blocks', value: '1' },
+        { name: 'My In-Review Blocks - (20)', value: '1' },
     ];
 
     function getRequestParams(e) {
@@ -276,7 +276,7 @@ const ReviewBlockManegment = () => {
                 >
                     {data && data?.bots?.map((user, index) => {
                         return (
-                            <TaskListRow
+                            <ReviewBlockListRow
                                 key={user._id}
                                 index={index}
                                 user={user}

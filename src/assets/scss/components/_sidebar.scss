@@ -80,6 +80,7 @@
 
           .drop-icon {
             margin-top: 1px;
+
             font-size: 28px;
             color: #000 !important;
           }
@@ -147,7 +148,7 @@
         .drop-icon {
           font-size: $fs-22;
           position: absolute;
-          right: 3px;
+          right: -5px;
           top: 5px;
           cursor: pointer;
           color: var(--secondary-text-color) !important;
@@ -309,6 +310,8 @@
 
       .menu {
         height: 85%;
+
+        width: 120%;
         position: relative;
         padding: 20px 13px 0;
 

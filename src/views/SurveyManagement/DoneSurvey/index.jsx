@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import TaskListRow from 'shared/components/TaskListRows'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
 import UserFilters from 'shared/components/UserListFilter'
@@ -8,16 +9,15 @@ import { appendParams, parseParams } from 'shared/utils'
 import PageTitle from 'shared/components/PageTitle'
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import CompletedBlockListRow from 'shared/components/CompletedBlockListRow'
 
-const CompletedManagement = () => {
+const DoneSurveyManagement = () => {
     const location = useLocation()
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-        { name: 'My Complete Blocks - (70)', value: '1' },
+        { name: 'Done - (10)', value: '1' },
     ];
 
     function getRequestParams(e) {
@@ -236,7 +236,7 @@ const CompletedManagement = () => {
 
     return (
         <>
-            <PageTitle title={'Block Management'} />
+            <PageTitle title={'Survey Management'} />
             <ButtonGroup className='BlockButtonGroup'>
                 {radios.map((radio, idx) => (
                     <ToggleButton
@@ -276,7 +276,7 @@ const CompletedManagement = () => {
                 >
                     {data && data?.bots?.map((user, index) => {
                         return (
-                            <CompletedBlockListRow
+                            <TaskListRow
                                 key={user._id}
                                 index={index}
                                 user={user}
@@ -302,4 +302,4 @@ const CompletedManagement = () => {
     )
 }
 
-export default CompletedManagement
+export default DoneSurveyManagement
