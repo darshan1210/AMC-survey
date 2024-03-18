@@ -27,14 +27,12 @@ export const TaskColumm = [
 export const ProptyColums = [
     { name: 'No', isSort: true },
     { name: 'Property tax no', isSort: false },
-    { name: 'Zone', isSort: false },
     { name: 'Ward', isSort: false },
+    { name: 'Zone', isSort: false },
     { name: 'Society', isSort: false },
-    { name: 'POI', isSort: false },
-    { name: 'Owner name', isSort: false },
-    { name: 'Phone no', isSort: false },
+    { name: 'Created By', isSort: false },
+    { name: 'Created Date', isSort: false },
     { name: 'Actions', isSort: false },
-
 ]
 
 export const GenderColumns = [
@@ -79,4 +77,17 @@ export const zoneColums = [
     { "label": "Central Zone", "value": "Central Zone" },
     { "label": "South West Zone", "value": "South West Zone" },
     { "label": "North West Zone", "value": "North West Zone" }
+]
+
+export const PropertyTypeColums = [
+    { "label": "Residential", "value": "Residential" },
+    { "label": "Commercial", "value": "Commercial" },
+    { "label": "Industrial", "value": "Industrial" },
+    { "label": "Educational", "value": "Educational" },
+    { "label": "Hospitality", "value": "Hospitality" },
+    { "label": "Governmental", "value": "Governmental" },
+    { "label": "Religious", "value": "Religious" },
+    { "label": "Warehouses", "value": "Warehouses" },
+    { "label": "Transportation", "value": "Transportation" },
+    { "label": "Restaurants", "value": "Restaurants" }
 ]

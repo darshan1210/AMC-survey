@@ -103,10 +103,9 @@
   }
 }
 
-// .DashGrid {
-//   display: flex;
-//   gap: 10px
-// }
+.DashGrid {
+  overflow: hidden;
+}
 
 .dashboardCards {
   display: flex;

@@ -147,3 +147,24 @@
     }
   }
 }
+
+.form-check-input[type=checkbox] {
+  display: none;
+
+
+}
+
+.form-checkbox {
+  .form-check-label {
+    color: #404040 !important;
+
+    &::before {
+
+      border: 1px solid var(--primary-color) !important;
+    }
+  }
+}
+
+.input[type=checkbox]:checked {
+  background-color: var(--primary-color) !important;
+}

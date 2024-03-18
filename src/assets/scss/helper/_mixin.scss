@@ -1,18 +1,22 @@
 @mixin checkbox {
-  &:checked ~ label,
-  &:checked ~ span {
+
+  &:checked~label,
+  &:checked~span {
     &:before {
       border-color: $primary-500;
-      background-color: $primary-500;
+      background-color: var(--primary-color);
     }
+
     &:after {
-      border-color: var(--secondary-200);
+      border-color: #fff;
     }
   }
-  & ~ label,
-  & ~ span {
+
+  &~label,
+  &~span {
     padding-left: 28px;
     position: relative;
+
     &:before {
       content: "";
       position: absolute;
@@ -24,6 +28,7 @@
       border-radius: 2px;
       transition: all linear 0.2s;
     }
+
     &:after {
       content: "";
       position: absolute;

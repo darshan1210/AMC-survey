@@ -1,43 +1,305 @@
-import React, { useEffect } from 'react'
-import Cards from 'shared/components/Card'
-import { faChalkboardUser, faCircleCheck, faListCheck, faMagnifyingGlassLocation } from '@fortawesome/free-solid-svg-icons'
+import React, { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import DataTable from 'shared/components/DataTable'
+import Drawer from 'shared/components/Drawer'
+import UserFilters from 'shared/components/UserListFilter'
+import { TaskColumm } from 'shared/constants/TableHeaders'
+import { appendParams, parseParams } from 'shared/utils'
 import PageTitle from 'shared/components/PageTitle'
-import { Col, Row } from 'react-bootstrap'
-import DoughnutChart from 'shared/components/Dashchat'
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import InProgressBlockListRow from 'shared/components/InProgressBlockListRow'
 
+const ProgressReport = () => {
+    const location = useLocation()
+    const parsedData = parseParams(location.search)
+    const params = useRef(parseParams(location.search))
+    const [radioValue, setRadioValue] = useState('1');
 
-function Dashboard() {
+    const radios = [
+        { name: 'Reported Blocks - (40)', value: '1' }
+    ];
+
+    function getRequestParams(e) {
+        const data = e ? parseParams(e) : params.current
+        return {
+            pageNumber: +data?.pageNumber?.[0] || 1,
+            nStart: (+data?.pageNumber?.[0] - 1) || 0,
+            nLimit: data?.nLimit || 10,
+            eStatus: data?.eStatus || 'y',
+            eState: data?.eState || '',
+            date: data?.date || '',
+            startDate: data.startDate || '',
+            endDate: data.endDate || '',
+            sort: data.sort || '',
+            search: data?.search || '',
+            orderBy: 'ASC',
+            totalElements: data?.totalElements || 0,
+        }
+    }
+
+    function getSortedColumns(adminTableColumns, urlData) {
+        return adminTableColumns?.map((column) => (column.internalName === urlData?.sort ? { ...column, type: +urlData?.orderBy } : column))
+    }
+
+    const [requestParams, setRequestParams] = useState(getRequestParams())
+    const [columns, setColumns] = useState(getSortedColumns(TaskColumm, parsedData))
+    const [modal, setModal] = useState({ open: false, type: '' })
+    const [dateRange, setDateRange] = useState([null, null]);
+    const [startDate, endDate] = dateRange
+
+    const data = {
+        "bots": [
+            {
+                Blockname: 'ZWWPA01913800B01',
+                Ward: 'Asarwa',
+                zone: 'East Zone',
+                TotalProperty: '10',
+                Createdby: 'Prakash Jani',
+                CreatedDate: '31/12/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
+            },
+            {
+                Blockname: 'ZWWPA01913800B01',
+                Ward: 'Asarwa',
+                zone: 'East Zone',
+                TotalProperty: '27',
+                Createdby: 'Amit Patel',
+                CreatedDate: '15/07/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
+            },
+            {
+                Blockname: 'ZWWPA01913800B02',
+                Ward: 'Khadia',
+                zone: 'Central Zone',
+                TotalProperty: '45',
+                Createdby: 'Rahul Sharma',
+                CreatedDate: '03/11/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
+            },
+            {
+                Blockname: 'ZWWPA01913800B03',
+                Ward: 'Ramol-Hathijan',
+                zone: 'South Zone',
+                TotalProperty: '33',
+                Createdby: 'Priya Gupta',
+                CreatedDate: '19/05/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
+            },
+            {
+                Blockname: 'ZWWPA01913800B01',
+                Ward: 'Virat Nagar',
+                zone: 'North West Zone',
+                TotalProperty: '18',
+                Createdby: 'Suresh Kumar',
+                CreatedDate: '28/09/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
+            },
+            {
+                Blockname: 'ZWWPA01913800B02',
+                Ward: 'Dariapur',
+                zone: 'West Zone',
+                TotalProperty: '55',
+                Createdby: 'Neha Singh',
+                CreatedDate: '10/02/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
+            },
+            {
+                Blockname: 'ZWWPA01913800B03',
+                Ward: 'Gomtipur',
+                zone: 'North Zone',
+                TotalProperty: '21',
+                Createdby: 'Ankit Sharma',
+                CreatedDate: '24/04/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
+            },
+            {
+                Blockname: 'ZWWPA01913800B01',
+                Ward: 'Odhav',
+                zone: 'South West Zone',
+                TotalProperty: '37',
+                Createdby: 'Deepak Verma',
+                CreatedDate: '07/08/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
+            },
+            {
+                Blockname: 'ZWWPA01913800B02',
+                Ward: 'Bodakdev',
+                zone: 'South Zone',
+                TotalProperty: '62',
+                Createdby: 'Kavita Singh',
+                CreatedDate: '12/01/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
+            },
+            {
+                Blockname: 'ZWWPA01913800B03',
+                Ward: 'Amraiwadi',
+                zone: 'Central Zone',
+                TotalProperty: '29',
+                Createdby: 'Amit Kumar',
+                CreatedDate: '30/06/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
+            }
+        ],
+        "count": {
+            "totalData": 38
+        }
+    }
+
+    function handleSort(field) {
+        let selectedFilter
+        const filter = columns.map((data) => {
+            if (data.internalName === field.internalName) {
+                data.type = +data.type === 1 ? -1 : 1
+                selectedFilter = data
+            } else {
+                data.type = 1
+            }
+            return data
+        })
+        setColumns(filter)
+        const params = {
+            ...requestParams,
+            page: 0,
+            sort: selectedFilter?.internalName,
+            orderBy: selectedFilter.type === 1 ? 'ASC' : 'DESC',
+            isEmailVerified: selectedFilter?.isEmailVerified
+        }
+        setRequestParams(params)
+        appendParams({
+            sort: selectedFilter.type !== 0 ? selectedFilter.internalName : '',
+            orderBy: selectedFilter.type
+        })
+    }
+
+    async function handleHeaderEvent(name, value) {
+        switch (name) {
+            case 'rows':
+                setRequestParams({ ...requestParams, nLimit: Number(value), pageNumber: 1 })
+                appendParams({ nLimit: Number(value), pageNumber: 1 })
+                break
+            case 'search':
+                setRequestParams({ ...requestParams, search: value, pageNumber: 1 })
+                appendParams({ pageNumber: 1 })
+                break
+            case 'filter':
+                setModal({ open: value, type: 'filter' })
+                break
+            default:
+                break
+        }
+    }
+
+    function handlePageEvent(page) {
+        setRequestParams({ ...requestParams, pageNumber: page, nStart: page - 1 })
+        appendParams({ pageNumber: page, nStart: page - 1 })
+    }
+
+    function handleFilterChange(e) {
+        setRequestParams({ ...requestParams, eStatus: e?.eStatus || 'y', eState: e?.eState || '', dStartDate: e?.dStartDate || '', dEndDate: e?.dEndDate || '' })
+    }
 
     useEffect(() => {
-        document.title = 'Dashboard | AMC Survey'
+        document.title = 'Task Management | AMC Survey'
     }, [])
 
+
     return (
-        <div>
-            <PageTitle title={'Report'} />
-            <div className='DashGrid'>
-                <Row className='dashboardCards' >
-                    <Col className='mb-3 '>
-                        <Cards cardtext={'30'} cardtitle={'Allotted Block'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
-                    </Col>
-                    <Col className='mb-3 '>
-                        <Cards cardtext={'10'} cardtitle={'In Progress Block'} cardIcon={faListCheck} className='dashboard-card-2' />
-                    </Col>
-                </Row>
-                <Row className='dashboardCards' >
-                    <Col className='mb-3 '>
-                        <Cards cardtext={'10'} cardtitle={'Review Block'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
-                    </Col>
-                    <Col className='mb-3 '>
-                        <Cards cardtext={'50'} cardtitle={'Completed Block'} cardIcon={faCircleCheck} className='dashboard-card-4' />
-                    </Col>
-                </Row>
+        <>
+            <PageTitle title={'Report Management'} />
+            <ButtonGroup className='BlockButtonGroup'>
+                {radios.map((radio, idx) => (
+                    <ToggleButton
+                        key={idx}
+                        id={`radio-${idx}`}
+                        type="radio"
+                        variant={radio.value === radioValue ? 'outline-primary' : 'outline-warning'}
+                        name="radio"
+                        defaultValue={'1'}
+                        value={radio.value}
+                        checked={radioValue === radio.value}
+                        onChange={(e) => setRadioValue(e.currentTarget.value)}
+                    >
+                        {radio.name}
+                    </ToggleButton>
+                ))}
+            </ButtonGroup>
+
+            <div>
+                <DataTable
+                    columns={columns}
+                    header={{
+                        left: {
+                            rows: true
+                        },
+                        right: {
+                            search: true,
+                            filter: true
+                        }
+                    }}
+                    sortEvent={handleSort}
+                    headerEvent={(name, value) => handleHeaderEvent(name, value)}
+                    totalRecord={data && (data?.count?.totalData || 0)}
+                    pageChangeEvent={handlePageEvent}
+                    isLoading={false}
+                    pagination={{ currentPage: requestParams.pageNumber, pageSize: requestParams.nLimit }}
+                >
+                    {data && data?.bots?.map((user, index) => {
+                        return (
+                            <InProgressBlockListRow
+                                key={user._id}
+                                index={index}
+                                user={user}
+                                onDelete={() => { }}
+                                onUpdate={() => { }}
+                            />
+                        )
+                    })}
+                    <Drawer isOpen={modal.type === 'filter' && modal.open} onClose={() => setModal({ open: false, type: '' })} title='Filter'>
+                        <UserFilters
+                            filterChange={handleFilterChange}
+                            closeDrawer={() => setModal({ open: false, type: '' })}
+                            defaultValue={requestParams}
+                            location={location}
+                            startDate={startDate}
+                            endDate={endDate}
+                            setDateRange={setDateRange}
+                        />
+                    </Drawer>
+                </DataTable>
             </div>
-            <div >
-                <DoughnutChart />
-            </div>
-        </div>
+        </>
     )
 }
 
-export default Dashboard
+export default ProgressReport

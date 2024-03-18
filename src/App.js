@@ -44,14 +44,6 @@ export const queryClient = new QueryClient({
 })
 
 function App() {
-  // const temp = localStorage.getItem('mode') === 'true'
-
-  // useEffect(() => {
-  //   localStorage.setItem('mode', temp)
-
-  //   document.body.classList.remove('light')
-  //   document.body.classList.add('light' );
-  // }, [])
   // console.error = () => { };
   return (
     <QueryClientProvider client={queryClient}>

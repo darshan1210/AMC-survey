@@ -1,12 +1,11 @@
 import React, { Suspense } from 'react'
 import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom'
-
 import Router from 'routes/Router'
 import { Loader } from 'shared/components/Loader'
 import Toaster from 'shared/components/Toaster'
 
-function AllRoutes () {
-  function allPaths (children) {
+function AllRoutes() {
+  function allPaths(children) {
     return children?.map(({ path, Component, exact, props, children: child }, index) => {
       return child?.length ? (
         <Route element={<Component />} key={index}>

@@ -1,20 +1,24 @@
-import { faChalkboardUser, faCircleCheck, faListCheck, faMagnifyingGlassLocation } from '@fortawesome/free-solid-svg-icons'
 import React, { useEffect, useRef, useState } from 'react'
-import { Col, Row } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
-import Cards from 'shared/components/Card'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
-import PageTitle from 'shared/components/PageTitle'
-import PropertyListRow from 'shared/components/PropertyListRow'
 import UserFilters from 'shared/components/UserListFilter'
-import { ProptyColums } from 'shared/constants/TableHeaders'
+import { TaskColumm } from 'shared/constants/TableHeaders'
 import { appendParams, parseParams } from 'shared/utils'
+import PageTitle from 'shared/components/PageTitle'
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import InProgressBlockListRow from 'shared/components/InProgressBlockListRow'
 
-const PropertyManagement = () => {
+const ProgressReport = () => {
     const location = useLocation()
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
+    const [radioValue, setRadioValue] = useState('1');
+
+    const radios = [
+        { name: 'My In-Progress Blocks - (40)', value: '1' }
+    ];
 
     function getRequestParams(e) {
         const data = e ? parseParams(e) : params.current
@@ -39,100 +43,134 @@ const PropertyManagement = () => {
     }
 
     const [requestParams, setRequestParams] = useState(getRequestParams())
-    const [columns, setColumns] = useState(getSortedColumns(ProptyColums, parsedData))
+    const [columns, setColumns] = useState(getSortedColumns(TaskColumm, parsedData))
     const [modal, setModal] = useState({ open: false, type: '' })
-
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange
 
-
-    const sWard = location?.state?.ward
-    const sZone = location?.state?.zone
-    // List
     const data = {
         "bots": [
             {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Sunrise Apartments",
-                "CreatedBy": "Ramesh Patel",
-                "CreatedDate": "10-12-2020"
+                Blockname: 'ZWWPA01913800B01',
+                Ward: 'Asarwa',
+                zone: 'East Zone',
+                TotalProperty: '10',
+                Createdby: 'Prakash Jani',
+                CreatedDate: '31/12/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
             },
             {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Green Valley Residency",
-                "CreatedBy": "Suresh Kumar",
-                "CreatedDate": "05-07-2021"
+                Blockname: 'ZWWPA01913800B01',
+                Ward: 'Asarwa',
+                zone: 'East Zone',
+                TotalProperty: '27',
+                Createdby: 'Amit Patel',
+                CreatedDate: '15/07/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
             },
             {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Royal Palm Heights",
-                "CreatedBy": "Vijay Sharma",
-                "CreatedDate": "22-09-2020"
+                Blockname: 'ZWWPA01913800B02',
+                Ward: 'Khadia',
+                zone: 'Central Zone',
+                TotalProperty: '45',
+                Createdby: 'Rahul Sharma',
+                CreatedDate: '03/11/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
             },
             {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Pearl Paradise",
-                "CreatedBy": "Deepak Gupta",
-                "CreatedDate": "18-04-2021"
+                Blockname: 'ZWWPA01913800B03',
+                Ward: 'Ramol-Hathijan',
+                zone: 'South Zone',
+                TotalProperty: '33',
+                Createdby: 'Priya Gupta',
+                CreatedDate: '19/05/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
             },
             {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Silver Crest",
-                "CreatedBy": "Amit Kumar",
-                "CreatedDate": "11-11-2020"
+                Blockname: 'ZWWPA01913800B01',
+                Ward: 'Virat Nagar',
+                zone: 'North West Zone',
+                TotalProperty: '18',
+                Createdby: 'Suresh Kumar',
+                CreatedDate: '28/09/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
             },
             {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Emerald Towers",
-                "CreatedBy": "Rajesh Singh",
-                "CreatedDate": "30-06-2021"
+                Blockname: 'ZWWPA01913800B02',
+                Ward: 'Dariapur',
+                zone: 'West Zone',
+                TotalProperty: '55',
+                Createdby: 'Neha Singh',
+                CreatedDate: '10/02/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
             },
             {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Golden Enclave",
-                "CreatedBy": "Neha Sharma",
-                "CreatedDate": "14-02-2021"
+                Blockname: 'ZWWPA01913800B03',
+                Ward: 'Gomtipur',
+                zone: 'North Zone',
+                TotalProperty: '21',
+                Createdby: 'Ankit Sharma',
+                CreatedDate: '24/04/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
             },
             {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Diamond Heights",
-                "CreatedBy": "Manoj Verma",
-                "CreatedDate": "09-08-2020"
+                Blockname: 'ZWWPA01913800B01',
+                Ward: 'Odhav',
+                zone: 'South West Zone',
+                TotalProperty: '37',
+                Createdby: 'Deepak Verma',
+                CreatedDate: '07/08/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
             },
             {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Platinum Towers",
-                "CreatedBy": "Anita Patel",
-                "CreatedDate": "25-03-2021"
+                Blockname: 'ZWWPA01913800B02',
+                Ward: 'Bodakdev',
+                zone: 'South Zone',
+                TotalProperty: '62',
+                Createdby: 'Kavita Singh',
+                CreatedDate: '12/01/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
             },
             {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Sapphire Gardens",
-                "CreatedBy": "Sanjay Gupta",
-                "CreatedDate": "03-10-2020"
+                Blockname: 'ZWWPA01913800B03',
+                Ward: 'Amraiwadi',
+                zone: 'Central Zone',
+                TotalProperty: '29',
+                Createdby: 'Amit Kumar',
+                CreatedDate: '30/06/2023',
+                Assignername: 'Assigner-name',
+                Assigndate: 'Assign-date',
+                Actionwith: 'Action-with',
+                Surveybutton: 'Survey button'
             }
-        ]
-        ,
+        ],
         "count": {
             "totalData": 38
         }
@@ -192,32 +230,30 @@ const PropertyManagement = () => {
     }
 
     useEffect(() => {
-        document.title = 'Property Management | AMC Survey'
+        document.title = 'Task Management | AMC Survey'
     }, [])
 
 
     return (
         <>
-            <PageTitle title={'Property Management'} />
-
-            <div className='DashGrid'>
-                <Row className='dashboardCards' >
-                    <Col className='mb-3 '>
-                        <Cards cardtext={'0'} cardtitle={'Total Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
-                    </Col>
-                    <Col className='mb-3 '>
-                        <Cards cardtext={'0'} cardtitle={'In Progress Property'} cardIcon={faListCheck} className='dashboard-card-2' />
-                    </Col>
-                </Row>
-                <Row className='dashboardCards' >
-                    <Col className='mb-3 '>
-                        <Cards cardtext={'0'} cardtitle={'Remaining Property'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
-                    </Col>
-                    <Col className='mb-3 '>
-                        <Cards cardtext={'0'} cardtitle={'Completed Property'} cardIcon={faCircleCheck} className='dashboard-card-4' />
-                    </Col>
-                </Row>
-            </div>
+            <PageTitle title={'Block Management'} />
+            <ButtonGroup className='BlockButtonGroup'>
+                {radios.map((radio, idx) => (
+                    <ToggleButton
+                        key={idx}
+                        id={`radio-${idx}`}
+                        type="radio"
+                        variant={radio.value === radioValue ? 'outline-primary' : 'outline-warning'}
+                        name="radio"
+                        defaultValue={'1'}
+                        value={radio.value}
+                        checked={radioValue === radio.value}
+                        onChange={(e) => setRadioValue(e.currentTarget.value)}
+                    >
+                        {radio.name}
+                    </ToggleButton>
+                ))}
+            </ButtonGroup>
 
             <div>
                 <DataTable
@@ -240,7 +276,7 @@ const PropertyManagement = () => {
                 >
                     {data && data?.bots?.map((user, index) => {
                         return (
-                            <PropertyListRow
+                            <InProgressBlockListRow
                                 key={user._id}
                                 index={index}
                                 user={user}
@@ -266,4 +302,4 @@ const PropertyManagement = () => {
     )
 }
 
-export default PropertyManagement
+export default ProgressReport
