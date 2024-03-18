@@ -1,53 +1,53 @@
-import React, { useEffect } from 'react';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import CanvasJSReact from '@canvasjs/react-charts';
+import useMediaQuery from 'shared/hooks/useMediaQuery';
 
-const DonutChart = () => {
-    // Data for the donut chart
-    const chartData = [
-        { name: 'In Progress Block', y: 10 },
-        { name: 'Remaining Block', y: 10 },
-        { name: 'Completed Block', y: 50 },
-        { name: 'Total Block', y: 30 },
-    ];
+const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-    // Configuration options for the donut chart
-    const options = {
-        chart: {
-            type: 'pie'
-        },
+const DonutChart = ({ title, subtitle, dataPoints }) => {
+
+    const width = useMediaQuery('(max-width: 800px)')
+    const [options] = useState({
+        animationEnabled: true,
         title: {
-            text: 'My Block Progress'
+            text: title
         },
-        plotOptions: {
-            pie: {
-                innerSize: '60%', // This makes it a donut chart
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true
-                },
-                showInLegend: true
-            }
-        },
-        series: [{
-            name: ' ',
-            colorByPoint: true,
-            data: chartData
+        subtitles: [{
+            text: subtitle,
+            verticalAlign: "center",
+            fontSize: 20,
+            dockInsidePlotArea: true
+        }],
+        data: [{
+            type: "doughnut",
+            showInLegend: true,
+            indexLabel: "{y}",
+            indexLabelPlacement: "inside",
+            yValueFormatString: "#,###'%'",
+            dataPoints: dataPoints
         }]
-    };
-
+    });
     useEffect(() => {
-        Highcharts.chart('donut-chart', options);
-        const elementToRemove = document.querySelector('.highcharts-credits');
+        const elementToRemove = document.querySelector('.canvasjs-chart-credit');
         elementToRemove.remove();
-    }, []);
-
+    }, [width]);
     return (
-        <div id="donut-chart">
-            <HighchartsReact highcharts={Highcharts} options={options} />
+        <div>
+            <CanvasJSChart options={options} />
         </div>
     );
+};
+
+DonutChart.propTypes = {
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string.isRequired,
+    dataPoints: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            y: PropTypes.number.isRequired
+        })
+    ).isRequired
 };
 
 export default DonutChart;

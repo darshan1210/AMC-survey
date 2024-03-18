@@ -5,18 +5,18 @@ import { PropertyTypeColums, zoneColums } from 'shared/constants/TableHeaders';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import CommonInput from '../CommonInput';
 import Select from 'react-select';
-import { useNavigate } from 'react-router-dom';
-import { route } from 'shared/constants/AllRoutes';
+// import { Button } from 'react-bootstrap';
+// import { useNavigate } from 'react-router-dom';
+// import { route } from 'shared/constants/AllRoutes';
 
-const PropertyListRow = ({ user, index, }) => {
-    const navigate = useNavigate()
+const ReviewListRow = ({ user, index, }) => {
+    // const navigate = useNavigate()
     const fileInputRef = useRef(null)
     const [isModal, setModal] = useState(false)
     const { control, watch, register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'onSubmit' });
 
     const onSubmit = async (storeData) => {
         console.log('storeData', storeData)
-        navigate(route.surveyManagenet)
     }
 
     const handleFileInputClick = () => {
@@ -27,24 +27,28 @@ const PropertyListRow = ({ user, index, }) => {
 
     useEffect(() => {
         reset({
-            sProperty: user.PropertytextNo,
+            sProperty: user?.PropertytextNo,
             eWard: { label: user.Ward, value: user.Ward },
             eZone: { label: user.Zone, value: user.Zone },
-            sSociety: user.Society
+            sSociety: user.Society,
+            sOwner: user.OwnerName,
+            nOwnerNumber: user.PhoneNo,
+            sDescription: "A8, Elenza Society, Bapunagar Road, Ahmedabad",
+            PropertyType: { label: 'Residential', value: 'Residential' },
         })
     }, [])
-
 
     return (
         <>
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
                 <td>{index + 1}</td>
-                <td>{user.PropertytextNo || '-'}</td>
                 <td>{user.Ward || '-'}</td>
                 <td>{user.Zone || '-'}</td>
                 <td>{user.Society || '-'}</td>
                 <td>{user.CreatedBy || '-'}</td>
                 <td>{user.CreatedDate || '-'}</td>
+                <td>{user.OwnerName || '-'}</td>
+                <td>{user.PhoneNo || '-'}</td>
                 <td onClick={() => setModal(true)}>
                     <div className='dropdown-datatable-items-icon'>
                         <i className='icon-create d-block' />
@@ -484,7 +488,7 @@ const PropertyListRow = ({ user, index, }) => {
     )
 }
 
-PropertyListRow.propTypes = {
+ReviewListRow.propTypes = {
     user: PropTypes.any,
     index: PropTypes.number.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -492,4 +496,4 @@ PropertyListRow.propTypes = {
 };
 
 
-export default PropertyListRow
+export default ReviewListRow

@@ -17,6 +17,7 @@ export const route = {
 
   surveyManagenet: '/my-survey',
   doneSurveyManagenet: '/my-survey-done',
-  ReportManagenet: '/my-report'
+  ReportManagenet: '/my-report',
+  consolidatedReport: '/consolidated-report'
 
 }

@@ -1,24 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import TaskListRow from 'shared/components/TaskListRows'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
-import UserFilters from 'shared/components/UserListFilter'
-import { TaskColumm } from 'shared/constants/TableHeaders'
-import { appendParams, parseParams } from 'shared/utils'
 import PageTitle from 'shared/components/PageTitle'
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
+import UserFilters from 'shared/components/UserListFilter'
+import ReviewListRow from 'shared/components/reviewSurveylistRow'
+import { RevviewSurveyColums } from 'shared/constants/TableHeaders'
+import { appendParams, parseParams } from 'shared/utils'
 
 const SurveyManagement = () => {
     const location = useLocation()
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
-    const [radioValue, setRadioValue] = useState('1');
-
-    const radios = [
-        { name: 'Review - (50)', value: '1' }
-    ];
 
     function getRequestParams(e) {
         const data = e ? parseParams(e) : params.current
@@ -43,134 +36,118 @@ const SurveyManagement = () => {
     }
 
     const [requestParams, setRequestParams] = useState(getRequestParams())
-    const [columns, setColumns] = useState(getSortedColumns(TaskColumm, parsedData))
+    const [columns, setColumns] = useState(getSortedColumns(RevviewSurveyColums, parsedData))
     const [modal, setModal] = useState({ open: false, type: '' })
+
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange
+
 
     const data = {
         "bots": [
             {
-                Blockname: 'ZWWPA01913800B01',
-                Ward: 'Asarwa',
-                zone: 'East Zone',
-                TotalProperty: '10',
-                Createdby: 'Prakash Jani',
-                CreatedDate: '31/12/2023',
-                Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                "PropertytextNo": "02310860000001H",
+                "Ward": "sWard",
+                "Zone": "sZone",
+                "Society": "Sunrise Apartments",
+                "CreatedBy": "Ramesh Patel",
+                "CreatedDate": "10-12-2020",
+                "OwnerName": "Suresh Patel",
+                "PhoneNo": "9879800524"
             },
             {
-                Blockname: 'ZWWPA01913800B01',
-                Ward: 'Asarwa',
-                zone: 'East Zone',
-                TotalProperty: '27',
-                Createdby: 'Amit Patel',
-                CreatedDate: '15/07/2023',
-                Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                "PropertytextNo": "02310860000001H",
+                "Ward": "sWard",
+                "Zone": "sZone",
+                "Society": "Green Valley Residency",
+                "CreatedBy": "Rajesh Kumar",
+                "CreatedDate": "15-06-2021",
+                "OwnerName": "Sudhir Sharma",
+                "PhoneNo": "9876543210"
             },
             {
-                Blockname: 'ZWWPA01913800B02',
-                Ward: 'Khadia',
-                zone: 'Central Zone',
-                TotalProperty: '45',
-                Createdby: 'Rahul Sharma',
-                CreatedDate: '03/11/2023',
-                Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                "PropertytextNo": "02310860000001H",
+                "Ward": "sWard",
+                "Zone": "sZone",
+                "Society": "Royal Palm Heights",
+                "CreatedBy": "Suresh Singh",
+                "CreatedDate": "20-03-2022",
+                "OwnerName": "Rahul Verma",
+                "PhoneNo": "9988776655"
             },
             {
-                Blockname: 'ZWWPA01913800B03',
-                Ward: 'Ramol-Hathijan',
-                zone: 'South Zone',
-                TotalProperty: '33',
-                Createdby: 'Priya Gupta',
-                CreatedDate: '19/05/2023',
-                Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                "PropertytextNo": "02310860000001H",
+                "Ward": "sWard",
+                "Zone": "sZone",
+                "Society": "Pearl Paradise",
+                "CreatedBy": "Prakash Jani",
+                "CreatedDate": "05-08-2021",
+                "OwnerName": "Manish Shah",
+                "PhoneNo": "9898989898"
             },
             {
-                Blockname: 'ZWWPA01913800B01',
-                Ward: 'Virat Nagar',
-                zone: 'North West Zone',
-                TotalProperty: '18',
-                Createdby: 'Suresh Kumar',
-                CreatedDate: '28/09/2023',
-                Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                "PropertytextNo": "02310860000001H",
+                "Ward": "sWard",
+                "Zone": "sZone",
+                "Society": "Silver Crest",
+                "CreatedBy": "Deepak Sharma",
+                "CreatedDate": "12-10-2020",
+                "OwnerName": "Mukesh Patel",
+                "PhoneNo": "9876123456"
             },
             {
-                Blockname: 'ZWWPA01913800B02',
-                Ward: 'Dariapur',
-                zone: 'West Zone',
-                TotalProperty: '55',
-                Createdby: 'Neha Singh',
-                CreatedDate: '10/02/2023',
-                Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                "PropertytextNo": "02310860000001H",
+                "Ward": "sWard",
+                "Zone": "sZone",
+                "Society": "Emerald Towers",
+                "CreatedBy": "Amit Patel",
+                "CreatedDate": "08-04-2022",
+                "OwnerName": "Kirti Mehta",
+                "PhoneNo": "9876541230"
             },
             {
-                Blockname: 'ZWWPA01913800B03',
-                Ward: 'Gomtipur',
-                zone: 'North Zone',
-                TotalProperty: '21',
-                Createdby: 'Ankit Sharma',
-                CreatedDate: '24/04/2023',
-                Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                "PropertytextNo": "02310860000001H",
+                "Ward": "sWard",
+                "Zone": "sZone",
+                "Society": "Golden Enclave",
+                "CreatedBy": "Rajesh Gupta",
+                "CreatedDate": "25-11-2021",
+                "OwnerName": "Vinod Singh",
+                "PhoneNo": "9988776655"
             },
             {
-                Blockname: 'ZWWPA01913800B01',
-                Ward: 'Odhav',
-                zone: 'South West Zone',
-                TotalProperty: '37',
-                Createdby: 'Deepak Verma',
-                CreatedDate: '07/08/2023',
-                Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                "PropertytextNo": "02310860000001H",
+                "Ward": "sWard",
+                "Zone": "sZone",
+                "Society": "Diamond Heights",
+                "CreatedBy": "Alok Sharma",
+                "CreatedDate": "19-09-2022",
+                "OwnerName": "Rahul Patel",
+                "PhoneNo": "9898989898"
             },
             {
-                Blockname: 'ZWWPA01913800B02',
-                Ward: 'Bodakdev',
-                zone: 'South Zone',
-                TotalProperty: '62',
-                Createdby: 'Kavita Singh',
-                CreatedDate: '12/01/2023',
-                Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                "PropertytextNo": "02310860000001H",
+                "Ward": "sWard",
+                "Zone": "sZone",
+                "Society": "Platinum Towers",
+                "CreatedBy": "Kunal Patel",
+                "CreatedDate": "14-07-2020",
+                "OwnerName": "Sachin Kumar",
+                "PhoneNo": "9876123456"
             },
             {
-                Blockname: 'ZWWPA01913800B03',
-                Ward: 'Amraiwadi',
-                zone: 'Central Zone',
-                TotalProperty: '29',
-                Createdby: 'Amit Kumar',
-                CreatedDate: '30/06/2023',
-                Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                "PropertytextNo": "02310860000001H",
+                "Ward": "sWard",
+                "Zone": "sZone",
+                "Society": "Sapphire Gardens",
+                "CreatedBy": "Ajay Singh",
+                "CreatedDate": "30-01-2022",
+                "OwnerName": "Ramesh Sharma",
+                "PhoneNo": "9876541230"
             }
-        ],
+        ]
+
+        ,
         "count": {
             "totalData": 38
         }
@@ -230,30 +207,13 @@ const SurveyManagement = () => {
     }
 
     useEffect(() => {
-        document.title = 'Task Management | AMC Survey'
+        document.title = 'Property Management | AMC Survey'
     }, [])
 
 
     return (
         <>
-            <PageTitle title={'Survey Management'} />
-            <ButtonGroup className='BlockButtonGroup'>
-                {radios.map((radio, idx) => (
-                    <ToggleButton
-                        key={idx}
-                        id={`radio-${idx}`}
-                        type="radio"
-                        variant={radio.value === radioValue ? 'outline-primary' : 'outline-warning'}
-                        name="radio"
-                        defaultValue={'1'}
-                        value={radio.value}
-                        checked={radioValue === radio.value}
-                        onChange={(e) => setRadioValue(e.currentTarget.value)}
-                    >
-                        {radio.name}
-                    </ToggleButton>
-                ))}
-            </ButtonGroup>
+            <PageTitle title={'Review Survey'} />
 
             <div>
                 <DataTable
@@ -276,7 +236,7 @@ const SurveyManagement = () => {
                 >
                     {data && data?.bots?.map((user, index) => {
                         return (
-                            <TaskListRow
+                            <ReviewListRow
                                 key={user._id}
                                 index={index}
                                 user={user}
@@ -301,5 +261,7 @@ const SurveyManagement = () => {
         </>
     )
 }
+
+
 
 export default SurveyManagement

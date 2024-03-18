@@ -29,7 +29,8 @@ const PropertyManagement = lazy(() => import('views/PropertyManagement'))
 
 const SurveyManagement = lazy(() => import('views/SurveyManagement'))
 const DoneSurveyManagement = lazy(() => import('views/SurveyManagement/DoneSurvey'))
-const ReportManagement = lazy(() => import('views/ReportManagement'))
+const ReportManagement = lazy(() => import('views/ReportManagement/ProgressReport'))
+const ConsolidatedReport = lazy(() => import('views/ReportManagement/ConsolidatedReport'))
 
 
 const RoutesDetails = [
@@ -67,7 +68,9 @@ const RoutesDetails = [
       { path: route.propertyManagement, Component: PropertyManagement, exact: true },
       { path: route.surveyManagenet, Component: SurveyManagement, exact: true },
       { path: route.doneSurveyManagenet, Component: DoneSurveyManagement, exact: true },
+
       { path: route.ReportManagenet, Component: ReportManagement, exact: true },
+      { path: route.consolidatedReport, Component: ConsolidatedReport, exact: true },
     ]
   }
 ]

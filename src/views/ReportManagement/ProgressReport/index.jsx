@@ -3,12 +3,12 @@ import { useLocation } from 'react-router-dom'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
 import UserFilters from 'shared/components/UserListFilter'
-import { TaskColumm } from 'shared/constants/TableHeaders'
+import { ProgressReportColums } from 'shared/constants/TableHeaders'
 import { appendParams, parseParams } from 'shared/utils'
 import PageTitle from 'shared/components/PageTitle'
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import InProgressBlockListRow from 'shared/components/InProgressBlockListRow'
+import ProgressReportListRow from 'shared/components/ProgressReportListRow'
 
 const ProgressReport = () => {
     const location = useLocation()
@@ -17,7 +17,10 @@ const ProgressReport = () => {
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-        { name: 'My In-Progress Blocks - (40)', value: '1' }
+        { name: 'All', value: '1' },
+        { name: 'Week', value: '2' },
+        { name: 'Month', value: '3' },
+        { name: 'Year', value: '4' },
     ];
 
     function getRequestParams(e) {
@@ -43,7 +46,7 @@ const ProgressReport = () => {
     }
 
     const [requestParams, setRequestParams] = useState(getRequestParams())
-    const [columns, setColumns] = useState(getSortedColumns(TaskColumm, parsedData))
+    const [columns, setColumns] = useState(getSortedColumns(ProgressReportColums, parsedData))
     const [modal, setModal] = useState({ open: false, type: '' })
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange
@@ -56,11 +59,9 @@ const ProgressReport = () => {
                 zone: 'East Zone',
                 TotalProperty: '10',
                 Createdby: 'Prakash Jani',
-                CreatedDate: '31/12/2023',
                 Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                Assigndate: '31/12/2023',
+                surveyStatus: 'Allotted'
             },
             {
                 Blockname: 'ZWWPA01913800B01',
@@ -68,11 +69,9 @@ const ProgressReport = () => {
                 zone: 'East Zone',
                 TotalProperty: '27',
                 Createdby: 'Amit Patel',
-                CreatedDate: '15/07/2023',
                 Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                Assigndate: '15/07/2023',
+                surveyStatus: 'Completed'
             },
             {
                 Blockname: 'ZWWPA01913800B02',
@@ -80,11 +79,9 @@ const ProgressReport = () => {
                 zone: 'Central Zone',
                 TotalProperty: '45',
                 Createdby: 'Rahul Sharma',
-                CreatedDate: '03/11/2023',
                 Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                Assigndate: '03/11/2023',
+                surveyStatus: 'In progress'
             },
             {
                 Blockname: 'ZWWPA01913800B03',
@@ -92,11 +89,9 @@ const ProgressReport = () => {
                 zone: 'South Zone',
                 TotalProperty: '33',
                 Createdby: 'Priya Gupta',
-                CreatedDate: '19/05/2023',
                 Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                Assigndate: '19/05/2023',
+                surveyStatus: 'In progress'
             },
             {
                 Blockname: 'ZWWPA01913800B01',
@@ -104,11 +99,9 @@ const ProgressReport = () => {
                 zone: 'North West Zone',
                 TotalProperty: '18',
                 Createdby: 'Suresh Kumar',
-                CreatedDate: '28/09/2023',
                 Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                Assigndate: '28/09/2023',
+                surveyStatus: 'Completed'
             },
             {
                 Blockname: 'ZWWPA01913800B02',
@@ -116,11 +109,9 @@ const ProgressReport = () => {
                 zone: 'West Zone',
                 TotalProperty: '55',
                 Createdby: 'Neha Singh',
-                CreatedDate: '10/02/2023',
                 Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                Assigndate: '10/02/2023',
+                surveyStatus: 'Completed'
             },
             {
                 Blockname: 'ZWWPA01913800B03',
@@ -128,11 +119,9 @@ const ProgressReport = () => {
                 zone: 'North Zone',
                 TotalProperty: '21',
                 Createdby: 'Ankit Sharma',
-                CreatedDate: '24/04/2023',
                 Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                Assigndate: '24/04/2023',
+                surveyStatus: 'Allotted'
             },
             {
                 Blockname: 'ZWWPA01913800B01',
@@ -140,11 +129,9 @@ const ProgressReport = () => {
                 zone: 'South West Zone',
                 TotalProperty: '37',
                 Createdby: 'Deepak Verma',
-                CreatedDate: '07/08/2023',
                 Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                Assigndate: '07/08/2023',
+                surveyStatus: 'Completed'
             },
             {
                 Blockname: 'ZWWPA01913800B02',
@@ -152,11 +139,9 @@ const ProgressReport = () => {
                 zone: 'South Zone',
                 TotalProperty: '62',
                 Createdby: 'Kavita Singh',
-                CreatedDate: '12/01/2023',
                 Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                Assigndate: '12/01/2023',
+                surveyStatus: 'Allotted'
             },
             {
                 Blockname: 'ZWWPA01913800B03',
@@ -164,11 +149,9 @@ const ProgressReport = () => {
                 zone: 'Central Zone',
                 TotalProperty: '29',
                 Createdby: 'Amit Kumar',
-                CreatedDate: '30/06/2023',
                 Assignername: 'Assigner-name',
-                Assigndate: 'Assign-date',
-                Actionwith: 'Action-with',
-                Surveybutton: 'Survey button'
+                Assigndate: '30/06/2023',
+                surveyStatus: 'Allotted'
             }
         ],
         "count": {
@@ -236,7 +219,7 @@ const ProgressReport = () => {
 
     return (
         <>
-            <PageTitle title={'Block Management'} />
+            <PageTitle title={'Progress Report'} />
             <ButtonGroup className='BlockButtonGroup'>
                 {radios.map((radio, idx) => (
                     <ToggleButton
@@ -276,7 +259,7 @@ const ProgressReport = () => {
                 >
                     {data && data?.bots?.map((user, index) => {
                         return (
-                            <InProgressBlockListRow
+                            <ProgressReportListRow
                                 key={user._id}
                                 index={index}
                                 user={user}

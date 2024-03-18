@@ -24,6 +24,28 @@ export const TaskColumm = [
     { name: 'Actions', isSort: false },
 ]
 
+export const ProgressReportColums = [
+    { name: 'No', isSort: true },
+    { name: 'Block name', isSort: false },
+    { name: 'Ward', isSort: false },
+    { name: 'zone', isSort: false },
+    { name: 'Total Property', isSort: false },
+    { name: 'Created by', isSort: false },
+    { name: 'Assignername', isSort: false },
+    { name: 'Assigndate', isSort: false },
+    { name: 'surveyStatus', isSort: false }
+]
+
+export const ConsolidatedReportColums = [
+    { name: 'No', isSort: true },
+    { name: 'Ward', isSort: false },
+    { name: 'Zone', isSort: false },
+    { name: 'Society', isSort: false },
+    { name: 'Created By', isSort: false },
+    { name: 'Created Date', isSort: false },
+    { name: 'Status', isSort: false },
+]
+
 export const ProptyColums = [
     { name: 'No', isSort: true },
     { name: 'Property tax no', isSort: false },
@@ -32,6 +54,17 @@ export const ProptyColums = [
     { name: 'Society', isSort: false },
     { name: 'Created By', isSort: false },
     { name: 'Created Date', isSort: false },
+    { name: 'Actions', isSort: false },
+]
+export const RevviewSurveyColums = [
+    { name: 'No', isSort: true },
+    { name: 'Ward', isSort: false },
+    { name: 'Zone', isSort: false },
+    { name: 'Society', isSort: false },
+    { name: 'CreatedBy', isSort: false },
+    { name: 'CreatedDate', isSort: false },
+    { name: 'OwnerName', isSort: false },
+    { name: 'PhoneNo', isSort: false },
     { name: 'Actions', isSort: false },
 ]
 

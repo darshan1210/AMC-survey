@@ -203,18 +203,18 @@ const PropertyManagement = () => {
             <div className='DashGrid'>
                 <Row className='dashboardCards' >
                     <Col className='mb-3 '>
-                        <Cards cardtext={'0'} cardtitle={'Total Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
+                        <Cards cardtext={'82'} cardtitle={'Total Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
                     </Col>
                     <Col className='mb-3 '>
-                        <Cards cardtext={'0'} cardtitle={'In Progress Property'} cardIcon={faListCheck} className='dashboard-card-2' />
+                        <Cards cardtext={'30'} cardtitle={'In Progress Property'} cardIcon={faListCheck} className='dashboard-card-2' />
                     </Col>
                 </Row>
                 <Row className='dashboardCards' >
                     <Col className='mb-3 '>
-                        <Cards cardtext={'0'} cardtitle={'Remaining Property'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
+                        <Cards cardtext={'41'} cardtitle={'Remaining Property'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
                     </Col>
                     <Col className='mb-3 '>
-                        <Cards cardtext={'0'} cardtitle={'Completed Property'} cardIcon={faCircleCheck} className='dashboard-card-4' />
+                        <Cards cardtext={'55'} cardtitle={'Completed Property'} cardIcon={faCircleCheck} className='dashboard-card-4' />
                     </Col>
                 </Row>
             </div>

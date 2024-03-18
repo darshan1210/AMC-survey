@@ -55,6 +55,18 @@ export const sidebarConfig = [
   {
     path: route.ReportManagenet,
     icon: faSquarePollVertical,
-    title: 'Progress',
+    title: 'Progress Report',
+    children: [
+      {
+        path: route.ReportManagenet,
+        icon: faChalkboardUser,
+        title: 'Progress Report'
+      },
+      {
+        path: route.consolidatedReport,
+        icon: faListCheck,
+        title: 'Consolidated Report'
+      },
+    ]
   },
 ]
