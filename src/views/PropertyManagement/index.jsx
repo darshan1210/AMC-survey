@@ -46,8 +46,8 @@ const PropertyManagement = () => {
     const [startDate, endDate] = dateRange
 
 
-    const sWard = location?.state?.ward
-    const sZone = location?.state?.zone
+    const sWard = location?.state?.ward || "Ward"
+    const sZone = location?.state?.zone || "zone"
     // List
     const data = {
         "bots": [

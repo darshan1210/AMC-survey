@@ -13,7 +13,7 @@ export const route = {
   inProgressBlock: '/In-progress-block',
   reviewBlock: '/Review-block',
   completedBlock: '/Completed-block',
-  propertyManagement: '/my-task/Property-Management',
+  propertyManagement: '/Property-Management',
 
   surveyManagenet: '/my-survey',
   doneSurveyManagenet: '/my-survey-done',

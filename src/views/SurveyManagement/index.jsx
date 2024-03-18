@@ -1,15 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
+import { useLocation, useNavigate } from 'react-router-dom'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
 import PageTitle from 'shared/components/PageTitle'
 import UserFilters from 'shared/components/UserListFilter'
 import ReviewListRow from 'shared/components/reviewSurveylistRow'
+import { route } from 'shared/constants/AllRoutes'
 import { RevviewSurveyColums } from 'shared/constants/TableHeaders'
 import { appendParams, parseParams } from 'shared/utils'
 
 const SurveyManagement = () => {
     const location = useLocation()
+    const navigate = useNavigate()
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
 
@@ -47,8 +50,8 @@ const SurveyManagement = () => {
         "bots": [
             {
                 "PropertytextNo": "02310860000001H",
-                "Ward": "sWard",
-                "Zone": "sZone",
+                "Ward": "Ward",
+                "Zone": "Zone",
                 "Society": "Sunrise Apartments",
                 "CreatedBy": "Ramesh Patel",
                 "CreatedDate": "10-12-2020",
@@ -57,8 +60,8 @@ const SurveyManagement = () => {
             },
             {
                 "PropertytextNo": "02310860000001H",
-                "Ward": "sWard",
-                "Zone": "sZone",
+                "Ward": "Ward",
+                "Zone": "Zone",
                 "Society": "Green Valley Residency",
                 "CreatedBy": "Rajesh Kumar",
                 "CreatedDate": "15-06-2021",
@@ -67,8 +70,8 @@ const SurveyManagement = () => {
             },
             {
                 "PropertytextNo": "02310860000001H",
-                "Ward": "sWard",
-                "Zone": "sZone",
+                "Ward": "Ward",
+                "Zone": "Zone",
                 "Society": "Royal Palm Heights",
                 "CreatedBy": "Suresh Singh",
                 "CreatedDate": "20-03-2022",
@@ -77,8 +80,8 @@ const SurveyManagement = () => {
             },
             {
                 "PropertytextNo": "02310860000001H",
-                "Ward": "sWard",
-                "Zone": "sZone",
+                "Ward": "Ward",
+                "Zone": "Zone",
                 "Society": "Pearl Paradise",
                 "CreatedBy": "Prakash Jani",
                 "CreatedDate": "05-08-2021",
@@ -87,8 +90,8 @@ const SurveyManagement = () => {
             },
             {
                 "PropertytextNo": "02310860000001H",
-                "Ward": "sWard",
-                "Zone": "sZone",
+                "Ward": "Ward",
+                "Zone": "Zone",
                 "Society": "Silver Crest",
                 "CreatedBy": "Deepak Sharma",
                 "CreatedDate": "12-10-2020",
@@ -97,8 +100,8 @@ const SurveyManagement = () => {
             },
             {
                 "PropertytextNo": "02310860000001H",
-                "Ward": "sWard",
-                "Zone": "sZone",
+                "Ward": "Ward",
+                "Zone": "Zone",
                 "Society": "Emerald Towers",
                 "CreatedBy": "Amit Patel",
                 "CreatedDate": "08-04-2022",
@@ -107,8 +110,8 @@ const SurveyManagement = () => {
             },
             {
                 "PropertytextNo": "02310860000001H",
-                "Ward": "sWard",
-                "Zone": "sZone",
+                "Ward": "Ward",
+                "Zone": "Zone",
                 "Society": "Golden Enclave",
                 "CreatedBy": "Rajesh Gupta",
                 "CreatedDate": "25-11-2021",
@@ -117,8 +120,8 @@ const SurveyManagement = () => {
             },
             {
                 "PropertytextNo": "02310860000001H",
-                "Ward": "sWard",
-                "Zone": "sZone",
+                "Ward": "Ward",
+                "Zone": "Zone",
                 "Society": "Diamond Heights",
                 "CreatedBy": "Alok Sharma",
                 "CreatedDate": "19-09-2022",
@@ -127,8 +130,8 @@ const SurveyManagement = () => {
             },
             {
                 "PropertytextNo": "02310860000001H",
-                "Ward": "sWard",
-                "Zone": "sZone",
+                "Ward": "Ward",
+                "Zone": "Zone",
                 "Society": "Platinum Towers",
                 "CreatedBy": "Kunal Patel",
                 "CreatedDate": "14-07-2020",
@@ -137,8 +140,8 @@ const SurveyManagement = () => {
             },
             {
                 "PropertytextNo": "02310860000001H",
-                "Ward": "sWard",
-                "Zone": "sZone",
+                "Ward": "Ward",
+                "Zone": "Zone",
                 "Society": "Sapphire Gardens",
                 "CreatedBy": "Ajay Singh",
                 "CreatedDate": "30-01-2022",
@@ -257,6 +260,11 @@ const SurveyManagement = () => {
                         />
                     </Drawer>
                 </DataTable>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Button style={{ borderRadius: '0 0 10px 10px', margin: '0 10px 0 0 ' }} onClick={() => navigate(route.doneSurveyManagenet)}>
+                    Submit Property
+                </Button>
             </div>
         </>
     )

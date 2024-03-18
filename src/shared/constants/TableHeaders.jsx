@@ -31,9 +31,9 @@ export const ProgressReportColums = [
     { name: 'zone', isSort: false },
     { name: 'Total Property', isSort: false },
     { name: 'Created by', isSort: false },
-    { name: 'Assignername', isSort: false },
-    { name: 'Assigndate', isSort: false },
-    { name: 'surveyStatus', isSort: false }
+    { name: 'Assigner name', isSort: false },
+    { name: 'Assign date', isSort: false },
+    { name: 'Status', isSort: false }
 ]
 
 export const ConsolidatedReportColums = [
@@ -61,10 +61,10 @@ export const RevviewSurveyColums = [
     { name: 'Ward', isSort: false },
     { name: 'Zone', isSort: false },
     { name: 'Society', isSort: false },
-    { name: 'CreatedBy', isSort: false },
-    { name: 'CreatedDate', isSort: false },
-    { name: 'OwnerName', isSort: false },
-    { name: 'PhoneNo', isSort: false },
+    { name: 'Created By', isSort: false },
+    { name: 'Created Date', isSort: false },
+    { name: 'Owner Name', isSort: false },
+    { name: 'Phone No', isSort: false },
     { name: 'Actions', isSort: false },
 ]
 

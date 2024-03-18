@@ -33,7 +33,7 @@ function NavMenu({ isNavmenu, setNavMenu }) {
                     return (
                         <NavLink key={i} className={`Navitems`} activeClassName="active" onClick={(e) => closeNav(e)} to={item?.path} >
                             <i> <FontAwesomeIcon icon={item.icon} /> </i>
-                            <span>{item?.title}</span>
+                            {/* <span>{item?.title}</span> */}
                         </NavLink>
                     )
                 })}

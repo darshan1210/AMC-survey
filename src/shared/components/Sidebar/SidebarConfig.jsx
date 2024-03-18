@@ -1,5 +1,5 @@
 
-import { faChalkboardUser, faCircleCheck, faFileInvoice, faHouse, faListCheck, faMagnifyingGlassLocation, faSquarePollVertical } from '@fortawesome/free-solid-svg-icons'
+import { faChalkboardUser, faCircleCheck, faCity, faFileInvoice, faHouse, faListCheck, faMagnifyingGlassLocation, faSquarePollVertical } from '@fortawesome/free-solid-svg-icons'
 import { route } from 'shared/constants/AllRoutes'
 
 export const sidebarConfig = [
@@ -34,6 +34,11 @@ export const sidebarConfig = [
         title: 'Completed Block'
       },
     ]
+  },
+  {
+    path: route.propertyManagement,
+    icon: faCity,
+    title: 'Porperty management'
   },
   {
     path: route.surveyManagenet,

@@ -9,7 +9,6 @@ import PageTitle from 'shared/components/PageTitle'
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import CompletedBlockListRow from 'shared/components/CompletedBlockListRow'
-import { Button } from 'react-bootstrap'
 
 const DoneSurveyManagement = () => {
     const location = useLocation()
@@ -237,7 +236,7 @@ const DoneSurveyManagement = () => {
 
     return (
         <>
-            <PageTitle title={'Survey Management'} />
+            <PageTitle title={'Survey Completed'} />
             <ButtonGroup className='BlockButtonGroup'>
                 {radios.map((radio, idx) => (
                     <ToggleButton
@@ -299,11 +298,7 @@ const DoneSurveyManagement = () => {
                     </Drawer>
                 </DataTable>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button style={{ borderRadius: '0 0 10px 10px', margin: '0 10px 0 0 ' }}>
-                    Submit Property
-                </Button>
-            </div>
+
         </>
     )
 }

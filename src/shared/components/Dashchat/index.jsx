@@ -30,7 +30,7 @@ const DonutChart = ({ title, subtitle, dataPoints }) => {
     });
     useEffect(() => {
         const elementToRemove = document.querySelector('.canvasjs-chart-credit');
-        elementToRemove.remove();
+        elementToRemove?.remove();
     }, [width]);
     return (
         <div>
