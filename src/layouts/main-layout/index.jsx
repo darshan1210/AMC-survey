@@ -4,13 +4,13 @@ import Header from 'shared/components/Header'
 import SideBar from 'shared/components/Sidebar'
 import { Loader } from 'shared/components/Loader'
 import useMediaQuery from 'shared/hooks/useMediaQuery'
-import NavMenu from 'shared/components/NavMenu'
 import { Button, Offcanvas } from 'react-bootstrap'
 
 function MainLayout({ children }) {
   const [isOpen, setIsOpen] = useState(true)
   const [isNavmenu, setNavMenu] = useState(false)
   const width = useMediaQuery('(max-width: 800px)')
+
   return (
     <div className='main-layout'>
       <Offcanvas className='MobileSideBar' show={isNavmenu} onHide={() => { setNavMenu(false) }} keyboard={false} backdrop={true} placement='start'>
@@ -36,7 +36,6 @@ function MainLayout({ children }) {
           </Suspense>
         </div>
       </div>
-      <NavMenu isNavmenu={true} setNavMenu={setNavMenu} />
 
     </div>
   )

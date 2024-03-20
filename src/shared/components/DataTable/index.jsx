@@ -9,7 +9,7 @@ import { Loader } from 'shared/components/Loader'
 
 const CustomPagination = React.lazy(() => import('shared/components/CustomPagination'))
 
-function DataTable ({
+function DataTable({
   children,
   component,
   columns,
@@ -83,7 +83,7 @@ function DataTable ({
       )}
       <ul className='data-table-tabs d-flex'>
         {tabs &&
-          tabs?.map((item,index) => {
+          tabs?.map((item, index) => {
             if (item.isAllowedTo) {
               return (
                 <li key={index} className={item.active ? 'active' : ''} onClick={() => tabEvent(item.internalName)}>
@@ -130,8 +130,9 @@ function DataTable ({
           </tr>
         </thead>
         <tbody>
-          {children}
-          {totalRecord === 0 && (
+          {console.log('children', children)}
+          {children !== "0" && children}
+          {totalRecord < 1 && (
             <tr>
               <td colSpan={columns.length + (checkbox ? 2 : 1)} className=''>
                 <FormattedMessage id='noRecordFound' />

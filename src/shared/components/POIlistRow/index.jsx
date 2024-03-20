@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 
 const POIListRow = ({ poi, index, }) => {
-    // const navigate = useNavigate()
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -29,9 +28,6 @@ const POIListRow = ({ poi, index, }) => {
                 <Modal.Body className='modal-body'>
                     <div><span>Society&nbsp; -</span><span>{poi.society_name || '-'}</span></div>
                     <div><span style={{ textWrap: 'nowrap' }}>POI&nbsp; -</span><span style={{ textAlign: 'right' }}>{poi.poi || '-'}</span></div>
-                    {/* <div><span>TotalProperty</span><span>-</span><span>{poi.TotalProperty || '-'}</span></div>
-                    <div><span>Createdby</span><span>-</span><span>{poi.Createdby || '-'}</span></div>
-                    <div><span>CreatedDate</span><span>-</span><span>{poi.CreatedDate || '-'}</span></div> */}
                 </Modal.Body>
             </Modal>
         </>

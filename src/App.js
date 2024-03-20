@@ -1,6 +1,7 @@
 import React, { Suspense, createContext, useState } from 'react'
 import { MutationCache, QueryClient, QueryClientProvider } from 'react-query'
 import { Loader } from 'shared/components/Loader'
+// import NavMenu from 'shared/components/NavMenu'
 const AllRoutes = React.lazy(() => import('routes'))
 
 export const queryClient = new QueryClient({
@@ -59,6 +60,7 @@ function App() {
       <MyContext.Provider value={{ contextData, updateUser }}>
         <Suspense fallback={<Loader />}>
           <AllRoutes />
+          {/* <NavMenu /> */}
         </Suspense>
       </MyContext.Provider>
     </QueryClientProvider>

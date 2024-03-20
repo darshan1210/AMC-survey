@@ -55,10 +55,11 @@ const POIManagement = () => {
     const { isLoading } = useQuery(['poiList', requestParams], () => GetPOIList(requestParams), {
         select: (data) => data.data,
         onSuccess: (data) => {
-            setPoilistData(data.data)
+            setPoilistData(data?.data)
         }
     })
-    console.log('poiListData', poiListData)
+    // console.log('poiListData', poiListData)
+
     // const sWard = location?.state?.ward || "Ward"
     // const sZone = location?.state?.zone || "zone"
     // List
@@ -160,6 +161,7 @@ const POIManagement = () => {
     //     }
     // }
 
+
     function handleSort(field) {
         let selectedFilter
         const filter = columns.map((data) => {
@@ -246,12 +248,12 @@ const POIManagement = () => {
                     }}
                     sortEvent={handleSort}
                     headerEvent={(name, value) => handleHeaderEvent(name, value)}
-                    totalRecord={poiListData && (poiListData.length || 0)}
+                    totalRecord={poiListData.length && (poiListData.length)}
                     pageChangeEvent={handlePageEvent}
                     isLoading={isLoading}
                     pagination={{ currentPage: requestParams.pageNumber, pageSize: requestParams.nLimit }}
                 >
-                    {poiListData.length && poiListData?.map((poi, index) => {
+                    {poiListData.length > 1 && poiListData?.map((poi, index) => {
                         return (
                             <POIListRow
                                 key={poi.id}
