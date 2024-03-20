@@ -35,7 +35,7 @@ const InProgressBlockListRow = ({ user, index, }) => {
                 </Modal.Header>
                 <Modal.Body className='modal-body'>
                     <div><span>Ward</span><span>-</span><span>{user.Ward || '-'}</span></div>
-                    <div><span>Ward</span><span>-</span><span>{user.Ward || '-'}</span></div>
+                    <div><span>zone</span><span>-</span><span>{user.zone || '-'}</span></div>
                     <div><span>TotalProperty</span><span>-</span><span>{user.TotalProperty || '-'}</span></div>
                     <div><span>Createdby</span><span>-</span><span>{user.Createdby || '-'}</span></div>
                     <div><span>CreatedDate</span><span>-</span><span>{user.CreatedDate || '-'}</span></div>

@@ -1,9 +1,7 @@
 import React, { Suspense, useState } from 'react'
 import PropTypes from 'prop-types'
-
 import Header from 'shared/components/Header'
 import SideBar from 'shared/components/Sidebar'
-// import Breadcrumbs from 'shared/components/Breadcrumb'
 import { Loader } from 'shared/components/Loader'
 import useMediaQuery from 'shared/hooks/useMediaQuery'
 import NavMenu from 'shared/components/NavMenu'
@@ -35,7 +33,6 @@ function MainLayout({ children }) {
         <div className='container-fluid '>
           <Suspense fallback={<Loader />}>
             {children}
-            {/* <NavMenu isNavmenu={true} setNavMenu={setNavMenu} /> */}
           </Suspense>
         </div>
       </div>

@@ -31,11 +31,6 @@ function AuthLayout({ children }) {
         </Col>
       </div>
 
-      {/* <div className='side-background'>
-        <img src={background} alt="background" />
-      </div> */}
-
-
     </div>
   )
 }

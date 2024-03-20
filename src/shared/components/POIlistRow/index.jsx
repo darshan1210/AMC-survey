@@ -1,32 +1,25 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
-// import { route } from 'shared/constants/AllRoutes';
-// import { useNavigate } from 'react-router-dom';
-
 import { Modal } from 'react-bootstrap';
 
-const ConsolidatedReportListRow = ({ user, index, }) => {
+const POIListRow = ({ user, index, }) => {
     // const navigate = useNavigate()
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
-    // const handleShow = () => setShow(true);
+    const handleShow = () => setShow(true);
 
     return (
         <>
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
                 <td>{index + 1}</td>
-                <td>{user.Assigndate || '-'}</td>
-                <td>{user.AllocatedBlock || '-'}</td>
-                <td>{user.InProgressBlock || '-'}</td>
-                <td>{user.ReviewBlock || '-'}</td>
-                <td>{user.CompletedBlock || '-'}</td>
-                <td>{user.TotalProgress || '-'}</td>
-                {/* <td>
+                <td>{user.Society || '-'}</td>
+                <td>{user.POI || '-'}</td>
+                <td>
                     <div className='dropdown-datatable-items-icon' onClick={handleShow}>
                         <i className='icon-visibility d-block' />
                     </div>
-                </td> */}
+                </td>
             </tr>
 
             <Modal show={show} onHide={handleClose} className="passbook-view-modal">
@@ -34,18 +27,18 @@ const ConsolidatedReportListRow = ({ user, index, }) => {
                     <Modal.Title>Block Details</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className='modal-body'>
-                    <div><span>Ward</span><span>-</span><span>{user.Ward || '-'}</span></div>
-                    <div><span>Ward</span><span>-</span><span>{user.Ward || '-'}</span></div>
-                    <div><span>TotalProperty</span><span>-</span><span>{user.TotalProperty || '-'}</span></div>
+                    <div><span>Society&nbsp; -</span><span>{user.Society || '-'}</span></div>
+                    <div><span style={{ textWrap: 'nowrap' }}>POI&nbsp; -</span><span style={{ textAlign: 'right' }}>{user.POI || '-'}</span></div>
+                    {/* <div><span>TotalProperty</span><span>-</span><span>{user.TotalProperty || '-'}</span></div>
                     <div><span>Createdby</span><span>-</span><span>{user.Createdby || '-'}</span></div>
-                    <div><span>CreatedDate</span><span>-</span><span>{user.CreatedDate || '-'}</span></div>
+                    <div><span>CreatedDate</span><span>-</span><span>{user.CreatedDate || '-'}</span></div> */}
                 </Modal.Body>
             </Modal>
         </>
     )
 }
 
-ConsolidatedReportListRow.propTypes = {
+POIListRow.propTypes = {
     user: PropTypes.any,
     index: PropTypes.number.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -53,4 +46,4 @@ ConsolidatedReportListRow.propTypes = {
 };
 
 
-export default ConsolidatedReportListRow
+export default POIListRow

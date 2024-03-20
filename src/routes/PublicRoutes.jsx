@@ -8,6 +8,7 @@ function PublicRoute() {
   const location = useLocation()
   const redirect = location?.pathname === '/' ? location?.pathname : '/dashboard'
   if (token) return <Navigate to={redirect} replace />
+
   return (
     <AuthLayout>
       <Outlet />

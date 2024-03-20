@@ -54,104 +54,84 @@ const ProgressReport = () => {
     const data = {
         "bots": [
             {
-                Blockname: 'ZWWPA01913800B01',
-                Ward: 'Asarwa',
-                zone: 'East Zone',
-                TotalProperty: '10',
-                Createdby: 'Prakash Jani',
-                Assignername: 'Assigner-name',
                 Assigndate: '31/12/2023',
-                surveyStatus: 'Allotted'
+                AllocatedBlock: '20',
+                InProgressBlock: '30',
+                ReviewBlock: '60',
+                CompletedBlock: '80',
+                TotalProgress: '80%'
             },
             {
-                Blockname: 'ZWWPA01913800B01',
-                Ward: 'Asarwa',
-                zone: 'East Zone',
-                TotalProperty: '27',
-                Createdby: 'Amit Patel',
-                Assignername: 'Assigner-name',
                 Assigndate: '15/07/2023',
-                surveyStatus: 'Completed'
+                AllocatedBlock: '100',
+                InProgressBlock: '30',
+                ReviewBlock: '70',
+                CompletedBlock: '80',
+                TotalProgress: '70%'
             },
             {
-                Blockname: 'ZWWPA01913800B02',
-                Ward: 'Khadia',
-                zone: 'Central Zone',
-                TotalProperty: '45',
-                Createdby: 'Rahul Sharma',
-                Assignername: 'Assigner-name',
                 Assigndate: '03/11/2023',
-                surveyStatus: 'In progress'
+                AllocatedBlock: '50',
+                InProgressBlock: '30',
+                ReviewBlock: '70',
+                CompletedBlock: '80',
+                TotalProgress: '70%'
             },
             {
-                Blockname: 'ZWWPA01913800B03',
-                Ward: 'Ramol-Hathijan',
-                zone: 'South Zone',
-                TotalProperty: '33',
-                Createdby: 'Priya Gupta',
-                Assignername: 'Assigner-name',
                 Assigndate: '19/05/2023',
-                surveyStatus: 'In progress'
+                AllocatedBlock: '80',
+                InProgressBlock: '30',
+                ReviewBlock: '50',
+                CompletedBlock: '70',
+                TotalProgress: '50%'
             },
             {
-                Blockname: 'ZWWPA01913800B01',
-                Ward: 'Virat Nagar',
-                zone: 'North West Zone',
-                TotalProperty: '18',
-                Createdby: 'Suresh Kumar',
-                Assignername: 'Assigner-name',
                 Assigndate: '28/09/2023',
-                surveyStatus: 'Completed'
+                AllocatedBlock: '90',
+                InProgressBlock: '40',
+                ReviewBlock: '60',
+                CompletedBlock: '40',
+                TotalProgress: '45%'
             },
             {
-                Blockname: 'ZWWPA01913800B02',
-                Ward: 'Dariapur',
-                zone: 'West Zone',
-                TotalProperty: '55',
-                Createdby: 'Neha Singh',
-                Assignername: 'Assigner-name',
                 Assigndate: '10/02/2023',
-                surveyStatus: 'Completed'
+                AllocatedBlock: '100',
+                InProgressBlock: '40',
+                ReviewBlock: '60',
+                CompletedBlock: '40',
+                TotalProgress: '40%',
             },
             {
-                Blockname: 'ZWWPA01913800B03',
-                Ward: 'Gomtipur',
-                zone: 'North Zone',
-                TotalProperty: '21',
-                Createdby: 'Ankit Sharma',
-                Assignername: 'Assigner-name',
                 Assigndate: '24/04/2023',
-                surveyStatus: 'Allotted'
+                AllocatedBlock: '70',
+                InProgressBlock: '60',
+                ReviewBlock: '20',
+                CompletedBlock: '10',
+                TotalProgress: '10%',
             },
             {
-                Blockname: 'ZWWPA01913800B01',
-                Ward: 'Odhav',
-                zone: 'South West Zone',
-                TotalProperty: '37',
-                Createdby: 'Deepak Verma',
-                Assignername: 'Assigner-name',
                 Assigndate: '07/08/2023',
-                surveyStatus: 'Completed'
+                AllocatedBlock: '80',
+                InProgressBlock: '65',
+                ReviewBlock: '25',
+                CompletedBlock: '20',
+                TotalProgress: '20%',
             },
             {
-                Blockname: 'ZWWPA01913800B02',
-                Ward: 'Bodakdev',
-                zone: 'South Zone',
-                TotalProperty: '62',
-                Createdby: 'Kavita Singh',
-                Assignername: 'Assigner-name',
                 Assigndate: '12/01/2023',
-                surveyStatus: 'Allotted'
+                AllocatedBlock: '90',
+                InProgressBlock: '65',
+                ReviewBlock: '25',
+                CompletedBlock: '30',
+                TotalProgress: '30%',
             },
             {
-                Blockname: 'ZWWPA01913800B03',
-                Ward: 'Amraiwadi',
-                zone: 'Central Zone',
-                TotalProperty: '29',
-                Createdby: 'Amit Kumar',
-                Assignername: 'Assigner-name',
                 Assigndate: '30/06/2023',
-                surveyStatus: 'Allotted'
+                AllocatedBlock: '10',
+                InProgressBlock: '65',
+                ReviewBlock: '25',
+                CompletedBlock: '60',
+                TotalProgress: '60%'
             }
         ],
         "count": {

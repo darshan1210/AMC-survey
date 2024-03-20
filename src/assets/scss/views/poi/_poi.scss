@@ -1,0 +1,63 @@
+.poiModule {
+    padding-top: 10px;
+
+    .form-group {
+        margin-bottom: 10px;
+
+    }
+
+    // .fileinput {
+    //     padding: 10px;
+    //     border-bottom: 1px solid #cecece;
+    // }
+    .poi-form-checkbox {
+        margin: 15px 0 0 0;
+        border-bottom: 1px solid #cecece;
+
+        .form-check-label {
+            color: #404040 !important;
+            text-wrap: nowrap;
+
+            &::before {
+                border: 1px solid var(--primary-color) !important;
+            }
+        }
+
+        .form-check {
+            margin-bottom: 3px;
+        }
+
+        .invalid-feedback {
+            text-align: center;
+        }
+    }
+}
+
+.addPOIbutton {
+    margin-bottom: -25px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+
+    .btn {
+        font-size: 11px;
+        border-radius: 10px;
+        padding: 5px 10px;
+    }
+}
+
+.addPOIModal {
+    .modal-content {
+        height: 75vh;
+        overflow: auto;
+    }
+}
+
+@media screen and (max-width:800px) {
+    .addPOIModal {
+        .modal-content {
+            height: 70vh;
+            overflow: auto;
+        }
+    }
+}

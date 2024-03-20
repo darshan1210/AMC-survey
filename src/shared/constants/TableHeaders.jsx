@@ -26,24 +26,22 @@ export const TaskColumm = [
 
 export const ProgressReportColums = [
     { name: 'No', isSort: true },
-    { name: 'Block name', isSort: false },
-    { name: 'Ward', isSort: false },
-    { name: 'zone', isSort: false },
-    { name: 'Total Property', isSort: false },
-    { name: 'Created by', isSort: false },
-    { name: 'Assigner name', isSort: false },
-    { name: 'Assign date', isSort: false },
-    { name: 'Status', isSort: false }
+    { name: 'Date', isSort: false },
+    { name: 'Allocated Block', isSort: false },
+    { name: 'InProgress Block', isSort: false },
+    { name: 'Review  Block', isSort: false },
+    { name: 'Completed Block', isSort: false },
+    { name: 'Total progress (%)', isSort: false }
 ]
 
 export const ConsolidatedReportColums = [
     { name: 'No', isSort: true },
-    { name: 'Ward', isSort: false },
-    { name: 'Zone', isSort: false },
-    { name: 'Society', isSort: false },
-    { name: 'Created By', isSort: false },
-    { name: 'Created Date', isSort: false },
-    { name: 'Status', isSort: false },
+    { name: 'Date', isSort: false },
+    { name: 'Allocated Property', isSort: false },
+    { name: 'InProgress Property', isSort: false },
+    { name: 'Review  Property', isSort: false },
+    { name: 'Completed Property', isSort: false },
+    { name: 'Total progress (%)', isSort: false }
 ]
 
 export const ProptyColums = [
@@ -52,10 +50,17 @@ export const ProptyColums = [
     { name: 'Ward', isSort: false },
     { name: 'Zone', isSort: false },
     { name: 'Society', isSort: false },
-    { name: 'Created By', isSort: false },
-    { name: 'Created Date', isSort: false },
+    { name: 'POI', isSort: false },
     { name: 'Actions', isSort: false },
 ]
+
+export const POIColums = [
+    { name: 'No', isSort: true },
+    { name: 'Society', isSort: false },
+    { name: 'POI', isSort: false },
+    { name: 'Actions', isSort: false }
+]
+
 export const RevviewSurveyColums = [
     { name: 'No', isSort: true },
     { name: 'Ward', isSort: false },

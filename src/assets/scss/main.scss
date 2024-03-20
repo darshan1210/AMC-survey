@@ -30,7 +30,6 @@
 @import './components/not-found';
 @import './components/statistics-card';
 @import './components/tooltips';
-@import './components/userKYCDetail';
 @import './components/navMenu.scss';
 
 // Layouts
@@ -39,33 +38,11 @@
 
 // pages
 @import './views/auth/login';
-@import './views/cmsManagement/dashboard';
-@import './views/cmsManagement/statistic';
 @import './views/edit-profile/edit-profile';
 @import './views/login';
 @import './views/block-management/block';
-@import './views/feature-management/feature-management';
 @import './views/admin/edit-admin';
-@import './views/user/user';
-@import './views/user/viewUser/userDetail';
-@import './views/bot/bot';
-@import './views/kyc/kyc';
-@import './views/notification/notification';
-@import './views/tournament/ticket/ticket';
-@import './views/tournament/prototype/addPrototype/addPrototype';
-@import './views/tournament/prototype/viewPrototype/viewPrototype';
-@import './views/tournament/schedule/schedule';
-@import './views/helpDesk/helpDesk';
-@import './views/helpDesk/report/reportManagement';
-@import './views/helpDesk/report/editReport/editReport';
-@import './views/helpDesk/banner/banner';
-@import './views/finance/transaction/transaction';
-@import './views/logs-management/gameLogs/viewGameLogs/viewGameLogs';
-@import './views/finance/withdrawal/withdrawal';
-@import './views/logs-management/gameLogs/gameLogs';
-@import './views/tournament/prototype/prototype';
-@import './views/promotion/store';
-@import './views/settings/settings';
+@import './views/poi/poi';
 
 // New Color Varibles
 @import './helper/new_variables';

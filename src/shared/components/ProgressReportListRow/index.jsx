@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
-import { route } from 'shared/constants/AllRoutes';
-import { useNavigate } from 'react-router-dom';
+// import { route } from 'shared/constants/AllRoutes';
+// import { useNavigate } from 'react-router-dom';
 
 import { Modal } from 'react-bootstrap';
 
 const ProgressReportListRow = ({ user, index, }) => {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -16,14 +16,12 @@ const ProgressReportListRow = ({ user, index, }) => {
         <>
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
                 <td>{index + 1}</td>
-                <td className='blockLink' onClick={() => navigate(route.propertyManagement)}>{user.Blockname || '-'}</td>
-                <td>{user.Ward || '-'}</td>
-                <td>{user.zone || '-'}</td>
-                <td>{user.TotalProperty || '-'}</td>
-                <td>{user.Createdby || '-'}</td>
-                <td>{user.Assignername || '-'}</td>
                 <td>{user.Assigndate || '-'}</td>
-                <td>{user.surveyStatus || '-'}</td>
+                <td>{user.AllocatedBlock || '-'}</td>
+                <td>{user.InProgressBlock || '-'}</td>
+                <td>{user.ReviewBlock || '-'}</td>
+                <td>{user.CompletedBlock || '-'}</td>
+                <td>{user.TotalProgress || '-'}</td>
                 {/* <td>
                     <div className='dropdown-datatable-items-icon' onClick={handleShow}>
                         <i className='icon-visibility d-block' />

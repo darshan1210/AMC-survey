@@ -1,27 +1,25 @@
+
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
-import UserFilters from 'shared/components/UserListFilter'
-import { ConsolidatedReportColums } from 'shared/constants/TableHeaders'
-import { appendParams, parseParams } from 'shared/utils'
+import POIListRow from 'shared/components/POIlistRow'
 import PageTitle from 'shared/components/PageTitle'
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
-import ConsolidatedReportListRow from 'shared/components/ConsolidatedReportListRow'
+import TopBar from 'shared/components/Topbar'
+import UserFilters from 'shared/components/UserListFilter'
+import { POIColums } from 'shared/constants/TableHeaders'
+import { appendParams, parseParams } from 'shared/utils'
+import AddPoi from './add'
 
-const ConsolidatedReport = () => {
+const POIManagement = () => {
     const location = useLocation()
+
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
-    const [radioValue, setRadioValue] = useState('1');
+    const [isAddPOIModal, setAddPOIModal] = useState(false)
 
-    const radios = [
-        { name: 'All', value: '1' },
-        { name: 'Week', value: '2' },
-        { name: 'Month', value: '3' },
-        { name: 'Year', value: '4' },
-    ];
+
+
 
     function getRequestParams(e) {
         const data = e ? parseParams(e) : params.current
@@ -46,92 +44,107 @@ const ConsolidatedReport = () => {
     }
 
     const [requestParams, setRequestParams] = useState(getRequestParams())
-    const [columns, setColumns] = useState(getSortedColumns(ConsolidatedReportColums, parsedData))
+    const [columns, setColumns] = useState(getSortedColumns(POIColums, parsedData))
     const [modal, setModal] = useState({ open: false, type: '' })
+
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange
 
+
+    const sWard = location?.state?.ward || "Ward"
+    const sZone = location?.state?.zone || "zone"
+    // List
     const data = {
         "bots": [
             {
-                Assigndate: '31/12/2023',
-                AllocatedBlock: '20',
-                InProgressBlock: '30',
-                ReviewBlock: '60',
-                CompletedBlock: '80',
-                TotalProgress: '80%'
+                "PropertytextNo": "02310860000001H",
+                "Ward": sWard,
+                "Zone": sZone,
+                "Society": "Sunrise Apartments",
+                "CreatedBy": "Ramesh Patel",
+                "CreatedDate": "10-12-2020",
+                "POI": "B12, Lard Society, Prahaladnagar Road, Ahmedabad"
             },
             {
-                Assigndate: '15/07/2023',
-                AllocatedBlock: '100',
-                InProgressBlock: '30',
-                ReviewBlock: '70',
-                CompletedBlock: '80',
-                TotalProgress: '70%'
+                "PropertytextNo": "02310860000001H",
+                "Ward": sWard,
+                "Zone": sZone,
+                "Society": "Green Valley Residency",
+                "CreatedBy": "Suresh Kumar",
+                "CreatedDate": "05-07-2021",
+                "POI": "C7, Green Valley Residency, Bapunagar Road, Ahmedabad"
             },
             {
-                Assigndate: '03/11/2023',
-                AllocatedBlock: '50',
-                InProgressBlock: '30',
-                ReviewBlock: '70',
-                CompletedBlock: '80',
-                TotalProgress: '70%'
+                "PropertytextNo": "02310860000001H",
+                "Ward": sWard,
+                "Zone": sZone,
+                "Society": "Royal Palm Heights",
+                "CreatedBy": "Vijay Sharma",
+                "CreatedDate": "22-09-2020",
+                "POI": "A15, Royal Palm Heights, Vasna Road, Ahmedabad"
             },
             {
-                Assigndate: '19/05/2023',
-                AllocatedBlock: '80',
-                InProgressBlock: '30',
-                ReviewBlock: '50',
-                CompletedBlock: '70',
-                TotalProgress: '50%'
+                "PropertytextNo": "02310860000001H",
+                "Ward": sWard,
+                "Zone": sZone,
+                "Society": "Pearl Paradise",
+                "CreatedBy": "Deepak Gupta",
+                "CreatedDate": "18-04-2021",
+                "POI": "D23, Pearl Paradise, Chandkheda Road, Ahmedabad"
             },
             {
-                Assigndate: '28/09/2023',
-                AllocatedBlock: '90',
-                InProgressBlock: '40',
-                ReviewBlock: '60',
-                CompletedBlock: '40',
-                TotalProgress: '45%'
+                "PropertytextNo": "02310860000001H",
+                "Ward": sWard,
+                "Zone": sZone,
+                "Society": "Silver Crest",
+                "CreatedBy": "Amit Kumar",
+                "CreatedDate": "11-11-2020",
+                "POI": "E8, Silver Crest, Sabarmati Road, Ahmedabad"
             },
             {
-                Assigndate: '10/02/2023',
-                AllocatedBlock: '100',
-                InProgressBlock: '40',
-                ReviewBlock: '60',
-                CompletedBlock: '40',
-                TotalProgress: '40%',
+                "PropertytextNo": "02310860000001H",
+                "Ward": sWard,
+                "Zone": sZone,
+                "Society": "Emerald Towers",
+                "CreatedBy": "Rajesh Singh",
+                "CreatedDate": "30-06-2021",
+                "POI": "F17, Emerald Towers, SG Highway, Ahmedabad"
             },
             {
-                Assigndate: '24/04/2023',
-                AllocatedBlock: '70',
-                InProgressBlock: '60',
-                ReviewBlock: '20',
-                CompletedBlock: '10',
-                TotalProgress: '10%',
+                "PropertytextNo": "02310860000001H",
+                "Ward": sWard,
+                "Zone": sZone,
+                "Society": "Golden Enclave",
+                "CreatedBy": "Neha Sharma",
+                "CreatedDate": "14-02-2021",
+                "POI": "G9, Golden Enclave, Sardar Patel Ring Road, Ahmedabad"
             },
             {
-                Assigndate: '07/08/2023',
-                AllocatedBlock: '80',
-                InProgressBlock: '65',
-                ReviewBlock: '25',
-                CompletedBlock: '20',
-                TotalProgress: '20%',
+                "PropertytextNo": "02310860000001H",
+                "Ward": sWard,
+                "Zone": sZone,
+                "Society": "Diamond Heights",
+                "CreatedBy": "Manoj Verma",
+                "CreatedDate": "09-08-2020",
+                "POI": "H6, Diamond Heights, Naranpura Road, Ahmedabad"
             },
             {
-                Assigndate: '12/01/2023',
-                AllocatedBlock: '90',
-                InProgressBlock: '65',
-                ReviewBlock: '25',
-                CompletedBlock: '30',
-                TotalProgress: '30%',
+                "PropertytextNo": "02310860000001H",
+                "Ward": sWard,
+                "Zone": sZone,
+                "Society": "Platinum Towers",
+                "CreatedBy": "Anita Patel",
+                "CreatedDate": "25-03-2021",
+                "POI": "I20, Platinum Towers, Ashram Road, Ahmedabad"
             },
             {
-                Assigndate: '30/06/2023',
-                AllocatedBlock: '10',
-                InProgressBlock: '65',
-                ReviewBlock: '25',
-                CompletedBlock: '60',
-                TotalProgress: '60%'
+                "PropertytextNo": "02310860000001H",
+                "Ward": sWard,
+                "Zone": sZone,
+                "Society": "Sapphire Gardens",
+                "CreatedBy": "Sanjay Gupta",
+                "CreatedDate": "03-10-2020",
+                "POI": "J10, Sapphire Gardens, Thaltej Road, Ahmedabad"
             }
         ],
         "count": {
@@ -193,31 +206,24 @@ const ConsolidatedReport = () => {
     }
 
     useEffect(() => {
-        document.title = 'Task Management | AMC Survey'
+        document.title = 'Property Management | AMC Survey'
     }, [])
 
 
     return (
         <>
-            <PageTitle title={'Consolidated Report'} />
-            <ButtonGroup className='BlockButtonGroup'>
-                {radios.map((radio, idx) => (
-                    <ToggleButton
-                        key={idx}
-                        id={`radio-${idx}`}
-                        type="radio"
-                        variant={radio.value === radioValue ? 'outline-primary' : 'outline-warning'}
-                        name="radio"
-                        defaultValue={'1'}
-                        value={radio.value}
-                        checked={radioValue === radio.value}
-                        onChange={(e) => setRadioValue(e.currentTarget.value)}
-                    >
-                        {radio.name}
-                    </ToggleButton>
-                ))}
-            </ButtonGroup>
-
+            <PageTitle title={'POI Management'} />
+            <TopBar
+                buttons={[
+                    {
+                        text: 'Add POI',
+                        icon: 'icon-add',
+                        type: 'primary',
+                        clickEventName: 'createBot',
+                        btnEvent: () => { setAddPOIModal(true) }
+                    },
+                ]}
+            />
             <div>
                 <DataTable
                     columns={columns}
@@ -239,7 +245,7 @@ const ConsolidatedReport = () => {
                 >
                     {data && data?.bots?.map((user, index) => {
                         return (
-                            <ConsolidatedReportListRow
+                            <POIListRow
                                 key={user._id}
                                 index={index}
                                 user={user}
@@ -261,8 +267,9 @@ const ConsolidatedReport = () => {
                     </Drawer>
                 </DataTable>
             </div>
+            <AddPoi isModal={isAddPOIModal} setModal={setAddPOIModal} />
         </>
     )
 }
 
-export default ConsolidatedReport
+export default POIManagement

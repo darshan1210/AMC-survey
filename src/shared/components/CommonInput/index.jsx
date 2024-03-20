@@ -7,7 +7,7 @@ import CommonSpinner from '../CommonSpinner'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 
-function CommonInput ({
+function CommonInput({
   type,
   info,
   infoMsg,
@@ -30,6 +30,7 @@ function CommonInput ({
   veiwValue,
   isLoading,
   customerror,
+  customerrorMsg,
   onPaste
 }) {
   const splitName = name?.split('.')
@@ -37,7 +38,7 @@ function CommonInput ({
   const [show, setShow] = useState(false)
   const target = useRef(null)
 
-  function applyValidation () {
+  function applyValidation() {
     if (required) {
       return {
         required: validationErrors.required,
@@ -135,7 +136,7 @@ function CommonInput ({
           <Form.Control.Feedback type='invalid'>{errors[splitName[0]][splitName[1]][splitName[2]].message}</Form.Control.Feedback>
         )}
       {errors && customerror
-        ? errors && customerror && <Form.Control.Feedback type='invalid'>errorsmessage</Form.Control.Feedback>
+        ? errors && customerror && <Form.Control.Feedback type='invalid'>{customerrorMsg}</Form.Control.Feedback>
         : errors && errors[name] && <Form.Control.Feedback type='invalid'>{errors[name].message}</Form.Control.Feedback>}
       {children}
     </Form.Group>
@@ -165,10 +166,11 @@ CommonInput.propTypes = {
   availableSlug: PropTypes.string,
   altTextLabel: PropTypes.string,
   validation: PropTypes.object,
-  infoMsg: PropTypes.string, 
-  value: PropTypes.any, 
-  isLoading: PropTypes.bool, 
-  customerror: PropTypes.any, 
-  onPaste: PropTypes.func, 
+  infoMsg: PropTypes.string,
+  value: PropTypes.any,
+  isLoading: PropTypes.bool,
+  customerror: PropTypes.any,
+  customerrorMsg: PropTypes.any,
+  onPaste: PropTypes.func,
 }
 export default CommonInput

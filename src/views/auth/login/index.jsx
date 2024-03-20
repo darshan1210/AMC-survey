@@ -30,6 +30,7 @@ function Login() {
     onSuccess: (response) => {
       localStorage.setItem('token', response?.data?.token)
       toaster(response?.data?.message, 'success')
+      localStorage.setItem('userData', JSON.stringify(response?.data?.user))
       navigate(route.dashboard)
     }
   })

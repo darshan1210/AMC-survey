@@ -43,8 +43,7 @@ const PropertyListRow = ({ user, index, }) => {
                 <td>{user.Ward || '-'}</td>
                 <td>{user.Zone || '-'}</td>
                 <td>{user.Society || '-'}</td>
-                <td>{user.CreatedBy || '-'}</td>
-                <td>{user.CreatedDate || '-'}</td>
+                <td>{user.POI || '-'}</td>
                 <td onClick={() => setModal(true)}>
                     <div className='dropdown-datatable-items-icon'>
                         <i className='icon-create d-block' />

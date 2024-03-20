@@ -36,6 +36,11 @@ export const sidebarConfig = [
     ]
   },
   {
+    path: route.poiManagement,
+    icon: faCity,
+    title: 'POI Management'
+  },
+  {
     path: route.propertyManagement,
     icon: faCity,
     title: 'Porperty management'

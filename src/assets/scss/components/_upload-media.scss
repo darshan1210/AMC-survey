@@ -84,6 +84,12 @@
   margin-bottom: 0;
   padding: 0;
 
+  .islabel {
+    display: flex;
+
+    color: #121e30;
+  }
+
   .info-content {
     display: flex;
     justify-content: space-between;
@@ -105,7 +111,7 @@
 
 
   .inputtypefile {
-    margin: 15px;
+    margin: 15px 0 0 0;
     margin-bottom: 0;
   }
 

@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, createContext, useState } from 'react'
 import { MutationCache, QueryClient, QueryClientProvider } from 'react-query'
 import { Loader } from 'shared/components/Loader'
 const AllRoutes = React.lazy(() => import('routes'))
@@ -43,13 +43,24 @@ export const queryClient = new QueryClient({
   })
 })
 
+
+export const MyContext = createContext();
+
 function App() {
   // console.error = () => { };
+  const [contextData, setContextData] = useState(null)
+
+  const updateUser = (userData) => {
+    setContextData({ userData });
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<Loader />}>
-        <AllRoutes />
-      </Suspense>
+      <MyContext.Provider value={{ contextData, updateUser }}>
+        <Suspense fallback={<Loader />}>
+          <AllRoutes />
+        </Suspense>
+      </MyContext.Provider>
     </QueryClientProvider>
   )
 }

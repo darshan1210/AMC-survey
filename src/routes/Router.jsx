@@ -26,6 +26,7 @@ const CompletedBlockManagement = lazy(() => import('views/BlockManagement/Comple
 
 
 const PropertyManagement = lazy(() => import('views/PropertyManagement'))
+const POIManagement = lazy(() => import('views/POImanagement'))
 
 const SurveyManagement = lazy(() => import('views/SurveyManagement'))
 const DoneSurveyManagement = lazy(() => import('views/SurveyManagement/DoneSurvey'))
@@ -68,6 +69,8 @@ const RoutesDetails = [
       { path: route.propertyManagement, Component: PropertyManagement, exact: true },
       { path: route.surveyManagenet, Component: SurveyManagement, exact: true },
       { path: route.doneSurveyManagenet, Component: DoneSurveyManagement, exact: true },
+
+      { path: route.poiManagement, Component: POIManagement, exact: true },
 
       { path: route.ReportManagenet, Component: ReportManagement, exact: true },
       { path: route.consolidatedReport, Component: ConsolidatedReport, exact: true },
