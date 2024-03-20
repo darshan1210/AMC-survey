@@ -10,6 +10,8 @@ import UserFilters from 'shared/components/UserListFilter'
 import { POIColums } from 'shared/constants/TableHeaders'
 import { appendParams, parseParams } from 'shared/utils'
 import AddPoi from './add'
+import { GetPOIList } from 'query/POI/poi.query'
+import { useQuery } from 'react-query'
 
 const POIManagement = () => {
     const location = useLocation()
@@ -17,8 +19,7 @@ const POIManagement = () => {
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
     const [isAddPOIModal, setAddPOIModal] = useState(false)
-
-
+    const [poiListData, setPoilistData] = useState([])
 
 
     function getRequestParams(e) {
@@ -51,106 +52,113 @@ const POIManagement = () => {
     const [startDate, endDate] = dateRange
 
 
-    const sWard = location?.state?.ward || "Ward"
-    const sZone = location?.state?.zone || "zone"
-    // List
-    const data = {
-        "bots": [
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Sunrise Apartments",
-                "CreatedBy": "Ramesh Patel",
-                "CreatedDate": "10-12-2020",
-                "POI": "B12, Lard Society, Prahaladnagar Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Green Valley Residency",
-                "CreatedBy": "Suresh Kumar",
-                "CreatedDate": "05-07-2021",
-                "POI": "C7, Green Valley Residency, Bapunagar Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Royal Palm Heights",
-                "CreatedBy": "Vijay Sharma",
-                "CreatedDate": "22-09-2020",
-                "POI": "A15, Royal Palm Heights, Vasna Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Pearl Paradise",
-                "CreatedBy": "Deepak Gupta",
-                "CreatedDate": "18-04-2021",
-                "POI": "D23, Pearl Paradise, Chandkheda Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Silver Crest",
-                "CreatedBy": "Amit Kumar",
-                "CreatedDate": "11-11-2020",
-                "POI": "E8, Silver Crest, Sabarmati Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Emerald Towers",
-                "CreatedBy": "Rajesh Singh",
-                "CreatedDate": "30-06-2021",
-                "POI": "F17, Emerald Towers, SG Highway, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Golden Enclave",
-                "CreatedBy": "Neha Sharma",
-                "CreatedDate": "14-02-2021",
-                "POI": "G9, Golden Enclave, Sardar Patel Ring Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Diamond Heights",
-                "CreatedBy": "Manoj Verma",
-                "CreatedDate": "09-08-2020",
-                "POI": "H6, Diamond Heights, Naranpura Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Platinum Towers",
-                "CreatedBy": "Anita Patel",
-                "CreatedDate": "25-03-2021",
-                "POI": "I20, Platinum Towers, Ashram Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Sapphire Gardens",
-                "CreatedBy": "Sanjay Gupta",
-                "CreatedDate": "03-10-2020",
-                "POI": "J10, Sapphire Gardens, Thaltej Road, Ahmedabad"
-            }
-        ],
-        "count": {
-            "totalData": 38
+    const { isLoading } = useQuery(['poiList', requestParams], () => GetPOIList(requestParams), {
+        select: (data) => data.data,
+        onSuccess: (data) => {
+            setPoilistData(data.data)
         }
-    }
+    })
+    console.log('poiListData', poiListData)
+    // const sWard = location?.state?.ward || "Ward"
+    // const sZone = location?.state?.zone || "zone"
+    // List
+    // const data = {
+    //     "bots": [
+    //         {
+    //             "PropertytextNo": "02310860000001H",
+    //             "Ward": sWard,
+    //             "Zone": sZone,
+    //             "Society": "Sunrise Apartments",
+    //             "CreatedBy": "Ramesh Patel",
+    //             "CreatedDate": "10-12-2020",
+    //             "POI": "B12, Lard Society, Prahaladnagar Road, Ahmedabad"
+    //         },
+    //         {
+    //             "PropertytextNo": "02310860000001H",
+    //             "Ward": sWard,
+    //             "Zone": sZone,
+    //             "Society": "Green Valley Residency",
+    //             "CreatedBy": "Suresh Kumar",
+    //             "CreatedDate": "05-07-2021",
+    //             "POI": "C7, Green Valley Residency, Bapunagar Road, Ahmedabad"
+    //         },
+    //         {
+    //             "PropertytextNo": "02310860000001H",
+    //             "Ward": sWard,
+    //             "Zone": sZone,
+    //             "Society": "Royal Palm Heights",
+    //             "CreatedBy": "Vijay Sharma",
+    //             "CreatedDate": "22-09-2020",
+    //             "POI": "A15, Royal Palm Heights, Vasna Road, Ahmedabad"
+    //         },
+    //         {
+    //             "PropertytextNo": "02310860000001H",
+    //             "Ward": sWard,
+    //             "Zone": sZone,
+    //             "Society": "Pearl Paradise",
+    //             "CreatedBy": "Deepak Gupta",
+    //             "CreatedDate": "18-04-2021",
+    //             "POI": "D23, Pearl Paradise, Chandkheda Road, Ahmedabad"
+    //         },
+    //         {
+    //             "PropertytextNo": "02310860000001H",
+    //             "Ward": sWard,
+    //             "Zone": sZone,
+    //             "Society": "Silver Crest",
+    //             "CreatedBy": "Amit Kumar",
+    //             "CreatedDate": "11-11-2020",
+    //             "POI": "E8, Silver Crest, Sabarmati Road, Ahmedabad"
+    //         },
+    //         {
+    //             "PropertytextNo": "02310860000001H",
+    //             "Ward": sWard,
+    //             "Zone": sZone,
+    //             "Society": "Emerald Towers",
+    //             "CreatedBy": "Rajesh Singh",
+    //             "CreatedDate": "30-06-2021",
+    //             "POI": "F17, Emerald Towers, SG Highway, Ahmedabad"
+    //         },
+    //         {
+    //             "PropertytextNo": "02310860000001H",
+    //             "Ward": sWard,
+    //             "Zone": sZone,
+    //             "Society": "Golden Enclave",
+    //             "CreatedBy": "Neha Sharma",
+    //             "CreatedDate": "14-02-2021",
+    //             "POI": "G9, Golden Enclave, Sardar Patel Ring Road, Ahmedabad"
+    //         },
+    //         {
+    //             "PropertytextNo": "02310860000001H",
+    //             "Ward": sWard,
+    //             "Zone": sZone,
+    //             "Society": "Diamond Heights",
+    //             "CreatedBy": "Manoj Verma",
+    //             "CreatedDate": "09-08-2020",
+    //             "POI": "H6, Diamond Heights, Naranpura Road, Ahmedabad"
+    //         },
+    //         {
+    //             "PropertytextNo": "02310860000001H",
+    //             "Ward": sWard,
+    //             "Zone": sZone,
+    //             "Society": "Platinum Towers",
+    //             "CreatedBy": "Anita Patel",
+    //             "CreatedDate": "25-03-2021",
+    //             "POI": "I20, Platinum Towers, Ashram Road, Ahmedabad"
+    //         },
+    //         {
+    //             "PropertytextNo": "02310860000001H",
+    //             "Ward": sWard,
+    //             "Zone": sZone,
+    //             "Society": "Sapphire Gardens",
+    //             "CreatedBy": "Sanjay Gupta",
+    //             "CreatedDate": "03-10-2020",
+    //             "POI": "J10, Sapphire Gardens, Thaltej Road, Ahmedabad"
+    //         }
+    //     ],
+    //     "count": {
+    //         "totalData": 38
+    //     }
+    // }
 
     function handleSort(field) {
         let selectedFilter
@@ -238,17 +246,17 @@ const POIManagement = () => {
                     }}
                     sortEvent={handleSort}
                     headerEvent={(name, value) => handleHeaderEvent(name, value)}
-                    totalRecord={data && (data?.count?.totalData || 0)}
+                    totalRecord={poiListData && (poiListData.length || 0)}
                     pageChangeEvent={handlePageEvent}
-                    isLoading={false}
+                    isLoading={isLoading}
                     pagination={{ currentPage: requestParams.pageNumber, pageSize: requestParams.nLimit }}
                 >
-                    {data && data?.bots?.map((user, index) => {
+                    {poiListData.length && poiListData?.map((poi, index) => {
                         return (
                             <POIListRow
-                                key={user._id}
+                                key={poi.id}
                                 index={index}
-                                user={user}
+                                poi={poi}
                                 onDelete={() => { }}
                                 onUpdate={() => { }}
                             />

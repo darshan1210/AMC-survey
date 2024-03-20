@@ -3,33 +3,34 @@ import PropTypes from 'prop-types';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import CommonInput from 'shared/components/CommonInput';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { AddPOI } from 'query/POI/poi.query';
 import { toaster } from 'helper/helper';
 
 function AddPoi({ isModal, setModal }) {
     const fileInputRef = useRef(null)
-    const [error, setError] = useState(null);
+    const query = useQueryClient()
     const [imagePreviews, setImagePreviews] = useState([]);
 
-    const { control, watch, register, formState: { errors }, handleSubmit, reset, setValue } = useForm({ mode: 'onSubmit', defaultValues: { poi: [{ sDescription: '', sPoiImage: '' }] } });
+    const { control, watch, register, formState: { errors }, handleSubmit, reset, setValue, setError } = useForm({ mode: 'onSubmit', defaultValues: { poi: [{ sDescription: '', sPoiImage: '' }] } });
     const { fields, append, remove } = useFieldArray({
-        control, // control props comes from useForm (optional: if you are using FormContext)
-        name: "poi", // unique name for your Field Array
+        control,
+        name: "poi",
     });
 
     const { mutate } = useMutation(AddPOI, {
         onSuccess: (response) => {
             toaster(response?.message, 'success')
+            query.invalidateQueries('poiList')
             setModal(false)
         }
     })
 
 
     const onSubmit = async (Data) => {
-        if (!error) {
-            console.log('Data', Data)
-        }
+
+        console.log('Data', Data)
+
         try {
             const userData = JSON.parse(localStorage.getItem('userData'));
 
@@ -85,13 +86,21 @@ function AddPoi({ isModal, setModal }) {
 
     const getLocation = async (index) => {
         try {
+
+            const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
+
+            // Clear watch if permission is granted
+            if (permissionStatus.state === 'granted') {
+                navigator.geolocation.clearWatch(permissionStatus.id);
+            }
+
             const pos = await new Promise((resolve, reject) => {
                 navigator.geolocation.getCurrentPosition(
                     (pos) => resolve(pos.coords),
                     (err) => reject(err)
                 );
             });
-
+            console.log('pos', pos)
             // update('poi', updatedFields);
             setValue(`poi[${index}].latitude`, pos.latitude);
             setValue(`poi[${index}].longitude`, pos.longitude);
@@ -99,7 +108,16 @@ function AddPoi({ isModal, setModal }) {
 
             toaster('Location updated successfully', 'success');
         } catch (err) {
-            setError(err);
+            console.log('err', err)
+            setValue(`poi[${index}].location`, false);
+
+            // navigator.permissions.query({ name: 'geolocation' }).then(permissionStatus => {
+            //     if (permissionStatus.state === 'granted') {
+            //         navigator.geolocation.clearWatch(permissionStatus.id);
+            //     }
+            // });
+            setError(`poi[${index}].location`, { type: 'manual', message: 'Please go to your browser settings and allow location access for this website.' });
+            toaster('Please go to your browser settings and allow location access for this website.', 'error')
         }
     };
 
@@ -153,7 +171,7 @@ function AddPoi({ isModal, setModal }) {
                                                     register={register}
                                                     errors={errors}
                                                     customerror={errors?.poi?.[`${index}`]?.sDescription}
-                                                    customerrorMsg={errors?.poi?.[`${index}`]?.sDescription.message}
+                                                    customerrorMsg={errors?.poi?.[`${index}`]?.sDescription?.message}
                                                     label={`POI - ${index + 1}`}
                                                     required
                                                     className={`form-control ${errors?.poi?.[`${index}`]?.sDescription && 'error'}`}
