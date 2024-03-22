@@ -43,9 +43,9 @@ const PropertyListRow = ({ user, index, }) => {
                 <td>{user.Ward || '-'}</td>
                 <td>{user.Zone || '-'}</td>
                 <td>{user.Society || '-'}</td>
-                <td>{user.POI || '-'}</td>
+                {/* <td>{user.POI || '-'}</td> */}
                 <td onClick={() => setModal(true)}>
-                    <div className='dropdown-datatable-items-icon'>
+                    <div className='SingleDataTabeIcon'>
                         <i className='icon-create d-block' />
                     </div>
                 </td>
@@ -185,7 +185,7 @@ const PropertyListRow = ({ user, index, }) => {
                                 />
                             </Col>
 
-                            {/* Owner name */}   <Col sm={6}>
+                            {/* <Col sm={6}>
                                 <CommonInput
                                     type='text'
                                     register={register}
@@ -208,7 +208,7 @@ const PropertyListRow = ({ user, index, }) => {
                                     }}
                                 />
                             </Col>
-                            {/* Owner number */}   <Col sm={6}>
+                             <Col sm={6}>
                                 <CommonInput
                                     type='text'
                                     register={register}
@@ -234,7 +234,7 @@ const PropertyListRow = ({ user, index, }) => {
                                             e.target.value.replace(/^[a-zA-z]+$/g, '')
                                     }}
                                 />
-                            </Col>
+                            </Col> */}
                             {/* POI*/} <Col sm={6}>
                                 <CommonInput
                                     type='textarea'
@@ -254,7 +254,6 @@ const PropertyListRow = ({ user, index, }) => {
                                     }}
                                 />
                             </Col>
-
 
                             {/*  Property Type */} <Col sm={6}>
                                 <Form.Group className='form-group'>
@@ -295,9 +294,7 @@ const PropertyListRow = ({ user, index, }) => {
                                 </Form.Group>
                             </Col>
 
-
-
-                            {/* chek Box */}  <Col sm={4}>
+                            {/* chek Box */}  <Col sm={6}>
                                 <Form.Group className='form-checkbox'>
                                     <Controller
                                         name='eNewProperty'
@@ -323,33 +320,8 @@ const PropertyListRow = ({ user, index, }) => {
                                     )}
                                 </Form.Group>
                             </Col>
-                            {/* chek Box */}    <Col sm={4}>
-                                <Form.Group className='form-checkbox'>
-                                    <Controller
-                                        name='eChangeProperty'
-                                        control={control}
-                                        render={({ field: { onChange, value = [], ref } }) => (
-                                            <Form.Check
-                                                type='checkbox'
-                                                ref={ref}
-                                                value={value}
-                                                id={'id2'}
-                                                label={'is Change Property'}
-                                                className={` ${errors.eChangeProperty && 'error'}`}
-                                                onChange={(e) => {
-                                                    onChange(e)
-                                                }}
-                                            />
-                                        )}
-                                    />
-                                    {errors.eChangeProperty && (
-                                        <Form.Control.Feedback type='invalid'>
-                                            {errors.eChangeProperty.message}
-                                        </Form.Control.Feedback>
-                                    )}
-                                </Form.Group>
-                            </Col>
-                            {/* chek Box */}   <Col sm={4}>
+
+                            {/* chek Box */}   <Col sm={6}>
                                 <Form.Group className='form-checkbox'>
                                     <Controller
                                         name='ePropertyNotFound'

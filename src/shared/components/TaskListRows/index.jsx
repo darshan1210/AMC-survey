@@ -14,14 +14,14 @@ const TaskListRow = ({ user, index, }) => {
         <>
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
                 <td>{index + 1}</td>
-                <td className='blockLink' onClick={() => navigate(route.propertyManagement, { state: { ward: user.Ward, zone: user.zone } })}>{user.Blockname || '-'}</td>
+                <td className='blockLink' onClick={() => navigate(route.poiManagement)}>{user.Blockname || '-'}</td>
                 <td>{user.Ward || '-'}</td>
                 <td>{user.zone || '-'}</td>
                 <td>{user.TotalProperty || '-'}</td>
                 <td>{user.Createdby || '-'}</td>
                 <td>{user.CreatedDate || '-'}</td>
                 <td>
-                    <Button className='ButtonListRow' onClick={() => navigate(route.propertyManagement, { state: { ward: user.Ward, zone: user.zone } })}>
+                    <Button className='ButtonListRow' onClick={() => navigate(route.poiManagement)}>
                         Start Survey
                     </Button>
                 </td>

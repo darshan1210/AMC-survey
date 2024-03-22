@@ -6,19 +6,19 @@ import UserFilters from 'shared/components/UserListFilter'
 import { TaskColumm } from 'shared/constants/TableHeaders'
 import { appendParams, parseParams } from 'shared/utils'
 import PageTitle from 'shared/components/PageTitle'
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
+// import ButtonGroup from 'react-bootstrap/ButtonGroup';
+// import ToggleButton from 'react-bootstrap/ToggleButton';
 import InProgressBlockListRow from 'shared/components/InProgressBlockListRow'
 
 const InProgressManagement = () => {
     const location = useLocation()
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
-    const [radioValue, setRadioValue] = useState('1');
+    // const [radioValue, setRadioValue] = useState('1');
 
-    const radios = [
-        { name: 'My In-Progress Blocks - (40)', value: '1' }
-    ];
+    // const radios = [
+    //     { name: 'My In-Progress Blocks - (40)', value: '1' }
+    // ];
 
     function getRequestParams(e) {
         const data = e ? parseParams(e) : params.current
@@ -236,8 +236,8 @@ const InProgressManagement = () => {
 
     return (
         <>
-            <PageTitle title={'Block Management'} />
-            <ButtonGroup className='BlockButtonGroup'>
+            <PageTitle title={'In-Progress Blocks'} />
+            {/* <ButtonGroup className='BlockButtonGroup'>
                 {radios.map((radio, idx) => (
                     <ToggleButton
                         key={idx}
@@ -253,7 +253,7 @@ const InProgressManagement = () => {
                         {radio.name}
                     </ToggleButton>
                 ))}
-            </ButtonGroup>
+            </ButtonGroup> */}
 
             <div>
                 <DataTable
@@ -301,5 +301,4 @@ const InProgressManagement = () => {
         </>
     )
 }
-
 export default InProgressManagement

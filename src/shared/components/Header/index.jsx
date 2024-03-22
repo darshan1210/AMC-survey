@@ -8,12 +8,13 @@ import { logout } from 'query/auth/auth.query'
 import { route } from 'shared/constants/AllRoutes'
 import { toaster } from 'helper/helper'
 import CustomModal from 'shared/components/Modal'
-import logo from 'assets/images/Main/amc-ahmedabad-logo.png'
+// import logo from 'assets/images/Main/amc-ahmedabad-logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import useMediaQuery from 'shared/hooks/useMediaQuery'
 import Menu from 'assets/images/icons/menu'
 import { Cancel, DownSign } from 'assets/images/SVGs/Svg'
+import LogoSvg from 'assets/images/SVGs/Logo'
 
 
 function Header({ isNavmenu, setNavMenu }) {
@@ -79,7 +80,8 @@ function Header({ isNavmenu, setNavMenu }) {
     <header className='header'>
       <div className='header-left'>
         <Link className='logo' to={route.dashboard}>
-          <img src={logo} height={width ? 50 : 70} width={width ? 50 : 70} alt="AMC-logo" />
+          {/* <img src={logo} height={width ? 50 : 70} width={width ? 50 : 70} alt="AMC-logo" /> */}
+          <LogoSvg height={width ? 50 : 70} width={width ? 50 : 70} />
           {!width && (<span className=''>
             Ahmedabad Survey
           </span>)}

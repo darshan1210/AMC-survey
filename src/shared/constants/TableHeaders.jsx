@@ -18,10 +18,21 @@ export const TaskColumm = [
     { name: 'Block name', isSort: false },
     { name: 'Ward', isSort: false },
     { name: 'zone', isSort: false },
-    { name: 'Total Property', isSort: false },
+    { name: 'Total POI', isSort: false },
     { name: 'Created by', isSort: false },
     { name: 'Created Date', isSort: false },
     { name: 'Actions', isSort: false },
+]
+
+export const InProgressBlockColum = [
+    { name: 'No', isSort: true },
+    { name: 'Block name', isSort: false },
+    { name: 'Total POI', isSort: false },
+    { name: 'Survey POI', isSort: false },
+    { name: 'Remain POI', isSort: false },
+    { name: 'Progress', isSort: false },
+    { name: 'Progress Date', isSort: false },
+    { name: 'Actions', isSort: false }
 ]
 
 export const ProgressReportColums = [
@@ -46,16 +57,17 @@ export const ConsolidatedReportColums = [
 
 export const ProptyColums = [
     { name: 'No', isSort: true },
-    { name: 'Property tax no', isSort: false },
+    { name: 'POI no', isSort: false },
     { name: 'Ward', isSort: false },
     { name: 'Zone', isSort: false },
     { name: 'Society', isSort: false },
-    { name: 'POI', isSort: false },
+    // { name: 'POI', isSort: false },
     { name: 'Actions', isSort: false },
 ]
 
 export const POIColums = [
     { name: 'No', isSort: true },
+    { name: 'POI Number', isSort: false },
     { name: 'Society', isSort: false },
     { name: 'POI', isSort: false },
     { name: 'Actions', isSort: false }

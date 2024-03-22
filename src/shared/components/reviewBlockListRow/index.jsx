@@ -23,7 +23,7 @@ const ReviewBlockListRow = ({ user, index, }) => {
                 <td>{user.Createdby || '-'}</td>
                 <td>{user.CreatedDate || '-'}</td>
                 <td>
-                    <div className='dropdown-datatable-items-icon' onClick={handleShow}>
+                    <div className='SingleDataTabeIcon' onClick={handleShow}>
                         <i className='icon-visibility d-block' />
                     </div>
                 </td>

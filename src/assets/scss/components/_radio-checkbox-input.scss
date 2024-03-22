@@ -155,6 +155,10 @@
 }
 
 .form-checkbox {
+  input {
+    opacity: 0;
+  }
+
   .form-check-label {
     color: #404040 !important;
 

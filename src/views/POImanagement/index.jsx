@@ -12,6 +12,7 @@ import { appendParams, parseParams } from 'shared/utils'
 import AddPoi from './add'
 import { GetPOIList } from 'query/POI/poi.query'
 import { useQuery } from 'react-query'
+import { ButtonGroup, ToggleButton } from 'react-bootstrap'
 
 const POIManagement = () => {
     const location = useLocation()
@@ -47,12 +48,18 @@ const POIManagement = () => {
     const [requestParams, setRequestParams] = useState(getRequestParams())
     const [columns, setColumns] = useState(getSortedColumns(POIColums, parsedData))
     const [modal, setModal] = useState({ open: false, type: '' })
+    const [radioValue, setRadioValue] = useState('1');
+
+    const radios = [
+        { name: 'Total - (10)', value: '1' },
+        { name: 'inProgress - (13)', value: '2' },
+    ];
 
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange
 
 
-    const { isLoading } = useQuery(['poiList', requestParams], () => GetPOIList(requestParams), {
+    const { isLoading, isFetching } = useQuery(['poiList', requestParams], () => GetPOIList(requestParams), {
         select: (data) => data.data,
         onSuccess: (data) => {
             setPoilistData(data?.data)
@@ -234,6 +241,24 @@ const POIManagement = () => {
                     },
                 ]}
             />
+
+            <ButtonGroup className='BlockButtonGroup'>
+                {radios.map((radio, idx) => (
+                    <ToggleButton
+                        key={idx}
+                        id={`radio-${idx}`}
+                        type="radio"
+                        variant={radio.value === radioValue ? 'outline-primary' : 'outline-warning'}
+                        name="radio"
+                        defaultValue={'1'}
+                        value={radio.value}
+                        checked={radioValue === radio.value}
+                        onChange={(e) => setRadioValue(e.currentTarget.value)}
+                    >
+                        {radio.name}
+                    </ToggleButton>
+                ))}
+            </ButtonGroup>
             <div>
                 <DataTable
                     columns={columns}
@@ -248,12 +273,12 @@ const POIManagement = () => {
                     }}
                     sortEvent={handleSort}
                     headerEvent={(name, value) => handleHeaderEvent(name, value)}
-                    totalRecord={poiListData.length && (poiListData.length)}
+                    totalRecord={poiListData?.length && (poiListData?.length)}
                     pageChangeEvent={handlePageEvent}
-                    isLoading={isLoading}
+                    isLoading={isLoading || isFetching}
                     pagination={{ currentPage: requestParams.pageNumber, pageSize: requestParams.nLimit }}
                 >
-                    {poiListData.length > 1 && poiListData?.map((poi, index) => {
+                    {poiListData?.length > 1 && poiListData?.map((poi, index) => {
                         return (
                             <POIListRow
                                 key={poi.id}

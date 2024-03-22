@@ -15,30 +15,32 @@ self.addEventListener('install', (event) => {
 })
 
 
-// Listen for requests
-self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        fetch(event.request)
-            .then((response) => {
-                // Check if the response is valid (status 200)
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                // Clone the response as it can be consumed only once
-                const responseClone = response.clone();
-                caches.open(CACHE_NAME)
-                    .then((cache) => {
-                        // Cache the fetched response
-                        cache.put(event.request, responseClone);
-                    });
-                return response;
-            })
-            .catch(() => {
-                // If fetching fails, serve the offline page from cache
-                return caches.match('offline.html');
-            })
-    );
-});
+// // Listen for requests
+// self.addEventListener('fetch', (event) => {
+//     event.respondWith(
+//         fetch(event.request)
+//             .then((response) => {
+//                 // Check if the response is valid (status 200)
+//                 if (!response.ok) {
+//                     throw new Error('Network response was not ok');
+//                 } else {
+//                     // Clone the response as it can be consumed only once
+//                     const responseClone = response.clone();
+//                     caches.open(CACHE_NAME)
+//                         .then((cache) => {
+//                             // Cache the fetched response
+//                             cache.put(event.request, responseClone);
+//                         });
+//                     return response;
+//                 }
+
+//             })
+//             .catch(() => {
+//                 // If fetching fails, serve the offline page from cache
+//                 return caches.match('offline.html');
+//             })
+//     );
+// });
 
 // Activate the SW
 self.addEventListener('activate', (event) => {

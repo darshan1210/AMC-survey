@@ -16,14 +16,14 @@ const InProgressBlockListRow = ({ user, index, }) => {
         <>
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
                 <td>{index + 1}</td>
-                <td className='blockLink' onClick={() => navigate(route.propertyManagement)}>{user.Blockname || '-'}</td>
-                <td>{user.Ward || '-'}</td>
-                <td>{user.zone || '-'}</td>
-                <td>{user.TotalProperty || '-'}</td>
-                <td>{user.Createdby || '-'}</td>
+                <td className='blockLink' onClick={() => navigate(route.poiManagement)}>{user.Blockname || '-'}</td>
+                <td>{1267 + index || '-'}</td>
+                <td>{1158 + index || '-'}</td>
+                <td>{1058 + index || '-'}</td>
+                <td>{10 * (index + 1) || '-'} {'%'}</td>
                 <td>{user.CreatedDate || '-'}</td>
                 <td>
-                    <div className='dropdown-datatable-items-icon' onClick={handleShow}>
+                    <div className='SingleDataTabeIcon' onClick={handleShow}>
                         <i className='icon-visibility d-block' />
                     </div>
                 </td>

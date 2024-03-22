@@ -6,19 +6,19 @@ import UserFilters from 'shared/components/UserListFilter'
 import { TaskColumm } from 'shared/constants/TableHeaders'
 import { appendParams, parseParams } from 'shared/utils'
 import PageTitle from 'shared/components/PageTitle'
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
+// import ButtonGroup from 'react-bootstrap/ButtonGroup';
+// import ToggleButton from 'react-bootstrap/ToggleButton';
 import CompletedBlockListRow from 'shared/components/CompletedBlockListRow'
 
 const CompletedManagement = () => {
     const location = useLocation()
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
-    const [radioValue, setRadioValue] = useState('1');
+    // const [radioValue, setRadioValue] = useState('1');
 
-    const radios = [
-        { name: 'My Complete Blocks - (70)', value: '1' },
-    ];
+    // const radios = [
+    //     { name: 'My Complete Blocks - (70)', value: '1' },
+    // ];
 
     function getRequestParams(e) {
         const data = e ? parseParams(e) : params.current
@@ -236,8 +236,8 @@ const CompletedManagement = () => {
 
     return (
         <>
-            <PageTitle title={'Block Management'} />
-            <ButtonGroup className='BlockButtonGroup'>
+            <PageTitle title={'Completed Blocks'} />
+            {/* <ButtonGroup className='BlockButtonGroup'>
                 {radios.map((radio, idx) => (
                     <ToggleButton
                         key={idx}
@@ -253,7 +253,7 @@ const CompletedManagement = () => {
                         {radio.name}
                     </ToggleButton>
                 ))}
-            </ButtonGroup>
+            </ButtonGroup> */}
 
             <div>
                 <DataTable

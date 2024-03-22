@@ -130,7 +130,6 @@ function DataTable({
           </tr>
         </thead>
         <tbody>
-          {console.log('children', children)}
           {children !== "0" && children}
           {totalRecord < 1 && (
             <tr>

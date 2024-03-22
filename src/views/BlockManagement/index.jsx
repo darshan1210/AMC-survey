@@ -264,7 +264,7 @@ const TaskManagement = () => {
 
     return (
         <>
-            <PageTitle title={'Block Management'} />
+            <PageTitle title={'My-Total Blocks'} />
             <ButtonGroup className='BlockButtonGroup'>
                 {radios.map((radio, idx) => (
                     <ToggleButton

@@ -1,5 +1,5 @@
 
-import { faChalkboardUser, faCircleCheck, faCity, faFileInvoice, faHouse, faListCheck, faMagnifyingGlassLocation, faSquarePollVertical } from '@fortawesome/free-solid-svg-icons'
+import { faChalkboardUser, faCircleCheck, faCity, faHouse, faListCheck, faMagnifyingGlassLocation, faSquarePollVertical } from '@fortawesome/free-solid-svg-icons'
 import { route } from 'shared/constants/AllRoutes'
 
 export const sidebarConfig = [
@@ -45,23 +45,23 @@ export const sidebarConfig = [
     icon: faCity,
     title: 'Porperty management'
   },
-  {
-    path: route.surveyManagenet,
-    icon: faFileInvoice,
-    title: 'Survey Management',
-    children: [
-      {
-        path: route.surveyManagenet,
-        icon: faChalkboardUser,
-        title: 'Review Survey'
-      },
-      {
-        path: route.doneSurveyManagenet,
-        icon: faListCheck,
-        title: 'Done Survey'
-      },
-    ]
-  },
+  // {
+  //   path: route.surveyManagenet,
+  //   icon: faFileInvoice,
+  //   title: 'Survey Management',
+  //   children: [
+  //     {
+  //       path: route.surveyManagenet,
+  //       icon: faChalkboardUser,
+  //       title: 'Review Survey'
+  //     },
+  //     {
+  //       path: route.doneSurveyManagenet,
+  //       icon: faListCheck,
+  //       title: 'Done Survey'
+  //     },
+  //   ]
+  // },
   {
     path: route.ReportManagenet,
     icon: faSquarePollVertical,

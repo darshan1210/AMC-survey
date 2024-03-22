@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { route } from 'shared/constants/AllRoutes';
 
 const POIListRow = ({ poi, index, }) => {
     const [show, setShow] = useState(false);
-
+    const navigate = useNavigate()
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -12,10 +14,11 @@ const POIListRow = ({ poi, index, }) => {
         <>
             <tr key={poi._id} className={poi.eStatus === 'd' && 'deleted-poi'} >
                 <td>{index + 1}</td>
-                <td>{poi.society_name || '-'}</td>
+                <td>{index + 1149}</td>
+                <td className='blockLink' onClick={() => navigate(route.propertyManagement)}>{poi.society_name || '-'}</td>
                 <td>{poi.poi || '-'}</td>
                 <td>
-                    <div className='dropdown-datatable-items-icon' onClick={handleShow}>
+                    <div className='SingleDataTabeIcon' onClick={handleShow}>
                         <i className='icon-visibility d-block' />
                     </div>
                 </td>

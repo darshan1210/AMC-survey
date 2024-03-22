@@ -1,6 +1,6 @@
 import { faChalkboardUser, faCircleCheck, faListCheck, faMagnifyingGlassLocation } from '@fortawesome/free-solid-svg-icons'
 import React, { useEffect, useRef, useState } from 'react'
-import { Col, Row } from 'react-bootstrap'
+import { ButtonGroup, Col, Row, ToggleButton } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
 import Cards from 'shared/components/Card'
 import DataTable from 'shared/components/DataTable'
@@ -15,6 +15,14 @@ const PropertyManagement = () => {
     const location = useLocation()
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
+
+    const [radioValue, setRadioValue] = useState('1');
+
+    const radios = [
+        { name: 'Total - (10)', value: '1' },
+        { name: 'inProgress - (13)', value: '2' },
+    ];
+
 
     function getRequestParams(e) {
         const data = e ? parseParams(e) : params.current
@@ -227,7 +235,23 @@ const PropertyManagement = () => {
                     </Col>
                 </Row>
             </div>
-
+            <ButtonGroup className='BlockButtonGroup'>
+                {radios.map((radio, idx) => (
+                    <ToggleButton
+                        key={idx}
+                        id={`radio-${idx}`}
+                        type="radio"
+                        variant={radio.value === radioValue ? 'outline-primary' : 'outline-warning'}
+                        name="radio"
+                        defaultValue={'1'}
+                        value={radio.value}
+                        checked={radioValue === radio.value}
+                        onChange={(e) => setRadioValue(e.currentTarget.value)}
+                    >
+                        {radio.name}
+                    </ToggleButton>
+                ))}
+            </ButtonGroup>
             <div>
                 <DataTable
                     columns={columns}

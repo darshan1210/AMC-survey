@@ -4,9 +4,9 @@ import { Form, Button, Spinner, Row, Col } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 
 import EditProfileComponent from 'shared/components/Profile'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { profile, UpdateProfile } from 'query/profile/profile.query'
-import { toaster } from 'helper/helper'
+// import { useMutation, useQuery, useQueryClient } from 'react-query'
+// import { profile, UpdateProfile } from 'query/profile/profile.query'
+// import { toaster } from 'helper/helper'
 import { useNavigate } from 'react-router-dom'
 import { Loader } from 'shared/components/Loader'
 import Wrapper from 'shared/components/Wrap'
@@ -14,9 +14,9 @@ import { route } from 'shared/constants/AllRoutes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faUser, faXmark } from '@fortawesome/free-solid-svg-icons'
 
-function EditProfile () {
+function EditProfile() {
   const navigate = useNavigate()
-  const query = useQueryClient()
+  // const query = useQueryClient()
   const [updateFlag, setUpdateFlag] = useState(false)
   const [profileData, setProfileData] = useState({})
 
@@ -27,7 +27,6 @@ function EditProfile () {
     clearErrors,
     trigger,
     getValues,
-    reset,
     handleSubmit,
     setValue
   } = useForm({
@@ -39,54 +38,58 @@ function EditProfile () {
     }
   })
 
-  const { isLoading: getLoading, isFetching } = useQuery('getProfile', profile, {
-    select: (data) => data?.data?.data,
-    onSuccess: (data) => {
-      setProfileData(data)
-      reset({
-        sUserName: data?.sUserName,
-        sFullName: data?.sFullName,
-        sEmail: data?.sEmail,
-        sMobile: data?.sMobile,
-        eGender: data?.eGender
-      })
-    },
-    onError: () => {
-      setProfileData({})
-    }
-  })
+  // const { isLoading: getLoading, isFetching } = useQuery('getProfile', profile, {
+  //   select: (data) => data?.data?.data,
+  //   onSuccess: (data) => {
+  //     setProfileData(data)
+  //     reset({
+  //       sUserName: data?.sUserName,
+  //       sFullName: data?.sFullName,
+  //       sEmail: data?.sEmail,
+  //       sMobile: data?.sMobile,
+  //       eGender: data?.eGender
+  //     })
+  //   },
+  //   onError: () => {
+  //     setProfileData({})
+  //   }
+  // })
 
-  const { mutate, isLoading } = useMutation(UpdateProfile, {
-    onSuccess: (response) => {
-      toaster(response?.data?.message || 'Profile updated successfully')
-      query.invalidateQueries({ queryKey: ['profile'] })
-      navigate('/dashboard')
-    }
-  })
+  // const { mutate, isLoading } = useMutation(UpdateProfile, {
+  //   onSuccess: (response) => {
+  //     toaster(response?.data?.message || 'Profile updated successfully')
+  //     query.invalidateQueries({ queryKey: ['profile'] })
+  //     navigate('/dashboard')
+  //   }
+  // })
 
-  function handleChange (e) {
+  function handleChange(e) {
     const { name, value } = e.target
     setProfileData({ ...profileData, [name]: value })
   }
 
   const onsubmit = (data) => {
-    mutate({
-      sUserName: data.sUserName,
-      sEmail: data.sEmail,
-      sMobile: data.sMobile,
-    })
+    console.log('data', data)
+    // mutate({
+    //   sUserName: data.sUserName,
+    //   sEmail: data.sEmail,
+    //   sMobile: data.sMobile,
+    // })
   }
 
-  function usernameUpdate () {
+  function usernameUpdate() {
   }
-  function mobileNumberUpdate () {
+  function mobileNumberUpdate() {
   }
+
   useEffect(() => {
     document.title = 'My Profile'
   }, [])
+
+  const test = false;
   return (
     <>
-      {getLoading || isFetching ? (
+      {test ? (
         <Loader />
       ) : (
         <Row className='justify-content-center'>
@@ -115,15 +118,15 @@ function EditProfile () {
                     mobileNumberUpdate={mobileNumberUpdate}
                   />
                   {updateFlag !== false &&
-                  <>
-                    <Button variant='secondary' className='me-2' disabled={isLoading} onClick={() => navigate(route.dashboard)}>
-                      Cancel
-                    </Button>
-                    <Button variant='primary' type='submit' disabled={!updateFlag || isLoading}>
-                      <FormattedMessage id='update' />
-                      {isLoading && <Spinner animation='border' size='sm' />}
-                    </Button>
-                  </>
+                    <>
+                      <Button variant='secondary' className='me-2' disabled={test} onClick={() => navigate(route.dashboard)}>
+                        Cancel
+                      </Button>
+                      <Button variant='primary' type='submit' disabled={!updateFlag}>
+                        <FormattedMessage id='update' />
+                        {test && <Spinner animation='border' size='sm' />}
+                      </Button>
+                    </>
                   }
                 </Form>
               </div>
