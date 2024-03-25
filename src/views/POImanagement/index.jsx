@@ -62,7 +62,8 @@ const POIManagement = () => {
     const { isLoading, isFetching } = useQuery(['poiList', requestParams], () => GetPOIList(requestParams), {
         select: (data) => data.data,
         onSuccess: (data) => {
-            setPoilistData(data?.data)
+            setPoilistData(data?.data);
+
         }
     })
     // console.log('poiListData', poiListData)

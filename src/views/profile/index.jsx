@@ -12,12 +12,14 @@ import { Loader } from 'shared/components/Loader'
 import Wrapper from 'shared/components/Wrap'
 import { route } from 'shared/constants/AllRoutes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare, faUser, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { profile } from 'query/profile/profile.query'
+import { useQuery } from 'react-query'
 
 function EditProfile() {
   const navigate = useNavigate()
   // const query = useQueryClient()
-  const [updateFlag, setUpdateFlag] = useState(false)
+  const [updateFlag] = useState(false)
   const [profileData, setProfileData] = useState({})
 
   const {
@@ -38,22 +40,16 @@ function EditProfile() {
     }
   })
 
-  // const { isLoading: getLoading, isFetching } = useQuery('getProfile', profile, {
-  //   select: (data) => data?.data?.data,
-  //   onSuccess: (data) => {
-  //     setProfileData(data)
-  //     reset({
-  //       sUserName: data?.sUserName,
-  //       sFullName: data?.sFullName,
-  //       sEmail: data?.sEmail,
-  //       sMobile: data?.sMobile,
-  //       eGender: data?.eGender
-  //     })
-  //   },
-  //   onError: () => {
-  //     setProfileData({})
-  //   }
-  // })
+  const { isLoading: getLoading, isFetching } = useQuery('getProfile', profile, {
+    select: (data) => data?.data,
+    onSuccess: (data) => {
+      console.log('data', data)
+      setProfileData(data)
+    },
+    onError: () => {
+      setProfileData({})
+    }
+  })
 
   // const { mutate, isLoading } = useMutation(UpdateProfile, {
   //   onSuccess: (response) => {
@@ -89,16 +85,16 @@ function EditProfile() {
   const test = false;
   return (
     <>
-      {test ? (
+      {getLoading || isFetching ? (
         <Loader />
       ) : (
         <Row className='justify-content-center'>
           <Col xxl={8} >
             <Wrapper>
-              {!updateFlag ?
+              {/* {!updateFlag ?
                 (<button className='Profile-main-edit' onClick={() => setUpdateFlag(!updateFlag)}><FontAwesomeIcon icon={faPenToSquare} /></button>)
                 : (<button className='Profile-main-cancel' onClick={() => setUpdateFlag(!updateFlag)}><FontAwesomeIcon icon={faXmark} /></button>)
-              }
+              } */}
               <div className='edit-profile'>
                 <div className='profile_icon'><FontAwesomeIcon icon={faUser} /></div>
                 <p>Profile Details</p>

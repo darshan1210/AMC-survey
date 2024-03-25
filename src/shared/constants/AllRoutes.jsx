@@ -13,14 +13,18 @@ export const route = {
   inProgressBlock: '/In-progress-block',
   reviewBlock: '/Review-block',
   completedBlock: '/Completed-block',
+  unAlloctaedBlock: '/UnAllotted-block',
+  alloctaedBlock: '/Allotted-block',
 
   propertyManagement: '/Property-Management',
 
   poiManagement: '/POI-Management',
 
+
   surveyManagenet: '/my-survey',
   doneSurveyManagenet: '/my-survey-done',
   ReportManagenet: '/my-report',
-  consolidatedReport: '/consolidated-report'
+  consolidatedReport: '/consolidated-report',
+
 
 }

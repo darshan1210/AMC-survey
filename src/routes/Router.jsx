@@ -23,6 +23,8 @@ const TaskManagement = lazy(() => import('views/BlockManagement'))
 const InprogressBlockManagement = lazy(() => import('views/BlockManagement/InProgressManagement'))
 const ReviewBlockManagement = lazy(() => import('views/BlockManagement/ReviewBlockManagement'))
 const CompletedBlockManagement = lazy(() => import('views/BlockManagement/CompletedBlockManagement'))
+const UnAllottedBlockManagement = lazy(() => import('views/BlockManagement/unAllottedBlockManagement'))
+const AllottedBlockManagement = lazy(() => import('views/BlockManagement/AllottedBlockManagement'))
 
 
 const PropertyManagement = lazy(() => import('views/PropertyManagement'))
@@ -65,6 +67,8 @@ const RoutesDetails = [
       { path: route.inProgressBlock, Component: InprogressBlockManagement, exact: true },
       { path: route.reviewBlock, Component: ReviewBlockManagement, exact: true },
       { path: route.completedBlock, Component: CompletedBlockManagement, exact: true },
+      { path: route.unAlloctaedBlock, Component: UnAllottedBlockManagement, exact: true },
+      { path: route.alloctaedBlock, Component: AllottedBlockManagement, exact: true },
 
       { path: route.propertyManagement, Component: PropertyManagement, exact: true },
       { path: route.surveyManagenet, Component: SurveyManagement, exact: true },

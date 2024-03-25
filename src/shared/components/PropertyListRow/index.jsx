@@ -34,7 +34,7 @@ const PropertyListRow = ({ user, index, }) => {
         })
     }, [])
 
-
+    console.log('first', watch('ePropertyNotFound'));
     return (
         <>
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
@@ -43,7 +43,6 @@ const PropertyListRow = ({ user, index, }) => {
                 <td>{user.Ward || '-'}</td>
                 <td>{user.Zone || '-'}</td>
                 <td>{user.Society || '-'}</td>
-                {/* <td>{user.POI || '-'}</td> */}
                 <td onClick={() => setModal(true)}>
                     <div className='SingleDataTabeIcon'>
                         <i className='icon-create d-block' />
@@ -58,7 +57,6 @@ const PropertyListRow = ({ user, index, }) => {
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
-
                             {/* Property text */}  <Col sm={6}>
                                 <CommonInput
                                     type='text'
