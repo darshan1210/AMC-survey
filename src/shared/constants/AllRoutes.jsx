@@ -18,7 +18,8 @@ export const route = {
 
   propertyManagement: '/Property-Management',
 
-  poiManagement: '/POI-Management',
+  // poiManagement: '/POI-Management',
+  poiManagement: (id) => `/POI-Management/${id}`,
 
 
   surveyManagenet: '/my-survey',

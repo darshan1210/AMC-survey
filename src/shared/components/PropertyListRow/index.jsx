@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
-import { PropertyTypeColums, zoneColums } from 'shared/constants/TableHeaders';
+import { zoneColums } from 'shared/constants/TableHeaders';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import CommonInput from '../CommonInput';
 import Select from 'react-select';
@@ -14,8 +14,7 @@ const PropertyListRow = ({ user, index, }) => {
     const [isModal, setModal] = useState(false)
     const { control, watch, register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'onSubmit' });
 
-    const onSubmit = async (storeData) => {
-        console.log('storeData', storeData)
+    const onSubmit = async () => {
         navigate(route.surveyManagenet)
     }
 
@@ -33,8 +32,8 @@ const PropertyListRow = ({ user, index, }) => {
             sSociety: user.Society
         })
     }, [])
+    console.log('ePropertyNotFound', watch('ePropertyNotFound'))
 
-    console.log('first', watch('ePropertyNotFound'));
     return (
         <>
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
@@ -57,30 +56,6 @@ const PropertyListRow = ({ user, index, }) => {
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
-                            {/* Property text */}  <Col sm={6}>
-                                <CommonInput
-                                    type='text'
-                                    register={register}
-                                    errors={errors}
-                                    className={`form-control ${errors?.sProperty && 'error'}`}
-                                    name='sProperty'
-                                    label='Property Text No.'
-                                    placeholder='Enter Property Text No.'
-                                    required
-                                    onChange={(e) => {
-                                        e.target.value =
-                                            e.target.value?.trim() &&
-                                            e.target.value.replace(/^[0-9]+$/g, '')
-                                    }}
-                                    validation={{
-                                        required: {
-                                            value: true,
-                                            message: ' Property Text No. Is Required.'
-                                        },
-                                    }}
-                                />
-                            </Col>
-
                             {/* Ward */} <Col sm={6}>
                                 <Form.Group className='form-group'>
                                     <Form.Label>
@@ -183,113 +158,24 @@ const PropertyListRow = ({ user, index, }) => {
                                 />
                             </Col>
 
-                            {/* <Col sm={6}>
-                                <CommonInput
-                                    type='text'
-                                    register={register}
-                                    errors={errors}
-                                    className={`form-control ${errors?.sOwner && 'error'}`}
-                                    name='sOwner'
-                                    label='Owner Name'
-                                    placeholder='Enter Owner Name'
-                                    required
-                                    onChange={(e) => {
-                                        e.target.value =
-                                            e.target.value?.trim() &&
-                                            e.target.value.replace(/^[0-9]+$/g, '')
-                                    }}
-                                    validation={{
-                                        required: {
-                                            value: true,
-                                            message: 'Owner Name Is Required.'
-                                        },
-                                    }}
-                                />
-                            </Col>
-                             <Col sm={6}>
-                                <CommonInput
-                                    type='text'
-                                    register={register}
-                                    errors={errors}
-                                    className={`form-control ${errors?.nOwnerNumber && 'error'}`}
-                                    name='nOwnerNumber'
-                                    label='Owner Number'
-                                    placeholder='Enter the Owner Number..'
-                                    required
-                                    validation={{
-                                        pattern: {
-                                            value: /^[0-9]+$/,
-                                            message: 'Only numbers are allowed'
-                                        },
-                                        required: {
-                                            value: true,
-                                            message: 'Owner Number is required'
-                                        },
-                                    }}
-                                    onChange={(e) => {
-                                        e.target.value =
-                                            e.target.value?.trim() &&
-                                            e.target.value.replace(/^[a-zA-z]+$/g, '')
-                                    }}
-                                />
-                            </Col> */}
                             {/* POI*/} <Col sm={6}>
                                 <CommonInput
                                     type='textarea'
                                     register={register}
                                     errors={errors}
-                                    label='POI'
+                                    label='Property details'
                                     required
-                                    className={`form-control ${errors?.sDescription && 'error'}`}
-                                    name='sDescription'
-                                    placeholder='Enter POI Adress...'
+                                    className={`form-control ${errors?.sPropertyInfo && 'error'}`}
+                                    name='sPropertyInfo'
+                                    placeholder='Enter Property details...'
                                     onChange={(e) => e.target.value}
                                     validation={{
                                         required: {
                                             value: true,
-                                            message: 'POI Adress is required'
+                                            message: 'Property details is required'
                                         },
                                     }}
                                 />
-                            </Col>
-
-                            {/*  Property Type */} <Col sm={6}>
-                                <Form.Group className='form-group'>
-                                    <Form.Label>
-                                        <span>
-                                            Property Type
-                                            <span className='inputStar'>*</span>
-                                        </span>
-                                    </Form.Label>
-                                    <Controller
-                                        name='PropertyType'
-                                        control={control}
-                                        rules={{
-                                            required: {
-                                                value: true,
-                                                message: 'Property Type is required'
-                                            }
-                                        }}
-                                        render={({ field: { onChange, value = [], ref } }) => (
-                                            <Select
-                                                ref={ref}
-                                                value={value}
-                                                options={PropertyTypeColums}
-                                                className={`react-select border-0 ${errors.PropertyType && 'error'}`}
-                                                classNamePrefix='select'
-                                                closeMenuOnSelect={true}
-                                                onChange={(e) => {
-                                                    onChange(e)
-                                                }}
-                                            />
-                                        )}
-                                    />
-                                    {errors.PropertyType && (
-                                        <Form.Control.Feedback type='invalid'>
-                                            {errors.PropertyType.message}
-                                        </Form.Control.Feedback>
-                                    )}
-                                </Form.Group>
                             </Col>
 
                             {/* chek Box */}  <Col sm={6}>
@@ -345,6 +231,26 @@ const PropertyListRow = ({ user, index, }) => {
                                     )}
                                 </Form.Group>
                             </Col>
+
+                            {/* Comment */} {watch('ePropertyNotFound') && <Col sm={12}>
+                                <CommonInput
+                                    type='text'
+                                    register={register}
+                                    errors={errors}
+                                    label='Comment'
+                                    required
+                                    className={`form-control ${errors?.sComment && 'error'}`}
+                                    name='sComment'
+                                    placeholder='Enter Comment...'
+                                    onChange={(e) => e.target.value}
+                                    validation={{
+                                        required: {
+                                            value: true,
+                                            message: 'Comment is required'
+                                        },
+                                    }}
+                                />
+                            </Col>}
 
                             <Col sm={12}>
                                 <div className='fileinput'>

@@ -74,7 +74,7 @@ const RoutesDetails = [
       { path: route.surveyManagenet, Component: SurveyManagement, exact: true },
       { path: route.doneSurveyManagenet, Component: DoneSurveyManagement, exact: true },
 
-      { path: route.poiManagement, Component: POIManagement, exact: true },
+      { path: route.poiManagement(':id'), Component: POIManagement, exact: true },
 
       { path: route.ReportManagenet, Component: ReportManagement, exact: true },
       { path: route.consolidatedReport, Component: ConsolidatedReport, exact: true },

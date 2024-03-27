@@ -218,7 +218,7 @@ const UnAllottedBlockListRow = ({ user, index, }) => {
                                 <Form.Group className='form-group'>
                                     <Form.Label>
                                         <span>
-                                            Property Type
+                                            Surveyer Name
                                             <span className='inputStar'>*</span>
                                         </span>
                                     </Form.Label>

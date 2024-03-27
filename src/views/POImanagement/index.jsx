@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
 import POIListRow from 'shared/components/POIlistRow'
@@ -16,12 +16,12 @@ import { ButtonGroup, ToggleButton } from 'react-bootstrap'
 
 const POIManagement = () => {
     const location = useLocation()
+    const { id } = useParams()
 
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
     const [isAddPOIModal, setAddPOIModal] = useState(false)
-    const [poiListData, setPoilistData] = useState([])
-
+    const [poiListData, setPoilistData] = useState(null)
 
     function getRequestParams(e) {
         const data = e ? parseParams(e) : params.current
@@ -59,115 +59,14 @@ const POIManagement = () => {
     const [startDate, endDate] = dateRange
 
 
-    const { isLoading, isFetching } = useQuery(['poiList', requestParams], () => GetPOIList(requestParams), {
-        select: (data) => data.data,
+    const { isLoading, isFetching } = useQuery(['poiList', requestParams], () => GetPOIList(requestParams, id), {
+        enabled: !!id,
+        select: (data) => data.data.data,
         onSuccess: (data) => {
-            setPoilistData(data?.data);
+            setPoilistData(data);
 
         }
     })
-    // console.log('poiListData', poiListData)
-
-    // const sWard = location?.state?.ward || "Ward"
-    // const sZone = location?.state?.zone || "zone"
-    // List
-    // const data = {
-    //     "bots": [
-    //         {
-    //             "PropertytextNo": "02310860000001H",
-    //             "Ward": sWard,
-    //             "Zone": sZone,
-    //             "Society": "Sunrise Apartments",
-    //             "CreatedBy": "Ramesh Patel",
-    //             "CreatedDate": "10-12-2020",
-    //             "POI": "B12, Lard Society, Prahaladnagar Road, Ahmedabad"
-    //         },
-    //         {
-    //             "PropertytextNo": "02310860000001H",
-    //             "Ward": sWard,
-    //             "Zone": sZone,
-    //             "Society": "Green Valley Residency",
-    //             "CreatedBy": "Suresh Kumar",
-    //             "CreatedDate": "05-07-2021",
-    //             "POI": "C7, Green Valley Residency, Bapunagar Road, Ahmedabad"
-    //         },
-    //         {
-    //             "PropertytextNo": "02310860000001H",
-    //             "Ward": sWard,
-    //             "Zone": sZone,
-    //             "Society": "Royal Palm Heights",
-    //             "CreatedBy": "Vijay Sharma",
-    //             "CreatedDate": "22-09-2020",
-    //             "POI": "A15, Royal Palm Heights, Vasna Road, Ahmedabad"
-    //         },
-    //         {
-    //             "PropertytextNo": "02310860000001H",
-    //             "Ward": sWard,
-    //             "Zone": sZone,
-    //             "Society": "Pearl Paradise",
-    //             "CreatedBy": "Deepak Gupta",
-    //             "CreatedDate": "18-04-2021",
-    //             "POI": "D23, Pearl Paradise, Chandkheda Road, Ahmedabad"
-    //         },
-    //         {
-    //             "PropertytextNo": "02310860000001H",
-    //             "Ward": sWard,
-    //             "Zone": sZone,
-    //             "Society": "Silver Crest",
-    //             "CreatedBy": "Amit Kumar",
-    //             "CreatedDate": "11-11-2020",
-    //             "POI": "E8, Silver Crest, Sabarmati Road, Ahmedabad"
-    //         },
-    //         {
-    //             "PropertytextNo": "02310860000001H",
-    //             "Ward": sWard,
-    //             "Zone": sZone,
-    //             "Society": "Emerald Towers",
-    //             "CreatedBy": "Rajesh Singh",
-    //             "CreatedDate": "30-06-2021",
-    //             "POI": "F17, Emerald Towers, SG Highway, Ahmedabad"
-    //         },
-    //         {
-    //             "PropertytextNo": "02310860000001H",
-    //             "Ward": sWard,
-    //             "Zone": sZone,
-    //             "Society": "Golden Enclave",
-    //             "CreatedBy": "Neha Sharma",
-    //             "CreatedDate": "14-02-2021",
-    //             "POI": "G9, Golden Enclave, Sardar Patel Ring Road, Ahmedabad"
-    //         },
-    //         {
-    //             "PropertytextNo": "02310860000001H",
-    //             "Ward": sWard,
-    //             "Zone": sZone,
-    //             "Society": "Diamond Heights",
-    //             "CreatedBy": "Manoj Verma",
-    //             "CreatedDate": "09-08-2020",
-    //             "POI": "H6, Diamond Heights, Naranpura Road, Ahmedabad"
-    //         },
-    //         {
-    //             "PropertytextNo": "02310860000001H",
-    //             "Ward": sWard,
-    //             "Zone": sZone,
-    //             "Society": "Platinum Towers",
-    //             "CreatedBy": "Anita Patel",
-    //             "CreatedDate": "25-03-2021",
-    //             "POI": "I20, Platinum Towers, Ashram Road, Ahmedabad"
-    //         },
-    //         {
-    //             "PropertytextNo": "02310860000001H",
-    //             "Ward": sWard,
-    //             "Zone": sZone,
-    //             "Society": "Sapphire Gardens",
-    //             "CreatedBy": "Sanjay Gupta",
-    //             "CreatedDate": "03-10-2020",
-    //             "POI": "J10, Sapphire Gardens, Thaltej Road, Ahmedabad"
-    //         }
-    //     ],
-    //     "count": {
-    //         "totalData": 38
-    //     }
-    // }
 
 
     function handleSort(field) {
@@ -274,12 +173,12 @@ const POIManagement = () => {
                     }}
                     sortEvent={handleSort}
                     headerEvent={(name, value) => handleHeaderEvent(name, value)}
-                    totalRecord={poiListData?.length && (poiListData?.length)}
+                    totalRecord={poiListData && (poiListData?.total)}
                     pageChangeEvent={handlePageEvent}
                     isLoading={isLoading || isFetching}
                     pagination={{ currentPage: requestParams.pageNumber, pageSize: requestParams.nLimit }}
                 >
-                    {poiListData?.length > 1 && poiListData?.map((poi, index) => {
+                    {poiListData && poiListData?.data?.map((poi, index) => {
                         return (
                             <POIListRow
                                 key={poi.id}

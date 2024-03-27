@@ -13,7 +13,7 @@ function AddPoi({ isModal, setModal }) {
     const [imagePreviews, setImagePreviews] = useState([]);
 
     const { control, watch, register, formState: { errors }, handleSubmit, reset, setValue, setError } = useForm({ mode: 'onSubmit', defaultValues: { poi: [{ sDescription: '', sPoiImage: '' }] } });
-    const { fields, append, remove } = useFieldArray({
+    const { fields } = useFieldArray({
         control,
         name: "poi",
     });
@@ -38,7 +38,8 @@ function AddPoi({ isModal, setModal }) {
                 society_name: Data?.sSociety,
                 zone_id: userData?.zone_id,
                 ward_id: userData?.ward_id,
-                surveyor_id: userData?.roles?.id
+                surveyor_id: userData?.roles?.id,
+                comment: Data?.comment
             };
 
             const formData = new FormData();
@@ -52,11 +53,11 @@ function AddPoi({ isModal, setModal }) {
                 }
             });
 
-            Data?.poi?.forEach((poi, index) => {
-                formData.append(`poi[${index}]`, poi.sDescription);
-                formData.append(`image[${index}]`, poi.sPoiImage);
-                formData.append(`latitude[${index}]`, poi.latitude);
-                formData.append(`longitude[${index}]`, poi.longitude);
+            Data?.poi?.forEach((poi) => {
+                formData.append(`poi`, poi.sDescription);
+                formData.append(`image`, poi.sPoiImage);
+                formData.append(`latitude`, poi.latitude);
+                formData.append(`longitude`, poi.longitude);
             })
 
             // Display the key/value pairs
@@ -160,11 +161,11 @@ function AddPoi({ isModal, setModal }) {
                                 fields.map((field, index) => {
                                     return (
                                         <Row key={field?.id} className='poiModule'>
-                                            <div className='addPOIbutton'>
+                                            {/* <div className='addPOIbutton'>
                                                 <Button onClick={() => { append({ sDescription: '', sPoiImage: '' }) }}>Add POI</Button>
                                                 {fields.length > 1 && <Button onClick={() => { remove(index) }}>Remove POI</Button>}
 
-                                            </div>
+                                            </div> */}
                                             {/* POI*/} <Col sm={12}>
                                                 <CommonInput
                                                     type='textarea'
@@ -295,7 +296,25 @@ function AddPoi({ isModal, setModal }) {
                                     )
                                 })
                             }
-
+                            <Col sm={12}>
+                                <CommonInput
+                                    type='text'
+                                    register={register}
+                                    errors={errors}
+                                    label='Comment'
+                                    required
+                                    className={`form-control ${errors?.comment && 'error'}`}
+                                    name='comment'
+                                    placeholder='Enter Comment...'
+                                    onChange={(e) => e.target.value}
+                                    validation={{
+                                        required: {
+                                            value: true,
+                                            message: 'Comment is required'
+                                        },
+                                    }}
+                                />
+                            </Col>
 
                         </Row>
                     </Modal.Body>

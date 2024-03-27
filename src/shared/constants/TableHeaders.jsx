@@ -61,15 +61,16 @@ export const ProptyColums = [
     { name: 'Ward', isSort: false },
     { name: 'Zone', isSort: false },
     { name: 'Society', isSort: false },
-    // { name: 'POI', isSort: false },
     { name: 'Actions', isSort: false },
 ]
 
 export const POIColums = [
     { name: 'No', isSort: true },
-    { name: 'POI Number', isSort: false },
+    { name: 'Zone', isSort: false },
+    { name: 'Ward', isSort: false },
     { name: 'Society', isSort: false },
-    { name: 'POI', isSort: false },
+    { name: 'Total House', isSort: false },
+    { name: 'Total Shops', isSort: false },
     { name: 'Actions', isSort: false }
 ]
 

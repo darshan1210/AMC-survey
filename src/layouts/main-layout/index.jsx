@@ -4,7 +4,7 @@ import Header from 'shared/components/Header'
 import SideBar from 'shared/components/Sidebar'
 import { Loader } from 'shared/components/Loader'
 import useMediaQuery from 'shared/hooks/useMediaQuery'
-import { Button, Offcanvas } from 'react-bootstrap'
+import MobileSideBar from 'shared/components/MobileSidebar'
 
 function MainLayout({ children }) {
   const [isOpen, setIsOpen] = useState(true)
@@ -13,18 +13,7 @@ function MainLayout({ children }) {
 
   return (
     <div className='main-layout'>
-      <Offcanvas className='MobileSideBar' show={isNavmenu} onHide={() => { setNavMenu(false) }} keyboard={false} backdrop={true} placement='start'>
-        <Offcanvas.Header className='d-flex align-items-center justify-content-space'>
-          <Offcanvas.Title className='SidebarTitle'>{'AMC-Survey'}</Offcanvas.Title>
-          <Button variant='link' onClick={() => { setNavMenu(false) }} className='square icon-btn'>
-            <i className='icon-close d-block'></i>
-          </Button>
-        </Offcanvas.Header>
-        <Offcanvas.Body className='SidebarBody'>
-          <SideBar isOpen={true} setIsOpen={setIsOpen} setNavMenu={setNavMenu} />
-        </Offcanvas.Body>
-      </Offcanvas>
-
+      <MobileSideBar isNavmenu={isNavmenu} setNavMenu={setNavMenu} setIsOpen={setIsOpen} />
       <Header setNavMenu={setNavMenu} isNavmenu={isNavmenu} />
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
 
