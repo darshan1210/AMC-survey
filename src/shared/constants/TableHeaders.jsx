@@ -57,10 +57,10 @@ export const ConsolidatedReportColums = [
 
 export const ProptyColums = [
     { name: 'No', isSort: true },
-    { name: 'POI no', isSort: false },
     { name: 'Ward', isSort: false },
     { name: 'Zone', isSort: false },
     { name: 'Society', isSort: false },
+    { name: 'Property Details', isSort: false },
     { name: 'Actions', isSort: false },
 ]
 

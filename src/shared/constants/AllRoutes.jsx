@@ -16,10 +16,10 @@ export const route = {
   unAlloctaedBlock: '/UnAllotted-block',
   alloctaedBlock: '/Allotted-block',
 
-  propertyManagement: '/Property-Management',
 
   // poiManagement: '/POI-Management',
   poiManagement: (id) => `/POI-Management/${id}`,
+  propertyManagement: (id) => `/Property-Management/${id}`,
 
 
   surveyManagenet: '/my-survey',

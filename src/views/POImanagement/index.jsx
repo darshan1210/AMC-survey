@@ -17,7 +17,6 @@ import { ButtonGroup, ToggleButton } from 'react-bootstrap'
 const POIManagement = () => {
     const location = useLocation()
     const { id } = useParams()
-
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
     const [isAddPOIModal, setAddPOIModal] = useState(false)
@@ -51,8 +50,8 @@ const POIManagement = () => {
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-        { name: 'Total - (10)', value: '1' },
-        { name: 'inProgress - (13)', value: '2' },
+        { name: `Total - (${poiListData?.total || 0})`, value: '1' },
+        { name: 'inProgress - (0)', value: '2' },
     ];
 
     const [dateRange, setDateRange] = useState([null, null]);
@@ -167,13 +166,13 @@ const POIManagement = () => {
                             rows: true
                         },
                         right: {
-                            search: true,
-                            filter: true
+                            search: false,
+                            filter: false
                         }
                     }}
                     sortEvent={handleSort}
                     headerEvent={(name, value) => handleHeaderEvent(name, value)}
-                    totalRecord={poiListData && (poiListData?.total)}
+                    totalRecord={poiListData && (poiListData?.total || 0)}
                     pageChangeEvent={handlePageEvent}
                     isLoading={isLoading || isFetching}
                     pagination={{ currentPage: requestParams.pageNumber, pageSize: requestParams.nLimit }}
@@ -202,7 +201,7 @@ const POIManagement = () => {
                     </Drawer>
                 </DataTable>
             </div>
-            <AddPoi isModal={isAddPOIModal} setModal={setAddPOIModal} />
+            <AddPoi isModal={isAddPOIModal} setModal={setAddPOIModal} StateData={location?.state} blockId={id} />
         </>
     )
 }

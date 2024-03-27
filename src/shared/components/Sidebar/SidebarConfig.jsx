@@ -50,16 +50,16 @@ export const sidebarConfig = [
       },
     ]
   },
-  {
-    path: route.poiManagement(1),
-    icon: faCity,
-    title: 'POI Management'
-  },
-  {
-    path: route.propertyManagement,
-    icon: faCity,
-    title: 'Porperty management'
-  },
+  // {
+  //   path: route.poiManagement(1),
+  //   icon: faCity,
+  //   title: 'POI Management'
+  // },
+  // {
+  //   path: route.propertyManagement(1),
+  //   icon: faCity,
+  //   title: 'Porperty management'
+  // },
   // {
   //   path: route.surveyManagenet,
   //   icon: faFileInvoice,
@@ -145,7 +145,7 @@ export const SuperviserSidebar = [
     title: 'POI Management'
   },
   {
-    path: route.propertyManagement,
+    path: route.propertyManagement(1),
     icon: faCity,
     title: 'Porperty management'
   },

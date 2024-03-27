@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
-import { route } from 'shared/constants/AllRoutes';
-import { useNavigate } from 'react-router-dom';
 
 import { Modal } from 'react-bootstrap';
 
 const ReviewBlockListRow = ({ user, index, }) => {
-    const navigate = useNavigate()
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -16,7 +13,7 @@ const ReviewBlockListRow = ({ user, index, }) => {
         <>
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
                 <td>{index + 1}</td>
-                <td className='blockLink' onClick={() => navigate(route.propertyManagement)}>{user.Blockname || '-'}</td>
+                <td className='blockLink' >{user.Blockname || '-'}</td>
                 <td>{user.Ward || '-'}</td>
                 <td>{user.zone || '-'}</td>
                 <td>{user.TotalProperty || '-'}</td>

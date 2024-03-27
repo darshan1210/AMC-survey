@@ -70,7 +70,7 @@ const RoutesDetails = [
       { path: route.unAlloctaedBlock, Component: UnAllottedBlockManagement, exact: true },
       { path: route.alloctaedBlock, Component: AllottedBlockManagement, exact: true },
 
-      { path: route.propertyManagement, Component: PropertyManagement, exact: true },
+      { path: route.propertyManagement(':id'), Component: PropertyManagement, exact: true },
       { path: route.surveyManagenet, Component: SurveyManagement, exact: true },
       { path: route.doneSurveyManagenet, Component: DoneSurveyManagement, exact: true },
 

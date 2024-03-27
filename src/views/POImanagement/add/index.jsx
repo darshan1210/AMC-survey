@@ -7,11 +7,10 @@ import { useMutation, useQueryClient } from 'react-query';
 import { AddPOI } from 'query/POI/poi.query';
 import { toaster } from 'helper/helper';
 
-function AddPoi({ isModal, setModal }) {
+function AddPoi({ isModal, setModal, StateData, blockId }) {
     const fileInputRef = useRef(null)
     const query = useQueryClient()
     const [imagePreviews, setImagePreviews] = useState([]);
-
     const { control, watch, register, formState: { errors }, handleSubmit, reset, setValue, setError } = useForm({ mode: 'onSubmit', defaultValues: { poi: [{ sDescription: '', sPoiImage: '' }] } });
     const { fields } = useFieldArray({
         control,
@@ -20,24 +19,25 @@ function AddPoi({ isModal, setModal }) {
 
     const { mutate } = useMutation(AddPOI, {
         onSuccess: (response) => {
-            toaster(response?.message, 'success')
-            query.invalidateQueries('poiList')
-            setModal(false)
+            toaster(response?.message, 'success');
+            query.invalidateQueries('poiList');
+            setModal(false);
+            reset({});
         }
     })
 
 
     const onSubmit = async (Data) => {
 
-        console.log('Data', Data)
 
         try {
             const userData = JSON.parse(localStorage.getItem('userData'));
 
             const finalData = {
+                block_id: blockId,
                 society_name: Data?.sSociety,
-                zone_id: userData?.zone_id,
-                ward_id: userData?.ward_id,
+                zone_id: StateData?.zone.id,
+                ward_id: StateData?.ward.id,
                 surveyor_id: userData?.roles?.id,
                 comment: Data?.comment
             };
@@ -60,10 +60,10 @@ function AddPoi({ isModal, setModal }) {
                 formData.append(`longitude`, poi.longitude);
             })
 
-            // Display the key/value pairs
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ', ' + pair[1]);
-            }
+            // // Display the key/value pairs
+            // for (var pair of formData.entries()) {
+            //     console.log(pair[0] + ', ' + pair[1]);
+            // }
 
             mutate(formData);
         } catch (error) {
@@ -334,7 +334,9 @@ function AddPoi({ isModal, setModal }) {
 
 AddPoi.propTypes = {
     isModal: PropTypes.bool.isRequired,
-    setModal: PropTypes.func.isRequired
+    setModal: PropTypes.func.isRequired,
+    StateData: PropTypes.any,
+    blockId: PropTypes.string
 };
 
 export default AddPoi;

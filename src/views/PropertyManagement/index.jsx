@@ -1,7 +1,7 @@
 import { faChalkboardUser, faCircleCheck, faListCheck, faMagnifyingGlassLocation } from '@fortawesome/free-solid-svg-icons'
 import React, { useEffect, useRef, useState } from 'react'
 import { ButtonGroup, Col, Row, ToggleButton } from 'react-bootstrap'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import Cards from 'shared/components/Card'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
@@ -10,17 +10,23 @@ import PropertyListRow from 'shared/components/PropertyListRow'
 import UserFilters from 'shared/components/UserListFilter'
 import { ProptyColums } from 'shared/constants/TableHeaders'
 import { appendParams, parseParams } from 'shared/utils'
+import AddProperty from './Add'
+import TopBar from 'shared/components/Topbar'
+import { GetPropertyList } from 'query/property/property.query'
+import { useQuery } from 'react-query'
 
 const PropertyManagement = () => {
+    const { id } = useParams()
     const location = useLocation()
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
-
+    const [addProperty, setAddProperty] = useState(false)
+    const [propertyList, setPropertyList] = useState(null)
+    console.log('propertyList', propertyList)
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-        { name: 'Total - (10)', value: '1' },
-        { name: 'inProgress - (13)', value: '2' },
+        { name: 'inProgress Property - (13)', value: '1' },
     ];
 
 
@@ -53,107 +59,14 @@ const PropertyManagement = () => {
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange
 
-
-    const sWard = location?.state?.ward || "Ward"
-    const sZone = location?.state?.zone || "zone"
-    // List
-    const data = {
-        "bots": [
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Sunrise Apartments",
-                "CreatedBy": "Ramesh Patel",
-                "CreatedDate": "10-12-2020",
-                "POI": "B12, Lard Society, Prahaladnagar Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Green Valley Residency",
-                "CreatedBy": "Suresh Kumar",
-                "CreatedDate": "05-07-2021",
-                "POI": "C7, Green Valley Residency, Bapunagar Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Royal Palm Heights",
-                "CreatedBy": "Vijay Sharma",
-                "CreatedDate": "22-09-2020",
-                "POI": "A15, Royal Palm Heights, Vasna Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Pearl Paradise",
-                "CreatedBy": "Deepak Gupta",
-                "CreatedDate": "18-04-2021",
-                "POI": "D23, Pearl Paradise, Chandkheda Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Silver Crest",
-                "CreatedBy": "Amit Kumar",
-                "CreatedDate": "11-11-2020",
-                "POI": "E8, Silver Crest, Sabarmati Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Emerald Towers",
-                "CreatedBy": "Rajesh Singh",
-                "CreatedDate": "30-06-2021",
-                "POI": "F17, Emerald Towers, SG Highway, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Golden Enclave",
-                "CreatedBy": "Neha Sharma",
-                "CreatedDate": "14-02-2021",
-                "POI": "G9, Golden Enclave, Sardar Patel Ring Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Diamond Heights",
-                "CreatedBy": "Manoj Verma",
-                "CreatedDate": "09-08-2020",
-                "POI": "H6, Diamond Heights, Naranpura Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Platinum Towers",
-                "CreatedBy": "Anita Patel",
-                "CreatedDate": "25-03-2021",
-                "POI": "I20, Platinum Towers, Ashram Road, Ahmedabad"
-            },
-            {
-                "PropertytextNo": "02310860000001H",
-                "Ward": sWard,
-                "Zone": sZone,
-                "Society": "Sapphire Gardens",
-                "CreatedBy": "Sanjay Gupta",
-                "CreatedDate": "03-10-2020",
-                "POI": "J10, Sapphire Gardens, Thaltej Road, Ahmedabad"
-            }
-        ],
-        "count": {
-            "totalData": 38
+    const { isLoading, isFetching } = useQuery(['propertyList', requestParams], () => GetPropertyList(requestParams, id), {
+        enabled: !!id,
+        select: (data) => data.data.data,
+        onSuccess: (data) => {
+            setPropertyList(data);
         }
-    }
+    })
+
 
     function handleSort(field) {
         let selectedFilter
@@ -216,7 +129,17 @@ const PropertyManagement = () => {
     return (
         <>
             <PageTitle title={'Property Management'} />
-
+            <TopBar
+                buttons={[
+                    {
+                        text: 'Add Property',
+                        icon: 'icon-add',
+                        type: 'primary',
+                        clickEventName: 'createBot',
+                        btnEvent: () => { setAddProperty(true) }
+                    },
+                ]}
+            />
             <div className='DashGrid'>
                 <Row className='dashboardCards' >
                     <Col className='mb-3 '>
@@ -260,23 +183,23 @@ const PropertyManagement = () => {
                             rows: true
                         },
                         right: {
-                            search: true,
-                            filter: true
+                            search: false,
+                            filter: false
                         }
                     }}
                     sortEvent={handleSort}
                     headerEvent={(name, value) => handleHeaderEvent(name, value)}
-                    totalRecord={data && (data?.count?.totalData || 0)}
+                    totalRecord={propertyList && (propertyList?.total || 0)}
                     pageChangeEvent={handlePageEvent}
-                    isLoading={false}
+                    isLoading={isFetching || isLoading}
                     pagination={{ currentPage: requestParams.pageNumber, pageSize: requestParams.nLimit }}
                 >
-                    {data && data?.bots?.map((user, index) => {
+                    {propertyList && propertyList?.data?.map((Property, index) => {
                         return (
                             <PropertyListRow
-                                key={user._id}
+                                key={Property.id}
                                 index={index}
-                                user={user}
+                                Property={Property}
                                 onDelete={() => { }}
                                 onUpdate={() => { }}
                             />
@@ -295,6 +218,7 @@ const PropertyManagement = () => {
                     </Drawer>
                 </DataTable>
             </div>
+            <AddProperty isModal={addProperty} setModal={setAddProperty} StateData={location?.state?.StateData} id={id} />
         </>
     )
 }
