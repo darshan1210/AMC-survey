@@ -37,20 +37,21 @@ function Dashboard() {
       <PageTitle title={'Dashboard'} />
       <div className='DashGrid'>
         <Row className='dashboardCards' >
-          <Col className='mb-3 '>
+          <Col className='mb-3 mb-md-4 col-12 col-md-6'>
             <Cards cardtext={'30'} cardtitle={'Allotted Block'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
           </Col>
-          <Col className='mb-3 '>
+          <Col className='mb-3 mb-md-4 col-12 col-md-6'>
             <Cards cardtext={'10'} cardtitle={'In Progress Block'} cardIcon={faListCheck} className='dashboard-card-2' />
+          </Col>
+          <Col className='mb-3 mb-md-4 col-12 col-md-6'>
+            <Cards cardtext={'10'} cardtitle={'Review Block'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
+          </Col>
+          <Col className='mb-3 mb-md-4 col-12 col-md-6'>
+            <Cards cardtext={'50'} cardtitle={'Completed Block'} cardIcon={faCircleCheck} className='dashboard-card-4' />
           </Col>
         </Row>
         <Row className='dashboardCards' >
-          <Col className='mb-3 '>
-            <Cards cardtext={'10'} cardtitle={'Review Block'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
-          </Col>
-          <Col className='mb-3 '>
-            <Cards cardtext={'50'} cardtitle={'Completed Block'} cardIcon={faCircleCheck} className='dashboard-card-4' />
-          </Col>
+          
         </Row>
       </div>
       {/* <div className='DashBoardChart'> */}

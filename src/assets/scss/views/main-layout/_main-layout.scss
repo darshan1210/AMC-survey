@@ -3,26 +3,22 @@
 }
 
 .main-layout {
-
-  height: 100vh;
   color: black;
 
   .main-container {
-    padding: 110px 5px 16px 70px;
-    transition: padding 0.5s;
-
+    padding: 20px;
+    transition: all ease 0.4s;
+    margin-left: 250px;
+    margin-top: 76px;
     &.active {
-      padding-inline-start: 270px;
+      // padding-inline-start: 270px;
     }
   }
 
-  @include media-max(md) {
+  @include media-max(lg) {
     .main-container {
-      padding: 90px 0px 10px 0px;
-
-      &.active {
-        padding-inline-start: 75px;
-      }
+      padding: 15px 5px;
+      margin-left: 0;
     }
   }
 }

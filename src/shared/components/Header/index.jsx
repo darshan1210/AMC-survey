@@ -8,13 +8,13 @@ import { logout } from 'query/auth/auth.query'
 import { route } from 'shared/constants/AllRoutes'
 import { toaster } from 'helper/helper'
 import CustomModal from 'shared/components/Modal'
-// import logo from 'assets/images/Main/amc-ahmedabad-logo.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
+import logo from 'assets/images/logo.svg'
+import headerProfile from 'assets/images/header-profile.webp'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useMediaQuery from 'shared/hooks/useMediaQuery'
 import Menu from 'assets/images/icons/menu'
-import { Cancel, DownSign } from 'assets/images/SVGs/Svg'
-import LogoSvg from 'assets/images/SVGs/Logo'
+import { Cancel } from 'assets/images/SVGs/Svg'
+// import LogoSvg from 'assets/images/SVGs/Logo'
 
 
 function Header({ isNavmenu, setNavMenu }) {
@@ -24,7 +24,7 @@ function Header({ isNavmenu, setNavMenu }) {
   const [show, setShow] = useState(false)
   const [profileName, setProfileName] = useState('')
   const handleClose = () => setShow(false)
-  const width = useMediaQuery('(max-width: 800px)')
+  const width = useMediaQuery('(max-width: 991px)')
 
   // const temp = localStorage.getItem('mode') === 'true'
 
@@ -80,39 +80,45 @@ function Header({ isNavmenu, setNavMenu }) {
     <header className='header'>
       <div className='header-left'>
         <Link className='logo' to={route.dashboard}>
-          {/* <img src={logo} height={width ? 50 : 70} width={width ? 50 : 70} alt="AMC-logo" /> */}
-          <LogoSvg height={width ? 50 : 70} width={width ? 50 : 70} />
-          {!width && (<span className=''>
+          <img src={logo} width={width ? 50 : 120} alt="AMC-logo" />
+          {/* <LogoSvg height={width ? 50 : 70} width={width ? 50 : 70} /> */}
+          {/* {!width && (<span className=''>
             Ahmedabad Survey
-          </span>)}
+          </span>)} */}
         </Link>
-        {width && (
-          <div className='menu-bar' onClick={() => setNavMenu(!isNavmenu)}>
-            {isNavmenu ? <Cancel className='ms-1' height='20' width='20' fill='#000' /> : <Menu height='30' width='30' />}
-          </div>
-        )}
+   
 
       </div>
-      <div className='header-right'>
-        <div className='user-name'>{profileName}</div>
-        <Dropdown>
-          <Dropdown.Toggle className='header-btn'>
-            <div className='img d-flex align-items-center justify-content-center'>
-              <FontAwesomeIcon icon={faUser} />
-              <DownSign height='13' width='13' style={{ margin: '4px 0 5px -3px' }} />
+
+      <div className='header-main'>
+        {width && (
+            <div className='menu-bar me-auto' onClick={() => setNavMenu(!isNavmenu)}>
+              {isNavmenu ? <Cancel className='ms-1' height='20' width='20' fill='#000' /> : <Menu height='30' width='30' />}
             </div>
-          </Dropdown.Toggle>
-          <Dropdown.Menu className='up-arrow'>
-            <Dropdown.Item onClick={handleEditProfile}>
-              <i className='icon-account'></i>
-              <FormattedMessage id='myProfile' />
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleLogout()}>
-              <i className='icon-logout'></i>
-              <FormattedMessage id='logout' />
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+          )}
+
+        <div className='header-right'>
+          
+          <Dropdown>
+            <Dropdown.Toggle className='header-btn'>
+              <div className='img d-flex align-items-center justify-content-center'>
+                <img src={headerProfile} alt="header Profile" />
+              </div>
+              <div className='user-name ms-2'>{profileName}</div>
+            </Dropdown.Toggle>
+            <Dropdown.Menu className='up-arrow'>
+              <Dropdown.Item onClick={handleEditProfile}>
+                <i className='icon-account'></i>
+                <FormattedMessage id='myProfile' />
+              </Dropdown.Item>
+              <div className="dropdown-divider my-0"></div>
+              <Dropdown.Item onClick={() => handleLogout()}>
+                <i className='icon-logout'></i>
+                <FormattedMessage id='logout' />
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
       </div>
       <CustomModal
         open={show}

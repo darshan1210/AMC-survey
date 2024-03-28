@@ -8,7 +8,7 @@ function AuthLayout({ children }) {
   return (
     <div className='auth-main'>
       <div className='auth-logo'>
-        <img src={logo} height={130} width={280} alt="AMC-logo" />
+        <img src={logo} width={280} alt="AMC-logo" />
       </div>
       <div className='child-box-second'>
         <Col className='login-form-container'>

@@ -6,7 +6,7 @@ import useMediaQuery from 'shared/hooks/useMediaQuery'
 import PropTypes from 'prop-types';
 
 function SideBar({ isOpen, setNavMenu }) {
-  const width = useMediaQuery('(max-width: 800px)')
+  const width = useMediaQuery('(max-width: 991px)')
   const [activeSubMenu, setActiveSubMenu] = useState(null)
 
   const toggleSubMenu = (submenu) => {
