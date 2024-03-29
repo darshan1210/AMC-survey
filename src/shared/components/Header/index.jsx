@@ -9,6 +9,7 @@ import { route } from 'shared/constants/AllRoutes'
 import { toaster } from 'helper/helper'
 import CustomModal from 'shared/components/Modal'
 import logo from 'assets/images/logo.svg'
+import Mobile from 'assets/images/Main/amc-ahmedabad-logo.png'
 import headerProfile from 'assets/images/header-profile.webp'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useMediaQuery from 'shared/hooks/useMediaQuery'
@@ -57,6 +58,14 @@ function Header({ isNavmenu, setNavMenu }) {
   //   }
   // })
 
+  useEffect(() => {
+    if (isNavmenu) {
+      document.body.classList.add('overflowBody');
+    } else {
+      document.body.classList.remove('overflowBody')
+    }
+  }, [isNavmenu])
+
   const handleLogout = () => setShow(!show)
 
   const handleConfirmLogout = () => {
@@ -80,25 +89,32 @@ function Header({ isNavmenu, setNavMenu }) {
     <header className='header'>
       <div className='header-left'>
         <Link className='logo' to={route.dashboard}>
-          <img src={logo} width={width ? 50 : 120} alt="AMC-logo" />
+          <img src={width ? Mobile : logo} width={width ? 50 : 120} alt="AMC-logo" />
           {/* <LogoSvg height={width ? 50 : 70} width={width ? 50 : 70} /> */}
           {/* {!width && (<span className=''>
             Ahmedabad Survey
           </span>)} */}
         </Link>
-   
+
 
       </div>
 
       <div className='header-main'>
         {width && (
-            <div className='menu-bar me-auto' onClick={() => setNavMenu(!isNavmenu)}>
-              {isNavmenu ? <Cancel className='ms-1' height='20' width='20' fill='#000' /> : <Menu height='30' width='30' />}
-            </div>
-          )}
+          <div className={`menu-bar me-auto ${isNavmenu ? 'active' : ''}`} onClick={() => setNavMenu(!isNavmenu)}>
+            {isNavmenu ? <Cancel className='ms-1' height='20' width='20' fill='#000' /> : <Menu height='30' width='30' />}
+            <span className='navbar-toggler-icon '>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </div>
+        )}
+
 
         <div className='header-right'>
-          
+
           <Dropdown>
             <Dropdown.Toggle className='header-btn'>
               <div className='img d-flex align-items-center justify-content-center'>

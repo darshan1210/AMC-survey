@@ -5,10 +5,10 @@ import MenuItem from './MenuItem'
 import useMediaQuery from 'shared/hooks/useMediaQuery'
 import PropTypes from 'prop-types';
 
-function SideBar({ isOpen, setNavMenu }) {
+function SideBar({ isOpen, setNavMenu, isNavmenu }) {
   const width = useMediaQuery('(max-width: 991px)')
   const [activeSubMenu, setActiveSubMenu] = useState(null)
-
+  console.log('isNavmenu', isNavmenu)
   const toggleSubMenu = (submenu) => {
     if (activeSubMenu === submenu) {
       setActiveSubMenu(null)
@@ -17,7 +17,7 @@ function SideBar({ isOpen, setNavMenu }) {
     }
   }
   return (
-    <div className={`side-bar ${width ? 'Hide' : isOpen && 'expanded'}`}>
+    <div className={`side-bar expanded ${isNavmenu ? 'show ' : ''}`}>
       <div className='menu'>
         <ul className='p-0 m-0'>
           {sidebarConfig.map((item, index) => {
@@ -31,6 +31,7 @@ function SideBar({ isOpen, setNavMenu }) {
 
 SideBar.propTypes = {
   isOpen: PropTypes.bool.isRequired,
+  isNavmenu: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
   setNavMenu: PropTypes.any
 };

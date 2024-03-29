@@ -4,7 +4,7 @@ import Header from 'shared/components/Header'
 import SideBar from 'shared/components/Sidebar'
 import { Loader } from 'shared/components/Loader'
 import useMediaQuery from 'shared/hooks/useMediaQuery'
-import MobileSideBar from 'shared/components/MobileSidebar'
+// import MobileSideBar from 'shared/components/MobileSidebar'
 
 function MainLayout({ children }) {
   const [isOpen, setIsOpen] = useState(true)
@@ -13,9 +13,9 @@ function MainLayout({ children }) {
 
   return (
     <div className='main-layout'>
-      <MobileSideBar isNavmenu={isNavmenu} setNavMenu={setNavMenu} setIsOpen={setIsOpen} />
+      {/* <MobileSide Bar isNavmenu={isNavmenu} setNavMenu={setNavMenu} setIsOpen={setIsOpen} /> */}
       <Header setNavMenu={setNavMenu} isNavmenu={isNavmenu} />
-      <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
+      <SideBar isOpen={isOpen} setIsOpen={setIsOpen} isNavmenu={isNavmenu} />
 
 
       <div className={`main-container ${width ? !isOpen && 'active' : isOpen && 'active'}`}>
