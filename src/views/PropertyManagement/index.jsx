@@ -28,6 +28,7 @@ const PropertyManagement = () => {
     const [propertyList, setPropertyList] = useState(null)
     const [radioValue, setRadioValue] = useState('1');
     const [submitToggle, setSubmitToggle] = useState(false)
+    const [counterData, setCounterData] = useState({});
 
     const radios = [
         { name: `inProgress Property - (${propertyList?.total})`, value: '1' },
@@ -65,9 +66,10 @@ const PropertyManagement = () => {
 
     const { isLoading, isFetching } = useQuery(['propertyList', requestParams], () => GetPropertyList(requestParams, id), {
         enabled: !!id,
-        select: (data) => data.data.data,
+        select: (data) => data.data,
         onSuccess: (data) => {
-            setPropertyList(data);
+            setCounterData(data?.couters);
+            setPropertyList(data?.data);
         }
     })
 
@@ -141,12 +143,11 @@ const PropertyManagement = () => {
     }, [])
 
     useEffect(() => {
-        if (Number(location?.state?.StateData?.TotalProprty) <= Number(propertyList?.total)) {
+        if (Number(counterData?.pending_property) <= 0) {
             setSubmitToggle(true)
         }
     }, [propertyList, location])
 
-    const remainProperty = (Number(location?.state?.StateData?.TotalProprty) + Number(location?.state?.StateData?.TotalShops)) - Number(propertyList?.total);
     return (
         <>
             <PageTitle title={'Property Management'} />
@@ -165,27 +166,27 @@ const PropertyManagement = () => {
             <div className='DashGrid'>
                 <Row className='dashboardCards' >
                     <Col className='mb-3 '>
-                        <Cards cardtext={location?.state?.StateData?.TotalProprty || '0'} cardtitle={'Total house'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
+                        <Cards cardtext={counterData?.total_number_of_house || '0'} cardtitle={'Total Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
                     </Col>
                     <Col className='mb-3 '>
-                        <Cards cardtext={location?.state?.StateData?.TotalShops || '0'} cardtitle={'Total Shop'} cardIcon={faCircleCheck} className='dashboard-card-4' />
+                        <Cards cardtext={counterData?.total_number_of_shops || '0'} cardtitle={'Total Shop'} cardIcon={faCircleCheck} className='dashboard-card-4' />
                     </Col>
                 </Row>
                 <Row className='dashboardCards' >
                     <Col className='mb-3 '>
-                        <Cards cardtext={remainProperty > 0 ? remainProperty : '0'} cardtitle={'Remaining Property'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
+                        <Cards cardtext={counterData?.pending_property || '0'} cardtitle={'Remaining Property'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
                     </Col>
                     <Col className='mb-3 '>
-                        <Cards cardtext={propertyList?.total || '0'} cardtitle={'Completed Property'} cardIcon={faListCheck} className='dashboard-card-2' />
+                        <Cards cardtext={counterData?.completed_property || '0'} cardtitle={'Completed Property'} cardIcon={faListCheck} className='dashboard-card-2' />
                     </Col>
                 </Row>
                 <Row className='dashboardCards' >
 
                     <Col className='mb-3 '>
-                        <Cards cardtext={location?.state?.StateData?.TotasalShops || '0'} cardtitle={'New Property'} cardIcon={faCircleCheck} className='dashboard-card-4' />
+                        <Cards cardtext={counterData?.new_property || '0'} cardtitle={'New Property'} cardIcon={faCircleCheck} className='dashboard-card-4' />
                     </Col>
                     <Col className='mb-3 '>
-                        <Cards cardtext={location?.state?.StateData?.sas || '0'} cardtitle={'Other Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
+                        <Cards cardtext={counterData?.total_number_of_other_property || '0'} cardtitle={'Other Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
                     </Col>
 
                 </Row>
@@ -260,7 +261,7 @@ const PropertyManagement = () => {
                     </Drawer>
                 </DataTable>
             </div>
-            <AddProperty isModal={addProperty} setModal={setAddProperty} StateData={location?.state?.StateData} id={id} />
+            <AddProperty isModal={addProperty} setModal={setAddProperty} StateData={location?.state?.StateData} counterData={counterData} id={id} />
         </>
     )
 }

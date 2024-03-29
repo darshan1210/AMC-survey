@@ -31,7 +31,7 @@ const TaskManagement = () => {
             startDate: data.startDate || '',
             endDate: data.endDate || '',
             search: data?.search || '',
-            status: data?.status || 0,
+            status: data?.status || 1,
             ward_id: data?.ward_id || '',
             zone_id: data?.ward_id || '',
         }

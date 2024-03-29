@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 import { zoneColums } from 'shared/constants/TableHeaders';
@@ -9,7 +9,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { addProperty } from 'query/property/property.query';
 import { toaster } from 'helper/helper';
 
-function AddProperty({ isModal, setModal, StateData, id }) {
+function AddProperty({ isModal, setModal, StateData, counterData, id }) {
     const fileInputRef = useRef(null)
     const query = useQueryClient()
     const { control, watch, register, formState: { errors }, handleSubmit, reset, setValue } = useForm({ mode: 'onSubmit' });
@@ -35,7 +35,6 @@ function AddProperty({ isModal, setModal, StateData, id }) {
             query.invalidateQueries('propertyList');
             setModal(false);
             reset();
-            mutate()
         }
     })
 
@@ -49,12 +48,16 @@ function AddProperty({ isModal, setModal, StateData, id }) {
             property_text: data?.sPropertyInfo,
             is_not_found: data?.ePropertyNotFound ? 1 : 0,
             is_new: data?.eNewProperty ? 1 : 0,
-            property_image: data?.sIcon || '',
             type: data?.type,
             comment: data?.sComment || ''
         }
+        if (data?.sIcon) {
+            FinalData.property_image = data?.sIcon
+        }
+
 
         const formData = new FormData();
+
 
         Object.entries(FinalData).forEach(([key, value]) => {
             if (Array.isArray(value)) {
@@ -72,6 +75,13 @@ function AddProperty({ isModal, setModal, StateData, id }) {
         // }
         mutate(formData)
     }
+    useEffect(() => {
+        if (Number(counterData?.pending_property) <= 0) {
+            setValue('eNewProperty', true)
+            setValue('ePropertyNotFound', false)
+        }
+    }, [counterData])
+
     return (
         <>
             <Modal show={isModal} onHide={() => { setModal(false); reset() }} id='add-ticket' className='bigModal' size='lg'>
@@ -203,16 +213,17 @@ function AddProperty({ isModal, setModal, StateData, id }) {
                                 />
                             </Col>
 
-                            {/* chek Box */}  <Col sm={6}>
+                            {/* chek Box */} {(Number(counterData?.pending_property) <= 0) && <Col sm={6}>
                                 <Form.Group className='form-checkbox'>
                                     <Controller
                                         name='eNewProperty'
                                         control={control}
-                                        render={({ field: { onChange, value, ref } }) => {
+                                        render={({ field: { onChange, value = true, ref } }) => {
                                             return <Form.Check
                                                 type='checkbox'
                                                 ref={ref}
                                                 value={value}
+                                                disabled={true}
                                                 id={'id1'}
                                                 checked={value}
                                                 label={'is New Property'}
@@ -230,9 +241,9 @@ function AddProperty({ isModal, setModal, StateData, id }) {
                                         </Form.Control.Feedback>
                                     )}
                                 </Form.Group>
-                            </Col>
+                            </Col>}
 
-                            {/* chek Box */}   <Col sm={6}>
+                            {/* chek Box */}  {(Number(counterData?.pending_property) >= 0) && <Col sm={6}>
                                 <Form.Group className='form-checkbox'>
                                     <Controller
                                         name='ePropertyNotFound'
@@ -259,89 +270,90 @@ function AddProperty({ isModal, setModal, StateData, id }) {
                                         </Form.Control.Feedback>
                                     )}
                                 </Form.Group>
-                            </Col>
+                            </Col>}
+                            <Row>
+                                {/* radio Box */}
+                                <Col sm={4}>
+                                    <Form.Group className='form-checkbox'>
+                                        <Controller
+                                            name='type'
+                                            control={control}
+                                            rules={{
+                                                required: "Please select Property type"
+                                            }}
+                                            render={({ field: { onChange, value = [], ref } }) => (
+                                                <Form.Check
+                                                    type='radio'
+                                                    ref={ref}
+                                                    value='house'
+                                                    id={'id6'}
+                                                    label={'house'}
+                                                    className={` ${errors.type && 'error'}`}
+                                                    checked={value === 'house'} // Check if this value is selected
+                                                    onChange={(e) => {
+                                                        onChange(e.target.value)
+                                                    }}
+                                                />
+                                            )}
+                                        />
+                                    </Form.Group>
+                                </Col>
 
-                            {/* radio Box */}
-                            <Col sm={4}>
-                                <Form.Group className='form-checkbox'>
-                                    <Controller
-                                        name='type'
-                                        control={control}
-                                        rules={{
-                                            required: "Please select Property type"
-                                        }}
-                                        render={({ field: { onChange, value = [], ref } }) => (
-                                            <Form.Check
-                                                type='radio'
-                                                ref={ref}
-                                                value='house'
-                                                id={'id6'}
-                                                label={'house'}
-                                                className={` ${errors.type && 'error'}`}
-                                                checked={value === 'house'} // Check if this value is selected
-                                                onChange={(e) => {
-                                                    onChange(e.target.value)
-                                                }}
-                                            />
-                                        )}
-                                    />
-                                </Form.Group>
-                            </Col>
+                                {/* radio Box */}
+                                <Col sm={4}>
+                                    <Form.Group className='form-checkbox'>
+                                        <Controller
+                                            name='type'
+                                            control={control}
+                                            rules={{
+                                                required: "Please select Property type"
+                                            }}
+                                            render={({ field: { onChange, value = [], ref } }) => (
+                                                <Form.Check
+                                                    type='radio'
+                                                    ref={ref}
+                                                    value='shop'
+                                                    id={'id7'}
+                                                    label={'Shop'}
+                                                    className={` ${errors.type && 'error'}`}
+                                                    checked={value === 'shop'} // Check if this value is selected
+                                                    onChange={(e) => {
+                                                        onChange(e.target.value)
+                                                    }}
+                                                />
+                                            )}
+                                        />
+                                    </Form.Group>
 
-                            {/* radio Box */}
-                            <Col sm={4}>
-                                <Form.Group className='form-checkbox'>
-                                    <Controller
-                                        name='type'
-                                        control={control}
-                                        rules={{
-                                            required: "Please select Property type"
-                                        }}
-                                        render={({ field: { onChange, value = [], ref } }) => (
-                                            <Form.Check
-                                                type='radio'
-                                                ref={ref}
-                                                value='shop'
-                                                id={'id7'}
-                                                label={'Shop'}
-                                                className={` ${errors.type && 'error'}`}
-                                                checked={value === 'shop'} // Check if this value is selected
-                                                onChange={(e) => {
-                                                    onChange(e.target.value)
-                                                }}
-                                            />
-                                        )}
-                                    />
-                                </Form.Group>
+                                </Col>
 
-                            </Col>
-
-                            {/* radio Box */}
-                            <Col sm={4}>
-                                <Form.Group className='form-checkbox'>
-                                    <Controller
-                                        name='type'
-                                        control={control}
-                                        rules={{
-                                            required: "Please select Property type"
-                                        }}
-                                        render={({ field: { onChange, value = [], ref } }) => (
-                                            <Form.Check
-                                                type='radio'
-                                                ref={ref}
-                                                value='other'
-                                                id={'id8'}
-                                                label={'Other'}
-                                                className={` ${errors.type && 'error'}`}
-                                                checked={value === 'other'}
-                                                onChange={(e) => {
-                                                    onChange(e.target.value)
-                                                }}
-                                            />
-                                        )}
-                                    />
-                                </Form.Group>
-                            </Col>
+                                {/* radio Box */}
+                                <Col sm={4}>
+                                    <Form.Group className='form-checkbox'>
+                                        <Controller
+                                            name='type'
+                                            control={control}
+                                            rules={{
+                                                required: "Please select Property type"
+                                            }}
+                                            render={({ field: { onChange, value = [], ref } }) => (
+                                                <Form.Check
+                                                    type='radio'
+                                                    ref={ref}
+                                                    value='other'
+                                                    id={'id8'}
+                                                    label={'Other'}
+                                                    className={` ${errors.type && 'error'}`}
+                                                    checked={value === 'other'}
+                                                    onChange={(e) => {
+                                                        onChange(e.target.value)
+                                                    }}
+                                                />
+                                            )}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
                             <div>
                                 {errors.type && (
                                     <Form.Control.Feedback className='d-flex justify-content-center ' style={{ margin: '-10px 0 10px 0' }} type='invalid'>
@@ -356,17 +368,10 @@ function AddProperty({ isModal, setModal, StateData, id }) {
                                     register={register}
                                     errors={errors}
                                     label='Comment'
-                                    required
                                     className={`form-control ${errors?.sComment && 'error'}`}
                                     name='sComment'
                                     placeholder='Enter Comment...'
                                     onChange={(e) => e.target.value}
-                                    validation={{
-                                        required: {
-                                            value: true,
-                                            message: 'Comment is required'
-                                        },
-                                    }}
                                 />
                             </Col>}
 
@@ -392,13 +397,13 @@ function AddProperty({ isModal, setModal, StateData, id }) {
                                                         )
                                                     )}
                                                 </div>
-                                            ) : <span>Add Property Images</span>}
+                                            ) : <span>Add Property Image</span>}
                                         </div>
                                         <Controller
                                             name={`sIcon`}
                                             control={control}
                                             rules={{
-                                                required: "Please add Store logo",
+                                                required: "Please add Property Image",
                                                 validate: {
                                                     fileType: (value) => {
                                                         if (value && Array.isArray(value)) {
@@ -485,6 +490,7 @@ AddProperty.propTypes = {
     isModal: PropTypes.bool.isRequired,
     setModal: PropTypes.func.isRequired,
     StateData: PropTypes.any,
+    counterData: PropTypes.any,
     id: PropTypes.string
 };
 

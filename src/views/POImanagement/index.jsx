@@ -23,6 +23,7 @@ const POIManagement = () => {
     const params = useRef(parseParams(location.search))
     const [isAddPOIModal, setAddPOIModal] = useState(false)
     const [poiListData, setPoilistData] = useState(null)
+    const [poiCount, setPoiCount] = useState(null)
     const [poiToggle, setPoiToggle] = useState(false)
 
     const navigate = useNavigate()
@@ -32,7 +33,7 @@ const POIManagement = () => {
             pageNumber: +data?.pageNumber?.[0] || 1,
             nStart: (+data?.pageNumber?.[0] - 1) || 0,
             nLimit: data?.nLimit || 10,
-            eStatus: data?.eStatus || 0,
+            eStatus: data?.eStatus || 1,
             eState: data?.eState || '',
             date: data?.date || '',
             startDate: data.startDate || '',
@@ -64,9 +65,10 @@ const POIManagement = () => {
 
     const { isLoading, isFetching } = useQuery(['poiList', requestParams], () => GetPOIList(requestParams, id), {
         enabled: !!id,
-        select: (data) => data.data.data,
+        select: (data) => data.data,
         onSuccess: (data) => {
-            setPoilistData(data);
+            setPoiCount(data?.counters)
+            setPoilistData(data?.data);
         }
     })
 
@@ -136,7 +138,7 @@ const POIManagement = () => {
     }
     function handleStatusChange(value) {
         if (value === '1') {
-            setRequestParams({ ...requestParams, eStatus: 0, pageNumber: 1 })
+            setRequestParams({ ...requestParams, eStatus: 1, pageNumber: 1 })
         } else if (value === '2') {
             setRequestParams({ ...requestParams, eStatus: 3, pageNumber: 1 })
         }
@@ -144,7 +146,7 @@ const POIManagement = () => {
 
     useEffect(() => {
         console.log('first', location?.state?.totalPOI, poiListData?.total, requestParams?.eStatus)
-        if (location?.state?.totalPOI <= poiListData?.total && requestParams?.eStatus === 3) {
+        if (poiCount && poiCount?.total_poi === poiCount?.completed_poi) {
             setPoiToggle(true)
         } else {
             setPoiToggle(false)
