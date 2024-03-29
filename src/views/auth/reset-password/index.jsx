@@ -152,9 +152,9 @@ const tempFals = false
                       }
                     })}
                     />
-                  <Button onClick={() => handlePasswordToggle('confirmPassword')} variant='link' className='icon-right'>
+                  <span onClick={() => handlePasswordToggle('confirmPassword')} className='icon-right'>
                     <i className={showPassword.confirmPassword ? 'icon-visibility' : 'icon-visibility-off'}></i>
-                  </Button>
+                  </span>
                 </InputGroup>
                 {errors.sConfirmPassword && (
                   <Form.Control.Feedback type='invalid'>{errors.sConfirmPassword.message}</Form.Control.Feedback>

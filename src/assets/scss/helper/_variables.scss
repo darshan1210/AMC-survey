@@ -120,7 +120,7 @@ $orange-700: linear-gradient(0deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
   #ffab00;
 
 // Font
-$primary-font: 'Helvetica-Regular';
+$primary-font: 'Inter';
 
 $fw-300: 300; // Light
 $fw-400: 400; // Regular
@@ -152,3 +152,11 @@ $grid-breakpoints: (
   lg: 992px,
   xl: 1200px,
   xxl: 1400px) !default;
+
+$transition-animate: all ease 0.4s;
+$primary-color: #303030;
+$secondary-color: #cddc39;
+$cta-color: #cddc39;
+$light-grey: #F9F9F9;
+$border-color: #E9ECEF;
+$secondary-font-color: #303030;

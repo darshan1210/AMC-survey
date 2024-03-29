@@ -18,11 +18,11 @@
 
 .data-table {
   background-color: var(--boxes-color);
-  padding: 25px 25px 5px 25px;
-  box-shadow: 0px 10px 20px rgb(178 191 210 / 25%);
+  padding: 20px;
+  // box-shadow: 0px 10px 20px rgb(178 191 210 / 25%);
   border-radius: 8px;
   position: relative;
-  border: 1px solid #cececec4;
+  border: 1px solid #EAECF0;
 
   .label {
     color: var(--primary-color);
@@ -171,27 +171,17 @@
   }
 
   thead {
-    border-bottom: 1px solid var(--secondary-400);
-    border-top: 1px solid var(--secondary-400);
-    text-transform: uppercase;
-
     .checkbox {
       width: 65px;
     }
-
     th {
-      font-size: $fs-12;
-      line-height: 1.14;
-      opacity: 0.7;
-      color: var(--gray-medium);
-      font-weight: $fw-500;
-      font-family: 'Helvetica-Bold';
-      padding: 10px 16px;
-      vertical-align: middle;
-      height: 48px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      text-align: center;
+      font-size: 15px;
+      font-family: 'Inter';
+      padding: 14px 20px;
+      font-weight: normal !important;
+      border: 0 !important;
+      background: #F9FAFB;
+      color: #667085;
 
       &:nth-child(2) {
         // text-align: left;
@@ -224,27 +214,34 @@
     tr.deleted-user {
       td {
         color: #e95353;
-        font-family: 'Helvetica-Bold';
+        font-family: 'Inter';
       }
     }
 
     td {
-      font-size: $fs-14;
-      color: var(--secondary-text-color);
-      line-height: 1.63;
+      font-size: 15px;
+      color: #303030;
       text-align: left;
-      padding: 16px;
-      vertical-align: middle;
-      font-family: 'Helvetica-Regular';
-      font-weight: $fw-500;
-      text-align: center;
-      border-bottom: 1px solid var(--secondary-400);
+      padding: 18px 20px!important;
+      font-family: 'Inter';
+      border-bottom: 1px solid #E9ECEF;
 
       span.delete-user {
         color: #e95353;
-        font-family: 'Helvetica-Bold';
+        font-family: 'Inter';
       }
-
+      .blockLink{
+        transition: $transition-animate;
+      }
+      .SingleDataTabeIcon  {
+        i{
+          transition: $transition-animate;
+          color: #303030;
+          &:hover{
+            opacity: 0.7;
+          }
+        }
+      }
       span.user:hover {
         color: var(--primary-color);
         cursor: pointer;
@@ -392,7 +389,7 @@ body.dark {
         opacity: 0.7;
         color: var(--gray-medium);
         font-weight: $fw-500;
-        font-family: 'Helvetica-Bold';
+        font-family: 'Inter';
         padding: 10px 16px;
         vertical-align: middle;
         height: 48px;
@@ -451,3 +448,5 @@ body.dark {
 
   }
 }
+
+

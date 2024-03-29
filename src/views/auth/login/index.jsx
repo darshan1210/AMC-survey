@@ -9,8 +9,6 @@ import { validationErrors } from 'shared/constants/ValidationErrors'
 import { useMutation } from 'react-query'
 import { toaster } from 'helper/helper'
 import { EMAIL } from 'shared/constants'
-import { MailIcon } from 'assets/images/SVGs/Svg'
-
 function Login() {
   const navigate = useNavigate()
   const {
@@ -52,7 +50,7 @@ function Login() {
       <Form noValidate onSubmit={handleSubmit(onSubmit)} className='login-form'>
         <div className='title-b'>
           <div className='d-flex align-items-center justify-content-center'>
-            <h2 className='title me-2 m-0'>
+            <h2>
               Login to your account
             </h2>
           </div>
@@ -104,7 +102,7 @@ function Login() {
                 <FormattedMessage id='emailAddress' />
               </Form.Label>
               <InputGroup>
-                <InputGroup.Text id="basic-addon1"><MailIcon fill='#FEC50A' height='20' width='20' />
+                <InputGroup.Text id="basic-addon1">
                   <Form.Control
                     type='text'
                     required
@@ -126,7 +124,7 @@ function Login() {
                 <FormattedMessage id='password' />
               </Form.Label>
               <InputGroup>
-                <InputGroup.Text id="basic-addon2"><MailIcon fill='#FEC50A' height='20' width='20' />
+                <InputGroup.Text id="basic-addon2">
                   <Form.Control
                     type={showPassword ? 'password' : 'text'}
                     required
@@ -141,9 +139,9 @@ function Login() {
                     })}
                   />
                 </InputGroup.Text>
-                <Button onClick={handlePasswordToggle} variant='link' className='icon-right'>
+                <span onClick={handlePasswordToggle} className='icon-right'>
                   <i className={showPassword ? 'icon-visibility' : 'icon-visibility-off'}></i>
-                </Button>
+                </span>
               </InputGroup>
               {errors.sPassword && <Form.Control.Feedback type='invalid'>{errors.sPassword.message}</Form.Control.Feedback>}
             </Form.Group>

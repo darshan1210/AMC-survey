@@ -38,10 +38,10 @@ function MenuItem({ item, isMenuOpen, activeSubMenu, toggleSubMenu, setNavMenu }
                   : 'list-name'
               }
             >
-              <i><FontAwesomeIcon icon={item.icon} /></i>
+              <span className='icon'><FontAwesomeIcon icon={item.icon} /></span>
               <div className='side-bar-text'> {item.title} </div>
               {item.children && (
-                <i className='icon-arrow-drop-down drop-icon'></i>
+                <i className='icon-chevron-down drop-icon'></i>
               )}
             </span>
           </span>
@@ -52,7 +52,7 @@ function MenuItem({ item, isMenuOpen, activeSubMenu, toggleSubMenu, setNavMenu }
                   to={subItem.path}
                   activeclassName={`active ${(currentPathSlashIndex === 3 || currentPathSlashIndex === 2) && 'pe-none'}`}
                 >
-                  <i><FontAwesomeIcon icon={subItem.icon} /></i>
+                  <span className='icon'><FontAwesomeIcon icon={subItem.icon} /></span>
                   {subItem.title}
                 </NavLink>
               </li>
@@ -67,7 +67,7 @@ function MenuItem({ item, isMenuOpen, activeSubMenu, toggleSubMenu, setNavMenu }
               activeclassName={`active ${!item.children && 'pe-none'} `}
               onClick={() => toggle()} // Only call toggle here for parent items
             >
-              <i><FontAwesomeIcon icon={item.icon} /></i>
+              <span className='icon'><FontAwesomeIcon icon={item.icon} /></span>
               <div className='side-bar-text'> {item.title} </div>
               {item.children && (
                 <i className='icon-arrow-drop-down drop-icon'></i>
