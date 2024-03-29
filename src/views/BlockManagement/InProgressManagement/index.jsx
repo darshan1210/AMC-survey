@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
 import UserFilters from 'shared/components/UserListFilter'
-import { TaskColumm } from 'shared/constants/TableHeaders'
+import { InProgressBlockColum } from 'shared/constants/TableHeaders'
 import { appendParams, parseParams } from 'shared/utils'
 import PageTitle from 'shared/components/PageTitle'
 // import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -43,7 +43,7 @@ const InProgressManagement = () => {
     }
 
     const [requestParams, setRequestParams] = useState(getRequestParams())
-    const [columns, setColumns] = useState(getSortedColumns(TaskColumm, parsedData))
+    const [columns, setColumns] = useState(getSortedColumns(InProgressBlockColum, parsedData))
     const [modal, setModal] = useState({ open: false, type: '' })
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange

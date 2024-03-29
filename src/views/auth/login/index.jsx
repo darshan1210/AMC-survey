@@ -9,7 +9,7 @@ import { validationErrors } from 'shared/constants/ValidationErrors'
 import { useMutation } from 'react-query'
 import { toaster } from 'helper/helper'
 import { EMAIL } from 'shared/constants'
-import { MailIcon } from 'assets/images/SVGs/Svg'
+import { KeyIcon, MailIcon } from 'assets/images/SVGs/Svg'
 
 function Login() {
   const navigate = useNavigate()
@@ -104,7 +104,7 @@ function Login() {
                 <FormattedMessage id='emailAddress' />
               </Form.Label>
               <InputGroup>
-                <InputGroup.Text id="basic-addon1"><MailIcon fill='#FEC50A' height='20' width='20' />
+                <InputGroup.Text id="basic-addon1"><MailIcon fill='#b3e232' height='20' width='20' />
                   <Form.Control
                     type='text'
                     required
@@ -126,7 +126,7 @@ function Login() {
                 <FormattedMessage id='password' />
               </Form.Label>
               <InputGroup>
-                <InputGroup.Text id="basic-addon2"><MailIcon fill='#FEC50A' height='20' width='20' />
+                <InputGroup.Text id="basic-addon2"><KeyIcon fill='#b3e232' height='20' width='20' />
                   <Form.Control
                     type={showPassword ? 'password' : 'text'}
                     required

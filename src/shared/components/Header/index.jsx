@@ -24,7 +24,7 @@ function Header({ isNavmenu, setNavMenu }) {
   const [show, setShow] = useState(false)
   const [profileName, setProfileName] = useState('')
   const handleClose = () => setShow(false)
-  const width = useMediaQuery('(max-width: 800px)')
+  const width = useMediaQuery('(max-width: 767px)')
 
   // const temp = localStorage.getItem('mode') === 'true'
 

@@ -17,10 +17,10 @@ const TaskManagement = () => {
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
     const [radioValue, setRadioValue] = useState('1');
-    const [myBlockList, setMyBlockList] = useState([])
+    const [myBlockList, setMyBlockList] = useState(null)
 
     const radios = [
-        { name: 'My Block Details - (50)', value: '1' },
+        { name: `My Block Details - (${myBlockList?.total || 0})`, value: '1' },
     ];
 
     function getRequestParams(e) {
@@ -31,6 +31,7 @@ const TaskManagement = () => {
             startDate: data.startDate || '',
             endDate: data.endDate || '',
             search: data?.search || '',
+            status: data?.status || 0,
             ward_id: data?.ward_id || '',
             zone_id: data?.ward_id || '',
         }
@@ -50,7 +51,7 @@ const TaskManagement = () => {
     const { isLoading, isFetching } = useQuery(['myBlockList', requestParams], () => GetMyBlockList(requestParams), {
         select: (data) => data.data.data,
         onSuccess: (data) => {
-            setMyBlockList(data?.data);
+            setMyBlockList(data);
         }
     })
 
@@ -120,7 +121,7 @@ const TaskManagement = () => {
 
     return (
         <>
-            <PageTitle title={'My-Total Blocks'} />
+            <PageTitle title={'My Blocks'} />
             <ButtonGroup className='BlockButtonGroup'>
                 {radios.map((radio, idx) => (
                     <ToggleButton
@@ -153,12 +154,12 @@ const TaskManagement = () => {
                     }}
                     sortEvent={handleSort}
                     headerEvent={(name, value) => handleHeaderEvent(name, value)}
-                    totalRecord={myBlockList?.length && (myBlockList?.length || 0)}
+                    totalRecord={myBlockList && (myBlockList?.total || 0)}
                     pageChangeEvent={handlePageEvent}
                     isLoading={isLoading || isFetching}
                     pagination={{ currentPage: requestParams.pageNumber, pageSize: requestParams.nLimit }}
                 >
-                    {myBlockList?.length && myBlockList?.map((user, index) => {
+                    {myBlockList && myBlockList?.data?.map((user, index) => {
                         return (
                             <TaskListRow
                                 key={user._id}

@@ -10,7 +10,7 @@ import useMediaQuery from 'shared/hooks/useMediaQuery'
 
 function Dashboard() {
 
-  const width = useMediaQuery('(max-width: 800px)')
+  const width = useMediaQuery('(max-width: 767px)')
   const [DataPoints] = useState([
     { name: "Review Block", y: 12 },
     { name: "Allotted Block", y: 31 },

@@ -1,7 +1,7 @@
 import { faChalkboardUser, faCircleCheck, faListCheck, faMagnifyingGlassLocation } from '@fortawesome/free-solid-svg-icons'
 import React, { useEffect, useRef, useState } from 'react'
-import { ButtonGroup, Col, Row, ToggleButton } from 'react-bootstrap'
-import { useLocation, useParams } from 'react-router-dom'
+import { Button, ButtonGroup, Col, Row, Spinner, ToggleButton } from 'react-bootstrap'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import Cards from 'shared/components/Card'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
@@ -13,20 +13,24 @@ import { appendParams, parseParams } from 'shared/utils'
 import AddProperty from './Add'
 import TopBar from 'shared/components/Topbar'
 import { GetPropertyList } from 'query/property/property.query'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
+import { ChangePOIStatus } from 'query/POI/poi.query'
+import { route } from 'shared/constants/AllRoutes'
+import { toaster } from 'helper/helper'
 
 const PropertyManagement = () => {
     const { id } = useParams()
+    const navigate = useNavigate()
     const location = useLocation()
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
     const [addProperty, setAddProperty] = useState(false)
     const [propertyList, setPropertyList] = useState(null)
-    console.log('propertyList', propertyList)
     const [radioValue, setRadioValue] = useState('1');
+    const [submitToggle, setSubmitToggle] = useState(false)
 
     const radios = [
-        { name: 'inProgress Property - (13)', value: '1' },
+        { name: `inProgress Property - (${propertyList?.total})`, value: '1' },
     ];
 
 
@@ -66,6 +70,17 @@ const PropertyManagement = () => {
             setPropertyList(data);
         }
     })
+
+    const { isLoading: SubmitProptyLoad, mutate } = useMutation(ChangePOIStatus, {
+        onSuccess: () => {
+            toaster('Property submit successfully', 'success');
+            navigate(route.poiManagement(location?.state?.StateData?.blockId))
+        }
+    })
+
+    const SubmitProperty = () => {
+        mutate({ poi_id: id })
+    }
 
 
     function handleSort(field) {
@@ -125,7 +140,13 @@ const PropertyManagement = () => {
         document.title = 'Property Management | AMC Survey'
     }, [])
 
+    useEffect(() => {
+        if (Number(location?.state?.StateData?.TotalProprty) <= Number(propertyList?.total)) {
+            setSubmitToggle(true)
+        }
+    }, [propertyList, location])
 
+    const remainProperty = (Number(location?.state?.StateData?.TotalProprty) + Number(location?.state?.StateData?.TotalShops)) - Number(propertyList?.total);
     return (
         <>
             <PageTitle title={'Property Management'} />
@@ -140,24 +161,45 @@ const PropertyManagement = () => {
                     },
                 ]}
             />
+
             <div className='DashGrid'>
                 <Row className='dashboardCards' >
                     <Col className='mb-3 '>
-                        <Cards cardtext={'82'} cardtitle={'Total Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
+                        <Cards cardtext={location?.state?.StateData?.TotalProprty || '0'} cardtitle={'Total house'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
                     </Col>
                     <Col className='mb-3 '>
-                        <Cards cardtext={'30'} cardtitle={'In Progress Property'} cardIcon={faListCheck} className='dashboard-card-2' />
+                        <Cards cardtext={location?.state?.StateData?.TotalShops || '0'} cardtitle={'Total Shop'} cardIcon={faCircleCheck} className='dashboard-card-4' />
                     </Col>
                 </Row>
                 <Row className='dashboardCards' >
                     <Col className='mb-3 '>
-                        <Cards cardtext={'41'} cardtitle={'Remaining Property'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
+                        <Cards cardtext={remainProperty > 0 ? remainProperty : '0'} cardtitle={'Remaining Property'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
                     </Col>
                     <Col className='mb-3 '>
-                        <Cards cardtext={'55'} cardtitle={'Completed Property'} cardIcon={faCircleCheck} className='dashboard-card-4' />
+                        <Cards cardtext={propertyList?.total || '0'} cardtitle={'Completed Property'} cardIcon={faListCheck} className='dashboard-card-2' />
                     </Col>
                 </Row>
+                <Row className='dashboardCards' >
+
+                    <Col className='mb-3 '>
+                        <Cards cardtext={location?.state?.StateData?.TotasalShops || '0'} cardtitle={'New Property'} cardIcon={faCircleCheck} className='dashboard-card-4' />
+                    </Col>
+                    <Col className='mb-3 '>
+                        <Cards cardtext={location?.state?.StateData?.sas || '0'} cardtitle={'Other Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
+                    </Col>
+
+                </Row>
             </div>
+            { }
+
+            {(submitToggle) && (
+                <div className='d-flex justify-content-end pe-3'>
+                    <Button className='rounded-3' disabled={SubmitProptyLoad} onClick={SubmitProperty}>
+                        Submit All Property {SubmitProptyLoad && <Spinner size='sm' />}
+                    </Button>
+                </div>
+            )}
+
             <ButtonGroup className='BlockButtonGroup'>
                 {radios.map((radio, idx) => (
                     <ToggleButton

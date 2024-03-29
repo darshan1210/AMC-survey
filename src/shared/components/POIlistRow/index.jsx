@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
-import { Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { route } from 'shared/constants/AllRoutes';
 import { useNavigate } from 'react-router-dom';
 
-const POIListRow = ({ poi, index, }) => {
+const POIListRow = ({ poi, index, blockId }) => {
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+
     const StateData = {
+        blockId: blockId,
         zone: poi?.zone,
         ward: poi?.ward,
         socity: poi?.geofence_name,
-        TotalProprty: poi?.total_number_of_house + poi?.total_number_of_shops
+        TotalProprty: poi?.total_number_of_house,
+        TotalShops: poi?.total_number_of_shops
     }
 
     return (
@@ -23,12 +25,12 @@ const POIListRow = ({ poi, index, }) => {
                 <td>{poi?.zone?.zone_name || '-'}</td>
                 <td>{poi?.ward?.ward_name || '-'}</td>
                 <td className='blockLink' onClick={() => navigate(route.propertyManagement(poi?.id), { state: { StateData } })}>{poi.geofence_name || '-'}</td>
-                <td>{poi.total_number_of_house || '0'}</td>
-                <td>{poi.total_number_of_shops || '0'}</td>
+                <td className='blockLink' onClick={() => navigate(route.propertyManagement(poi?.id), { state: { StateData } })}>{poi.total_number_of_house || '0'}</td>
+                <td className='blockLink' onClick={() => navigate(route.propertyManagement(poi?.id), { state: { StateData } })}>{poi.total_number_of_shops || '0'}</td>
                 <td>
-                    <div className='SingleDataTabeIcon' onClick={handleShow}>
-                        <i className='icon-visibility d-block' />
-                    </div>
+                    <Button className='ButtonListRow' onClick={() => navigate(route.propertyManagement(poi?.id), { state: { StateData } })}>
+                        Start Survey
+                    </Button>
                 </td>
             </tr>
 
@@ -51,9 +53,11 @@ const POIListRow = ({ poi, index, }) => {
 
 POIListRow.propTypes = {
     poi: PropTypes.any,
-    index: PropTypes.number.isRequired,
     onDelete: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired,
+    blockId: PropTypes.number.isRequired,
     onUpdate: PropTypes.func.isRequired,
+
 };
 
 

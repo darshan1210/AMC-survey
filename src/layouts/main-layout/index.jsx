@@ -9,7 +9,7 @@ import MobileSideBar from 'shared/components/MobileSidebar'
 function MainLayout({ children }) {
   const [isOpen, setIsOpen] = useState(true)
   const [isNavmenu, setNavMenu] = useState(false)
-  const width = useMediaQuery('(max-width: 800px)')
+  const width = useMediaQuery('(max-width: 767px)')
 
   return (
     <div className='main-layout'>

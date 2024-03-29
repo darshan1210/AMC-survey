@@ -2,17 +2,17 @@ import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 import { zoneColums } from 'shared/constants/TableHeaders';
-import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
+import { Button, Col, Form, Modal, Row, Spinner } from 'react-bootstrap';
 import Select from 'react-select';
 import CommonInput from 'shared/components/CommonInput';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { addProperty } from 'query/property/property.query';
 import { toaster } from 'helper/helper';
 
 function AddProperty({ isModal, setModal, StateData, id }) {
     const fileInputRef = useRef(null)
-    // console.log('StateData', StateData, id)
-    const { control, watch, register, formState: { errors }, handleSubmit, reset } = useForm({ mode: 'onSubmit' });
+    const query = useQueryClient()
+    const { control, watch, register, formState: { errors }, handleSubmit, reset, setValue } = useForm({ mode: 'onSubmit' });
 
     const handleFileInputClick = () => {
         if (fileInputRef.current) {
@@ -21,6 +21,7 @@ function AddProperty({ isModal, setModal, StateData, id }) {
     }
 
     useState(() => {
+        console.log('');
         reset({
             eWard: { "label": StateData?.ward?.ward_name, "value": StateData?.ward?.id },
             eZone: { "label": StateData?.zone?.zone_name, "value": StateData?.zone?.id },
@@ -28,17 +29,18 @@ function AddProperty({ isModal, setModal, StateData, id }) {
         })
     }, [StateData])
 
-    const { mutate } = useMutation(addProperty, {
-        onSuccess: (response) => {
-            toaster(response?.message, 'success');
-            // query.invalidateQueries('poiList');
+    const { isLoading, mutate } = useMutation(addProperty, {
+        onSuccess: () => {
+            toaster('Property Added successfully', 'success');
+            query.invalidateQueries('propertyList');
             setModal(false);
-            reset({});
+            reset();
+            mutate()
         }
     })
 
     const onSubmit = async (data) => {
-        console.log('data', data)
+
 
         const FinalData = {
             ward_id: StateData?.ward?.id,
@@ -47,7 +49,8 @@ function AddProperty({ isModal, setModal, StateData, id }) {
             property_text: data?.sPropertyInfo,
             is_not_found: data?.ePropertyNotFound ? 1 : 0,
             is_new: data?.eNewProperty ? 1 : 0,
-            property_image: data?.sIcon,
+            property_image: data?.sIcon || '',
+            type: data?.type,
             comment: data?.sComment || ''
         }
 
@@ -63,7 +66,7 @@ function AddProperty({ isModal, setModal, StateData, id }) {
             }
         });
 
-        // // Display the key/value pairs
+        // Display the key/value pairs
         // for (var pair of formData.entries()) {
         //     console.log(pair[0] + ', ' + pair[1]);
         // }
@@ -74,7 +77,7 @@ function AddProperty({ isModal, setModal, StateData, id }) {
             <Modal show={isModal} onHide={() => { setModal(false); reset() }} id='add-ticket' className='bigModal' size='lg'>
                 <Form className='step-one' autoComplete='off'>
                     <Modal.Header closeButton>
-                        <Modal.Title className='add-ticket-header'>Update Survey details</Modal.Title>
+                        <Modal.Title className='add-ticket-header'>Add Survey details</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
@@ -205,19 +208,21 @@ function AddProperty({ isModal, setModal, StateData, id }) {
                                     <Controller
                                         name='eNewProperty'
                                         control={control}
-                                        render={({ field: { onChange, value = [], ref } }) => (
-                                            <Form.Check
+                                        render={({ field: { onChange, value, ref } }) => {
+                                            return <Form.Check
                                                 type='checkbox'
                                                 ref={ref}
                                                 value={value}
                                                 id={'id1'}
+                                                checked={value}
                                                 label={'is New Property'}
                                                 className={` ${errors.eNewProperty && 'error'}`}
                                                 onChange={(e) => {
                                                     onChange(e)
+                                                    setValue('ePropertyNotFound', false)
                                                 }}
                                             />
-                                        )}
+                                        }}
                                     />
                                     {errors.eNewProperty && (
                                         <Form.Control.Feedback type='invalid'>
@@ -232,16 +237,18 @@ function AddProperty({ isModal, setModal, StateData, id }) {
                                     <Controller
                                         name='ePropertyNotFound'
                                         control={control}
-                                        render={({ field: { onChange, value = [], ref } }) => (
+                                        render={({ field: { onChange, value, ref } }) => (
                                             <Form.Check
                                                 type='checkbox'
                                                 ref={ref}
                                                 value={value}
+                                                checked={value}
                                                 id={'id3'}
                                                 label={'is Property Not Found'}
                                                 className={` ${errors.ePropertyNotFound && 'error'}`}
                                                 onChange={(e) => {
                                                     onChange(e)
+                                                    setValue('eNewProperty', false)
                                                 }}
                                             />
                                         )}
@@ -254,7 +261,96 @@ function AddProperty({ isModal, setModal, StateData, id }) {
                                 </Form.Group>
                             </Col>
 
-                            {/* Comment */} {watch('ePropertyNotFound') && <Col sm={12}>
+                            {/* radio Box */}
+                            <Col sm={4}>
+                                <Form.Group className='form-checkbox'>
+                                    <Controller
+                                        name='type'
+                                        control={control}
+                                        rules={{
+                                            required: "Please select Property type"
+                                        }}
+                                        render={({ field: { onChange, value = [], ref } }) => (
+                                            <Form.Check
+                                                type='radio'
+                                                ref={ref}
+                                                value='house'
+                                                id={'id6'}
+                                                label={'house'}
+                                                className={` ${errors.type && 'error'}`}
+                                                checked={value === 'house'} // Check if this value is selected
+                                                onChange={(e) => {
+                                                    onChange(e.target.value)
+                                                }}
+                                            />
+                                        )}
+                                    />
+                                </Form.Group>
+                            </Col>
+
+                            {/* radio Box */}
+                            <Col sm={4}>
+                                <Form.Group className='form-checkbox'>
+                                    <Controller
+                                        name='type'
+                                        control={control}
+                                        rules={{
+                                            required: "Please select Property type"
+                                        }}
+                                        render={({ field: { onChange, value = [], ref } }) => (
+                                            <Form.Check
+                                                type='radio'
+                                                ref={ref}
+                                                value='shop'
+                                                id={'id7'}
+                                                label={'Shop'}
+                                                className={` ${errors.type && 'error'}`}
+                                                checked={value === 'shop'} // Check if this value is selected
+                                                onChange={(e) => {
+                                                    onChange(e.target.value)
+                                                }}
+                                            />
+                                        )}
+                                    />
+                                </Form.Group>
+
+                            </Col>
+
+                            {/* radio Box */}
+                            <Col sm={4}>
+                                <Form.Group className='form-checkbox'>
+                                    <Controller
+                                        name='type'
+                                        control={control}
+                                        rules={{
+                                            required: "Please select Property type"
+                                        }}
+                                        render={({ field: { onChange, value = [], ref } }) => (
+                                            <Form.Check
+                                                type='radio'
+                                                ref={ref}
+                                                value='other'
+                                                id={'id8'}
+                                                label={'Other'}
+                                                className={` ${errors.type && 'error'}`}
+                                                checked={value === 'other'}
+                                                onChange={(e) => {
+                                                    onChange(e.target.value)
+                                                }}
+                                            />
+                                        )}
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <div>
+                                {errors.type && (
+                                    <Form.Control.Feedback className='d-flex justify-content-center ' style={{ margin: '-10px 0 10px 0' }} type='invalid'>
+                                        {errors.type.message}
+                                    </Form.Control.Feedback>
+                                )}
+                            </div>
+
+                            {/* Comment */} {(watch('ePropertyNotFound') || watch('eNewProperty')) && <Col sm={watch('eNewProperty') ? 6 : 12}>
                                 <CommonInput
                                     type='text'
                                     register={register}
@@ -274,9 +370,9 @@ function AddProperty({ isModal, setModal, StateData, id }) {
                                 />
                             </Col>}
 
-                            <Col sm={12}>
+                            {!watch('ePropertyNotFound') && <Col sm={12}>
                                 <div className='fileinput'>
-                                    <label>Add Property Images<span className='inputStar'>*</span></label>
+                                    <label className='islabel'>Add Property Images<span className='inputStar'>*</span></label>
                                     <div className='inputtypefile'>
                                         <div className='inputMSG'>
                                             {watch('sIcon') ? (
@@ -363,16 +459,18 @@ function AddProperty({ isModal, setModal, StateData, id }) {
                                     <span className='card-error'>{errors && errors?.sIcon && <Form.Control.Feedback type="invalid">{errors?.sIcon.message}</Form.Control.Feedback>}</span>
                                 </div>
 
-                            </Col>
+                            </Col>}
+
+
                         </Row>
 
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={() => { setModal(false); reset() }}>
+                        <Button variant="secondary" disabled={isLoading} onClick={() => { setModal(false); reset() }}>
                             Cancel
                         </Button>
-                        <Button variant="primary" type='submit' onClick={handleSubmit(onSubmit)}>
-                            Submit
+                        <Button variant="primary" type='submit' disabled={isLoading} onClick={handleSubmit(onSubmit)}>
+                            Submit {isLoading && <Spinner size='sm' />}
                         </Button>
                     </Modal.Footer>
                 </Form >

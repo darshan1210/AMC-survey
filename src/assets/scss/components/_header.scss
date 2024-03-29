@@ -145,7 +145,7 @@
   }
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 767px) {
   .header {
 
     &-left {
@@ -156,7 +156,7 @@
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 767px) {
   .header {
     background: white;
     bottom: 1px solid #cecece;

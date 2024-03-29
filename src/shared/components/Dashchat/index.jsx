@@ -7,7 +7,7 @@ const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const DonutChart = ({ title, subtitle, dataPoints }) => {
 
-    const width = useMediaQuery('(max-width: 800px)')
+    const width = useMediaQuery('(max-width: 767px)')
     const [options] = useState({
         animationEnabled: true,
         title: {

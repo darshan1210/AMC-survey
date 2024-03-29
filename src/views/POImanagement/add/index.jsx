@@ -21,11 +21,12 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
         onSuccess: (response) => {
             toaster(response?.message, 'success');
             query.invalidateQueries('poiList');
+            reset();
             setModal(false);
-            reset({});
         }
     })
 
+    console.log('StateData', StateData)
 
     const onSubmit = async (Data) => {
 
@@ -35,11 +36,12 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
 
             const finalData = {
                 block_id: blockId,
-                society_name: Data?.sSociety,
+                // society_name: '',
                 zone_id: StateData?.zone.id,
                 ward_id: StateData?.ward.id,
                 surveyor_id: userData?.roles?.id,
-                comment: Data?.comment
+                comment: Data?.comment,
+                // is_new: true
             };
 
             const formData = new FormData();
@@ -133,7 +135,7 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
                     <Modal.Body>
                         <Row>
 
-                            {/* Society */}  <Col sm={12}>
+                            {/* Society  <Col sm={12}>
                                 <CommonInput
                                     type='text'
                                     register={register}
@@ -155,7 +157,7 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
                                         },
                                     }}
                                 />
-                            </Col>
+                            </Col> */}
 
                             {
                                 fields.map((field, index) => {
@@ -173,16 +175,16 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
                                                     errors={errors}
                                                     customerror={errors?.poi?.[`${index}`]?.sDescription}
                                                     customerrorMsg={errors?.poi?.[`${index}`]?.sDescription?.message}
-                                                    label={`POI - ${index + 1}`}
+                                                    label={`POI`}
                                                     required
                                                     className={`form-control ${errors?.poi?.[`${index}`]?.sDescription && 'error'}`}
                                                     name={`poi[${index}].sDescription`}
-                                                    placeholder='Enter POI Adress...'
+                                                    placeholder='Enter POI..'
                                                     onChange={(e) => e.target.value}
                                                     validation={{
                                                         required: {
                                                             value: true,
-                                                            message: 'POI Adress is required'
+                                                            message: 'POI is required'
                                                         },
                                                     }}
                                                 />
@@ -190,7 +192,7 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
                                             <Col sm={12}>
                                                 <div className='fileinput'>
                                                     <div className='islabel'>
-                                                        <label>Add POI - {index + 1} Image<span className='inputStar'>*</span></label>
+                                                        <label>Add POI Image<span className='inputStar'>*</span></label>
                                                     </div>
                                                     <div className='inputtypefile'>
                                                         <div className='inputMSG'>
@@ -302,17 +304,17 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
                                     register={register}
                                     errors={errors}
                                     label='Comment'
-                                    required
+                                    // required
                                     className={`form-control ${errors?.comment && 'error'}`}
                                     name='comment'
                                     placeholder='Enter Comment...'
                                     onChange={(e) => e.target.value}
-                                    validation={{
-                                        required: {
-                                            value: true,
-                                            message: 'Comment is required'
-                                        },
-                                    }}
+                                // validation={{
+                                //     required: {
+                                //         value: true,
+                                //         message: 'Comment is required'
+                                //     },
+                                // }}
                                 />
                             </Col>
 

@@ -76,13 +76,12 @@ export const POIColums = [
 
 export const RevviewSurveyColums = [
     { name: 'No', isSort: true },
+    { name: 'Block name', isSort: false },
     { name: 'Ward', isSort: false },
-    { name: 'Zone', isSort: false },
-    { name: 'Society', isSort: false },
-    { name: 'Created By', isSort: false },
+    { name: 'zone', isSort: false },
+    { name: 'Total POI', isSort: false },
+    { name: 'Created by', isSort: false },
     { name: 'Created Date', isSort: false },
-    { name: 'Owner Name', isSort: false },
-    { name: 'Phone No', isSort: false },
     { name: 'Actions', isSort: false },
 ]
 
