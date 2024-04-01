@@ -20,7 +20,7 @@ const TaskManagement = () => {
     const [myBlockList, setMyBlockList] = useState(null)
 
     const radios = [
-        { name: `My Block Details - (${myBlockList?.total || 0})`, value: '1' },
+        { name: `My Block Details (${myBlockList?.total || 0})`, value: '1' },
     ];
 
     function getRequestParams(e) {

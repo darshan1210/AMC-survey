@@ -24,6 +24,29 @@ export const TaskColumm = [
     { name: 'Actions', isSort: false },
 ]
 
+export const ReviewBlockColumm = [
+    { name: 'No', isSort: true },
+    { name: 'Block name', isSort: false },
+    { name: 'Ward', isSort: false },
+    { name: 'zone', isSort: false },
+    { name: 'Total POI', isSort: false },
+    { name: 'Allocated Date', isSort: false },
+    { name: 'Survey Date', isSort: false },
+    { name: 'Actions', isSort: false },
+]
+
+
+export const CompletdBlockColumm = [
+    { name: 'No', isSort: true },
+    { name: 'Block name', isSort: false },
+    { name: 'Ward', isSort: false },
+    { name: 'zone', isSort: false },
+    { name: 'Total POI', isSort: false },
+    { name: 'Allocated Date', isSort: false },
+    { name: 'Complete Date', isSort: false },
+    { name: 'Actions', isSort: false },
+]
+
 export const InProgressBlockColum = [
     { name: 'No', isSort: true },
     { name: 'Block name', isSort: false },

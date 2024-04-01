@@ -4,7 +4,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { route } from 'shared/constants/AllRoutes';
 import { useNavigate } from 'react-router-dom';
 
-const POIListRow = ({ poi, index, blockId }) => {
+const POIListRow = ({ poi, index, blockId, radioValue }) => {
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -29,7 +29,7 @@ const POIListRow = ({ poi, index, blockId }) => {
                 <td>{poi.total_number_of_shops || '0'}</td>
                 <td>
                     <Button className='ButtonListRow' onClick={() => navigate(route.propertyManagement(poi?.id), { state: { StateData } })}>
-                        Start Survey
+                        {radioValue === '1' ? 'Start Survey ' : 'Update Survey'}
                     </Button>
                 </td>
             </tr>
@@ -53,6 +53,7 @@ const POIListRow = ({ poi, index, blockId }) => {
 
 POIListRow.propTypes = {
     poi: PropTypes.any,
+    radioValue: PropTypes.any,
     onDelete: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
     blockId: PropTypes.number.isRequired,

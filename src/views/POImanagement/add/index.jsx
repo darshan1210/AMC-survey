@@ -134,7 +134,7 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
-
+                            {/* <Col >ward :- {StateData?.ward?.ward_name}</Col> */}
                             {/* Society  <Col sm={12}>
                                 <CommonInput
                                     type='text'

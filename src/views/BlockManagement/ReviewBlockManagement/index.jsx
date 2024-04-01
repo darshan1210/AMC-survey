@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
-import { TaskColumm } from 'shared/constants/TableHeaders'
+import { ReviewBlockColumm } from 'shared/constants/TableHeaders'
 import { appendParams, parseParams } from 'shared/utils'
 import PageTitle from 'shared/components/PageTitle'
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -42,7 +42,7 @@ const ReviewBlockManegment = () => {
     }
 
     const [requestParams, setRequestParams] = useState(getRequestParams())
-    const [columns, setColumns] = useState(getSortedColumns(TaskColumm, parsedData))
+    const [columns, setColumns] = useState(getSortedColumns(ReviewBlockColumm, parsedData))
     const [modal, setModal] = useState({ open: false, type: '' })
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange

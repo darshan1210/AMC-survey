@@ -5,8 +5,8 @@ import Drawer from 'shared/components/Drawer'
 import { TaskColumm } from 'shared/constants/TableHeaders'
 import { appendParams, parseParams } from 'shared/utils'
 import PageTitle from 'shared/components/PageTitle'
-// import ButtonGroup from 'react-bootstrap/ButtonGroup';
-// import ToggleButton from 'react-bootstrap/ToggleButton';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 import { useQuery } from 'react-query'
 import { GetMyBlockList } from 'query/Block/block.query'
 import MyBlockFilters from 'shared/components/SubFilterComponents/MyBlockListFilter'
@@ -16,12 +16,12 @@ const SurveyManagement = () => {
     const location = useLocation()
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
-    // const [radioValue, setRadioValue] = useState('1');
+    const [radioValue, setRadioValue] = useState('1');
     const [myBlockList, setMyBlockList] = useState([])
 
-    // const radios = [
-    //     { name: 'Survey Block Details - (50)', value: '1' },
-    // ];
+    const radios = [
+        { name: 'Survey Block Details - (50)', value: '1' },
+    ];
 
     function getRequestParams(e) {
         const data = e ? parseParams(e) : params.current
@@ -121,8 +121,8 @@ const SurveyManagement = () => {
 
     return (
         <>
-            <PageTitle title={'My Blocks'} />
-            {/* <ButtonGroup className='BlockButtonGroup'>
+            <PageTitle title={'Total survey Blocks'} />
+            <ButtonGroup className='BlockButtonGroup'>
                 {radios.map((radio, idx) => (
                     <ToggleButton
                         key={idx}
@@ -138,7 +138,7 @@ const SurveyManagement = () => {
                         {radio.name}
                     </ToggleButton>
                 ))}
-            </ButtonGroup> */}
+            </ButtonGroup>
 
             <div>
                 <DataTable

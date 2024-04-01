@@ -20,7 +20,7 @@ const InProgressManagement = () => {
     const [myBlockList, setMyBlockList] = useState(null)
 
     const radios = [
-        { name: `Block Details - (${myBlockList?.total || 0})`, value: '1' },
+        { name: `Block Details (${myBlockList?.total || 0})`, value: '1' },
     ];
 
     function getRequestParams(e) {

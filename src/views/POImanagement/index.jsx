@@ -55,8 +55,9 @@ const POIManagement = () => {
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-        { name: `inProgress `, value: '1' },
-        { name: 'Complete ', value: '2' },
+        { name: `Total POI (${poiCount?.total_poi})`, value: '1' },
+        { name: `inProgress POI (${poiCount?.inprogress_poi})`, value: '2' },
+        { name: `Complete POI (${poiCount?.completed_poi})`, value: '3' },
     ];
 
     const [dateRange, setDateRange] = useState([null, null]);
@@ -75,7 +76,7 @@ const POIManagement = () => {
     const { mutate } = useMutation(SubmitAllPOI, {
         onSuccess: () => {
             toaster('POI submit successfully', 'success');
-            navigate(route.taskManagement);
+            navigate(route.reviewBlock);
         }
     })
 
@@ -140,13 +141,15 @@ const POIManagement = () => {
         if (value === '1') {
             setRequestParams({ ...requestParams, eStatus: 1, pageNumber: 1 })
         } else if (value === '2') {
+            setRequestParams({ ...requestParams, eStatus: 2, pageNumber: 1 })
+        } else if (value === '3') {
             setRequestParams({ ...requestParams, eStatus: 3, pageNumber: 1 })
         }
     }
 
     useEffect(() => {
         console.log('first', location?.state?.totalPOI, poiListData?.total, requestParams?.eStatus)
-        if (poiCount && poiCount?.total_poi === poiCount?.completed_poi) {
+        if (poiCount && poiCount?.total_poi === poiCount?.completed_poi && radioValue === '3') {
             setPoiToggle(true)
         } else {
             setPoiToggle(false)
@@ -174,7 +177,7 @@ const POIManagement = () => {
             />
             {poiToggle && <div className='d-flex justify-content-end pe-3'>
                 <Button className='rounded-3' onClick={SubmitProperty}>
-                    Submit All POI
+                    Submit Block
                 </Button>
             </div>}
             <ButtonGroup className='BlockButtonGroup'>
@@ -219,6 +222,7 @@ const POIManagement = () => {
                                 key={poi.id}
                                 index={index}
                                 poi={poi}
+                                radioValue={radioValue}
                                 blockId={id}
                                 onDelete={() => { }}
                                 onUpdate={() => { }}

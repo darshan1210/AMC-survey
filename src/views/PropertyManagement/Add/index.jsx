@@ -199,7 +199,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id }) {
 
                             {/* POI*/}<Col sm={6}>
                                 <CommonInput
-                                    type='textarea'
+                                    type='text'
                                     register={register}
                                     errors={errors}
                                     label='Property details'
@@ -215,11 +215,11 @@ function AddProperty({ isModal, setModal, StateData, counterData, id }) {
                                         },
                                         minLength: {
                                             value: 2,
-                                            message: 'Property details must be at least 2 characters long'
+                                            message: 'Property details must be between 2 and 30 characters'
                                         },
                                         maxLength: {
-                                            value: 150,
-                                            message: 'Property details cannot exceed 150 characters'
+                                            value: 30,
+                                            message: 'Property details must be between 2 and 30 characters'
                                         }
                                     }}
                                 />

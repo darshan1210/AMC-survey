@@ -32,7 +32,7 @@ const PropertyManagement = () => {
     const [counterData, setCounterData] = useState({});
 
     const radios = [
-        { name: `inProgress Property - (${propertyList?.total})`, value: '1' },
+        { name: `inProgress Property (${propertyList?.total})`, value: '1' },
     ];
 
 
@@ -151,8 +151,10 @@ const PropertyManagement = () => {
     }, [])
 
     useEffect(() => {
-        if (Number(counterData?.pending_property) <= 0 && (Number(counterData?.total_number_of_house) !== null) && Number(counterData?.total_number_of_shops) !== null) {
+        if (Number(counterData?.pending_property) <= 0 && Number(counterData?.completed_property) > 0) {
             setSubmitToggle(true)
+        } else {
+            setSubmitToggle(false)
         }
     }, [propertyList, location])
 

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
-import { TaskColumm } from 'shared/constants/TableHeaders'
+import { CompletdBlockColumm } from 'shared/constants/TableHeaders'
 import { appendParams, parseParams } from 'shared/utils'
 import PageTitle from 'shared/components/PageTitle'
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -20,7 +20,7 @@ const CompletedManagement = () => {
     const [myBlockList, setMyBlockList] = useState(null)
 
     const radios = [
-        { name: `Block Details - (${myBlockList?.total || 0})`, value: '1' },
+        { name: `Block Details (${myBlockList?.total || 0})`, value: '1' },
     ];
 
     function getRequestParams(e) {
@@ -42,7 +42,7 @@ const CompletedManagement = () => {
     }
 
     const [requestParams, setRequestParams] = useState(getRequestParams())
-    const [columns, setColumns] = useState(getSortedColumns(TaskColumm, parsedData))
+    const [columns, setColumns] = useState(getSortedColumns(CompletdBlockColumm, parsedData))
     const [modal, setModal] = useState({ open: false, type: '' })
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange

@@ -176,11 +176,11 @@ export const SuperviserSidebar = [
         icon: faChalkboardUser,
         title: 'Progress Report'
       },
-      {
-        path: route.consolidatedReport,
-        icon: faListCheck,
-        title: 'Consolidated Report'
-      },
+      // {
+      //   path: route.consolidatedReport,
+      //   icon: faListCheck,
+      //   title: 'Consolidated Report'
+      // },
     ]
   },
 ]

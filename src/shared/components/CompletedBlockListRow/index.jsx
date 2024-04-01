@@ -4,13 +4,11 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 
 import { Modal } from 'react-bootstrap';
-import moment from 'moment';
 
 const CompletedBlockListRow = ({ user, index, }) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const TotalPOI = Number(user?.total_number_of_house) + Number(user?.total_number_of_shops)
     return (
         <>
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
@@ -18,9 +16,10 @@ const CompletedBlockListRow = ({ user, index, }) => {
                 <td>{user.block_name || '-'}</td>
                 <td>{user?.ward.ward_name || '-'}</td>
                 <td>{user?.zone.zone_name || '-'}</td>
-                <td>{TotalPOI || '0'}</td>
-                <td>{user?.user?.first_name + user?.user?.last_name || '-'}</td>
-                <td className="date-data-field">{moment(user?.created_at).format('DD-MM-YYYY') || '-'}</td>
+                <td>{user?.points_of_interest_count || '0'}</td>
+                <td>{user?.allocated_date || '--'}</td>
+                <td>{user?.complete_date || '--'}</td>
+                {/* <td className="date-data-field">{moment(user?.created_at).format('DD-MM-YYYY') || '-'}</td> */}
                 <td>
                     <div className='SingleDataTabeIcon' onClick={handleShow}>
                         <i className='icon-visibility d-block' />
@@ -33,11 +32,14 @@ const CompletedBlockListRow = ({ user, index, }) => {
                     <Modal.Title>Block Details</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className='modal-body'>
-                    <div><span>Zone</span><span>-</span><span>{user?.zone.zone_name || '-'}</span></div>
-                    <div><span>Ward</span><span>-</span><span>{user?.ward.ward_name || '-'}</span></div>
-                    <div><span>TotalProperty</span><span>-</span><span>{TotalPOI || '0'}</span></div>
-                    <div><span>Createdby</span><span>-</span><span>{user?.user?.first_name + user?.user?.last_name || '-'}</span></div>
-                    <div><span>CreatedDate</span><span>-</span><span>{moment(user?.created_at).format('DD-MM-YYYY') || '-'}</span></div>
+                    <div><span>Block</span><span>{user?.block_name || '-'}</span></div>
+                    <div><span>Zone</span><span>{user?.zone.zone_name || '-'}</span></div>
+                    <div><span>Ward</span><span>{user?.ward.ward_name || '-'}</span></div>
+                    <div><span>Total POI</span><span>{user?.points_of_interest_count || '0'}</span></div>
+                    <div><span>Total Property</span><span>{user?.total_number_of_house || '0'}</span></div>
+                    <div><span>Total shop</span><span>{user?.total_number_of_shops || '0'}</span></div>
+                    <div><span>Allocated Date</span><span>{user?.allocated_date || '0'}</span></div>
+                    <div><span>Complete Date</span><span>{user?.complete_date || '0'}</span></div>
                 </Modal.Body>
             </Modal>
         </>
