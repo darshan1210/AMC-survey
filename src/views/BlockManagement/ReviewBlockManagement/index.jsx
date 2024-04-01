@@ -20,7 +20,7 @@ const ReviewBlockManegment = () => {
     const [myBlockList, setMyBlockList] = useState(null)
 
     const radios = [
-        { name: `My Block Details - (${myBlockList?.total || 0})`, value: '1' },
+        { name: `Block Details - (${myBlockList?.total || 0})`, value: '1' },
     ];
 
     function getRequestParams(e) {
@@ -121,7 +121,7 @@ const ReviewBlockManegment = () => {
 
     return (
         <>
-            <PageTitle title={'My Blocks'} />
+            <PageTitle title={'Review Blocks'} />
             <ButtonGroup className='BlockButtonGroup'>
                 {radios.map((radio, idx) => (
                     <ToggleButton
@@ -161,13 +161,6 @@ const ReviewBlockManegment = () => {
                 >
                     {myBlockList && myBlockList?.data?.map((user, index) => {
                         return (
-                            // <TaskListRow
-                            //     key={user._id}
-                            //     index={index}
-                            //     user={user}
-                            //     onDelete={() => { }}
-                            //     onUpdate={() => { }}
-                            // />
                             <ReviewBlockListRow
                                 key={user._id}
                                 index={index}

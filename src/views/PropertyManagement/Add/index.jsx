@@ -39,7 +39,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id }) {
     })
 
     const onSubmit = async (data) => {
-
+        console.log('data', data)
 
         const FinalData = {
             ward_id: StateData?.ward?.id,
@@ -82,6 +82,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id }) {
         }
     }, [counterData])
 
+
     return (
         <>
             <Modal show={isModal} onHide={() => { setModal(false); reset() }} id='add-ticket' className='bigModal' size='lg'>
@@ -113,6 +114,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id }) {
                                                 ref={ref}
                                                 value={value}
                                                 options={zoneColums}
+                                                isDisabled={true}
                                                 className={`react-select border-0 ${errors.eWard && 'error'}`}
                                                 classNamePrefix='select'
                                                 closeMenuOnSelect={true}
@@ -154,6 +156,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id }) {
                                                 options={zoneColums}
                                                 className={`react-select border-0 ${errors.eZone && 'error'}`}
                                                 classNamePrefix='select'
+                                                isDisabled={true}
                                                 closeMenuOnSelect={true}
                                                 onChange={(e) => {
                                                     onChange(e)
@@ -177,6 +180,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id }) {
                                     className={`form-control ${errors?.sSociety && 'error'}`}
                                     name='sSociety'
                                     label='Society'
+                                    disabled={true}
                                     placeholder='Enter Society Name'
                                     required
                                     onChange={(e) => {
@@ -193,7 +197,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id }) {
                                 />
                             </Col>
 
-                            {/* POI*/} <Col sm={6}>
+                            {/* POI*/}<Col sm={6}>
                                 <CommonInput
                                     type='textarea'
                                     register={register}
@@ -209,9 +213,18 @@ function AddProperty({ isModal, setModal, StateData, counterData, id }) {
                                             value: true,
                                             message: 'Property details is required'
                                         },
+                                        minLength: {
+                                            value: 2,
+                                            message: 'Property details must be at least 2 characters long'
+                                        },
+                                        maxLength: {
+                                            value: 150,
+                                            message: 'Property details cannot exceed 150 characters'
+                                        }
                                     }}
                                 />
                             </Col>
+
 
                             {/* chek Box */} {(Number(counterData?.pending_property) <= 0) && <Col sm={6}>
                                 <Form.Group className='form-checkbox'>
@@ -242,8 +255,8 @@ function AddProperty({ isModal, setModal, StateData, counterData, id }) {
                                     )}
                                 </Form.Group>
                             </Col>}
-
-                            {/* chek Box */}  {(Number(counterData?.pending_property) >= 0) && <Col sm={6}>
+                            {/* (Number(counterData?.pending_property) >= 0) && counterData?.completed_property !== 0  */}
+                            {/* chek Box */}  {!(Number(counterData?.pending_property) <= 0) && <Col sm={6}>
                                 <Form.Group className='form-checkbox'>
                                     <Controller
                                         name='ePropertyNotFound'
@@ -272,12 +285,15 @@ function AddProperty({ isModal, setModal, StateData, counterData, id }) {
                                 </Form.Group>
                             </Col>}
                             <Row>
+
+
                                 {/* radio Box */}
                                 <Col sm={4}>
                                     <Form.Group className='form-checkbox'>
                                         <Controller
                                             name='type'
                                             control={control}
+                                            defaultValue='house'
                                             rules={{
                                                 required: "Please select Property type"
                                             }}

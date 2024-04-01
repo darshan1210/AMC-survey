@@ -25,8 +25,8 @@ const POIListRow = ({ poi, index, blockId }) => {
                 <td>{poi?.zone?.zone_name || '-'}</td>
                 <td>{poi?.ward?.ward_name || '-'}</td>
                 <td className='blockLink' onClick={() => navigate(route.propertyManagement(poi?.id), { state: { StateData } })}>{poi.geofence_name || '-'}</td>
-                <td className='blockLink' onClick={() => navigate(route.propertyManagement(poi?.id), { state: { StateData } })}>{poi.total_number_of_house || '0'}</td>
-                <td className='blockLink' onClick={() => navigate(route.propertyManagement(poi?.id), { state: { StateData } })}>{poi.total_number_of_shops || '0'}</td>
+                <td>{poi.total_number_of_house || '0'}</td>
+                <td>{poi.total_number_of_shops || '0'}</td>
                 <td>
                     <Button className='ButtonListRow' onClick={() => navigate(route.propertyManagement(poi?.id), { state: { StateData } })}>
                         Start Survey

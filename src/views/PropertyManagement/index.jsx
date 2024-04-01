@@ -17,6 +17,7 @@ import { useMutation, useQuery } from 'react-query'
 import { ChangePOIStatus } from 'query/POI/poi.query'
 import { route } from 'shared/constants/AllRoutes'
 import { toaster } from 'helper/helper'
+import CustomModal from 'shared/components/Modal'
 
 const PropertyManagement = () => {
     const { id } = useParams()
@@ -60,9 +61,16 @@ const PropertyManagement = () => {
     const [requestParams, setRequestParams] = useState(getRequestParams())
     const [columns, setColumns] = useState(getSortedColumns(ProptyColums, parsedData))
     const [modal, setModal] = useState({ open: false, type: '' })
-
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false)
+    const handleConfirm = () => {
+        setAddProperty(true);
+        setShow(false)
+    }
+
 
     const { isLoading, isFetching } = useQuery(['propertyList', requestParams], () => GetPropertyList(requestParams, id), {
         enabled: !!id,
@@ -143,10 +151,20 @@ const PropertyManagement = () => {
     }, [])
 
     useEffect(() => {
-        if (Number(counterData?.pending_property) <= 0) {
+        if (Number(counterData?.pending_property) <= 0 && (Number(counterData?.total_number_of_house) !== null) && Number(counterData?.total_number_of_shops) !== null) {
             setSubmitToggle(true)
         }
     }, [propertyList, location])
+
+
+    function hendelAddProperty() {
+        if ((Number(counterData?.pending_property) <= 0) && (Number(counterData?.new_property) === 0)) {
+            setShow(true);
+        } else {
+            setAddProperty(true)
+            setShow(false)
+        }
+    }
 
     return (
         <>
@@ -158,7 +176,7 @@ const PropertyManagement = () => {
                         icon: 'icon-add',
                         type: 'primary',
                         clickEventName: 'createBot',
-                        btnEvent: () => { setAddProperty(true) }
+                        btnEvent: () => { hendelAddProperty() }
                     },
                 ]}
             />
@@ -261,6 +279,15 @@ const PropertyManagement = () => {
                     </Drawer>
                 </DataTable>
             </div>
+
+            <CustomModal
+                open={show}
+                handleClose={handleClose}
+                handleConfirm={handleConfirm}
+                disableHeader
+                bodyTitle='Are you sure you want to add new Property?'
+                isLoading={false}
+            />
             <AddProperty isModal={addProperty} setModal={setAddProperty} StateData={location?.state?.StateData} counterData={counterData} id={id} />
         </>
     )
