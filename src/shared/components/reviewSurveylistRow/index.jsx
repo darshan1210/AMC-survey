@@ -17,8 +17,8 @@ const ReviewListRow = ({ user, index, }) => {
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
                 <td>{index + 1}</td>
                 <td className='blockLink' onClick={() => navigate(route.poiManagement(user.id), { state: { zone: user?.zone, ward: user?.ward, totalPOI: TotalPOI } })}>{user.block_name || '-'}</td>
-                <td>{user?.ward.ward_name || '-'}</td>
                 <td>{user?.zone.zone_name || '-'}</td>
+                <td>{user?.ward.ward_name || '-'}</td>
                 <td>{TotalPOI || '0'}</td>
                 <td>{user?.user?.first_name + user?.user?.last_name || '-'}</td>
                 <td className="date-data-field">{moment(user?.created_at).format('DD-MM-YYYY') || '-'}</td>

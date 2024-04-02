@@ -14,8 +14,8 @@ const CompletedBlockListRow = ({ user, index, }) => {
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
                 <td>{index + 1}</td>
                 <td>{user.block_name || '-'}</td>
-                <td>{user?.ward.ward_name || '-'}</td>
                 <td>{user?.zone.zone_name || '-'}</td>
+                <td>{user?.ward.ward_name || '-'}</td>
                 <td>{user?.points_of_interest_count || '0'}</td>
                 <td>{user?.allocated_date || '--'}</td>
                 <td>{user?.complete_date || '--'}</td>

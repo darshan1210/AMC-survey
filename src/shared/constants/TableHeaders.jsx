@@ -16,8 +16,8 @@
 export const TaskColumm = [
     { name: 'No', isSort: true },
     { name: 'Block name', isSort: false },
-    { name: 'Ward', isSort: false },
     { name: 'zone', isSort: false },
+    { name: 'Ward', isSort: false },
     { name: 'Total POI', isSort: false },
     { name: 'Created by', isSort: false },
     { name: 'Created Date', isSort: false },
@@ -27,8 +27,8 @@ export const TaskColumm = [
 export const ReviewBlockColumm = [
     { name: 'No', isSort: true },
     { name: 'Block name', isSort: false },
-    { name: 'Ward', isSort: false },
     { name: 'zone', isSort: false },
+    { name: 'Ward', isSort: false },
     { name: 'Total POI', isSort: false },
     { name: 'Allocated Date', isSort: false },
     { name: 'Survey Date', isSort: false },
@@ -39,8 +39,8 @@ export const ReviewBlockColumm = [
 export const CompletdBlockColumm = [
     { name: 'No', isSort: true },
     { name: 'Block name', isSort: false },
+    { name: 'Zone', isSort: false },
     { name: 'Ward', isSort: false },
-    { name: 'zone', isSort: false },
     { name: 'Total POI', isSort: false },
     { name: 'Allocated Date', isSort: false },
     { name: 'Complete Date', isSort: false },
@@ -80,9 +80,10 @@ export const ConsolidatedReportColums = [
 
 export const ProptyColums = [
     { name: 'No', isSort: true },
-    { name: 'Ward', isSort: false },
     { name: 'Zone', isSort: false },
-    { name: 'Society', isSort: false },
+    { name: 'Ward', isSort: false },
+    { name: 'POI', isSort: false },
+    { name: 'Type', isSort: false },
     { name: 'Property Details', isSort: false },
     { name: 'Actions', isSort: false },
 ]
@@ -91,7 +92,7 @@ export const POIColums = [
     { name: 'No', isSort: true },
     { name: 'Zone', isSort: false },
     { name: 'Ward', isSort: false },
-    { name: 'Society', isSort: false },
+    { name: 'POI', isSort: false },
     { name: 'Total House', isSort: false },
     { name: 'Total Shops', isSort: false },
     { name: 'Actions', isSort: false }

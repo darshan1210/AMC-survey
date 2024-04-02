@@ -431,10 +431,10 @@ function AddProperty({ isModal, setModal, StateData, counterData, id }) {
                                                                 }
                                                             }
 
-                                                            const maxSize = 1 * 1000 * 1000; // 1MB in bytes
+                                                            const maxSize = 5 * 1000 * 1000; // 1MB in bytes
                                                             for (const file of value) {
                                                                 if (file.size >= maxSize) {
-                                                                    return "File size must be less than 1MB";
+                                                                    return "File size must be less than 5MB";
                                                                 }
                                                             }
                                                         } else if (value && typeof value === 'object') {
@@ -445,9 +445,9 @@ function AddProperty({ isModal, setModal, StateData, counterData, id }) {
                                                                 return "Unsupported file format";
                                                             }
 
-                                                            const maxSize = 1 * 1000 * 1000; // 1MB in bytes
+                                                            const maxSize = 5 * 1000 * 1000; // 1MB in bytes
                                                             if (value.size >= maxSize) {
-                                                                return "File size must be less than 1MB";
+                                                                return "File size must be less than 5MB";
                                                             }
                                                         }
                                                         return true;

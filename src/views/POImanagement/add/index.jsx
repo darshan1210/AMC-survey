@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types';
-import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
+import { Button, Col, Form, Modal, Row, Spinner } from 'react-bootstrap';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import CommonInput from 'shared/components/CommonInput';
 import { useMutation, useQueryClient } from 'react-query';
@@ -17,7 +17,7 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
         name: "poi",
     });
 
-    const { mutate } = useMutation(AddPOI, {
+    const { mutate, isLoading } = useMutation(AddPOI, {
         onSuccess: (response) => {
             toaster(response?.message, 'success');
             query.invalidateQueries('poiList');
@@ -26,7 +26,6 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
         }
     })
 
-    console.log('StateData', StateData)
 
     const onSubmit = async (Data) => {
 
@@ -321,11 +320,11 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
                         </Row>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={() => { setModal(false); reset() }}>
+                        <Button variant="secondary" disabled={isLoading} onClick={() => { setModal(false); reset() }}>
                             Cancel
                         </Button>
-                        <Button variant="primary" type='submit' onClick={handleSubmit(onSubmit)}>
-                            Submit
+                        <Button variant="primary" disabled={isLoading} type='submit' onClick={handleSubmit(onSubmit)}>
+                            Submit {isLoading && <Spinner size='sm' />}
                         </Button>
                     </Modal.Footer>
                 </Form >

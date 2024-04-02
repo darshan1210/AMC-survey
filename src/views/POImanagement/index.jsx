@@ -12,7 +12,7 @@ import { appendParams, parseParams } from 'shared/utils'
 import AddPoi from './add'
 import { GetPOIList, SubmitAllPOI } from 'query/POI/poi.query'
 import { useMutation, useQuery } from 'react-query'
-import { Button, ButtonGroup, ToggleButton } from 'react-bootstrap'
+import { Button, ButtonGroup, Spinner, ToggleButton } from 'react-bootstrap'
 import { toaster } from 'helper/helper'
 import { route } from 'shared/constants/AllRoutes'
 
@@ -55,9 +55,9 @@ const POIManagement = () => {
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-        { name: `Total POI (${poiCount?.total_poi})`, value: '1' },
-        { name: `inProgress POI (${poiCount?.inprogress_poi})`, value: '2' },
-        { name: `Complete POI (${poiCount?.completed_poi})`, value: '3' },
+        { name: `Total POI (${Number(poiCount?.total_poi) - Number(poiCount?.inprogress_poi) || '0'})`, value: '1' },
+        { name: `inProgress POI (${poiCount?.inprogress_poi || '0'})`, value: '2' },
+        { name: `Complete POI (${poiCount?.completed_poi || '0'})`, value: '3' },
     ];
 
     const [dateRange, setDateRange] = useState([null, null]);
@@ -73,7 +73,7 @@ const POIManagement = () => {
         }
     })
 
-    const { mutate } = useMutation(SubmitAllPOI, {
+    const { mutate, isLoading: isLoad } = useMutation(SubmitAllPOI, {
         onSuccess: () => {
             toaster('POI submit successfully', 'success');
             navigate(route.reviewBlock);
@@ -176,8 +176,8 @@ const POIManagement = () => {
                 ]}
             />
             {poiToggle && <div className='d-flex justify-content-end pe-3'>
-                <Button className='rounded-3' onClick={SubmitProperty}>
-                    Submit Block
+                <Button className='rounded-3' disabled={isLoad} onClick={SubmitProperty}>
+                    Submit Block {isLoad && <Spinner size='sm' />}
                 </Button>
             </div>}
             <ButtonGroup className='BlockButtonGroup'>
@@ -193,7 +193,7 @@ const POIManagement = () => {
                         checked={radioValue === radio.value}
                         onChange={(e) => { setRadioValue(e.currentTarget.value); handleStatusChange(e.currentTarget.value) }}
                     >
-                        {radio.name}  {radio.value === radioValue && (`- ${poiListData?.total}` || '- 0')}
+                        {radio.name}
                     </ToggleButton>
                 ))}
             </ButtonGroup>
