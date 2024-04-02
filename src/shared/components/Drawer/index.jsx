@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Offcanvas } from 'react-bootstrap'
+import { Offcanvas } from 'react-bootstrap'
 
 function Drawer ({ isOpen, children, onClose, title, className }) {
   return (
     <Offcanvas className={className} show={isOpen} onHide={onClose} keyboard={false} backdrop={true} placement='end'>
       <Offcanvas.Header className='d-flex align-items-center justify-content-start'>
-        <Button variant='link' onClick={onClose} className='square icon-btn'>
+        <span  onClick={onClose} className='square icon-btn clos-btn me-3'>
           <i className='icon-close d-block'></i>
-        </Button>
+        </span>
         <Offcanvas.Title>{title}</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>{children}</Offcanvas.Body>

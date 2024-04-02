@@ -8,6 +8,7 @@
   height: calc(100% - 76px);
   overflow-y: auto;
   padding: 24px;
+  transition: $transition-animate;
   .menu {
     position: relative;
     ul {
@@ -167,6 +168,12 @@
 
 
   @include media-max(xl) {
+    width: 300px;
+    left: -300px;
+    &.show{
+      left: 0;
+    }
+    
     .menu {
       ul {
         li {

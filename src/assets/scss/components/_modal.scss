@@ -25,12 +25,18 @@
     border-bottom: 1px solid var(--secondary-100);
 
     .btn-close {
-      opacity: .8;
+      background-color: $cta-color;
+      width: 35px;
+      height: 35px;
       border-radius: 50%;
-      margin: 0;
-      background-color: var(--primary-color);
-      transition: all 0.3s ease-in-out;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.306);
+      font-size: 11px;
+      padding: 0;
+      opacity: 1;
+      flex-shrink: 0;
+      margin-right: 0;
+      &:hover {
+          transform: rotate(90deg);
+      }
     }
   }
 

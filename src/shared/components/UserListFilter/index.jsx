@@ -108,7 +108,7 @@ function UserFilters({ filterChange, closeDrawer, location, startDate, endDate, 
                             value={value}
                             placeholder='Select zone..'
                             options={zoneColums}
-                            className='react-select'
+                            className='react-select form-control'
                             classNamePrefix='select'
                             closeMenuOnSelect={true}
                             onChange={(e) => {
@@ -138,7 +138,7 @@ function UserFilters({ filterChange, closeDrawer, location, startDate, endDate, 
                             showYearDropdown
                             yearDropdownItemNumber={10}
                             scrollableYearDropdown
-                            className="datepicker-inputbox"
+                            className="datepicker-inputbox form-control"
                         />
                     )}
                 />
@@ -163,7 +163,7 @@ function UserFilters({ filterChange, closeDrawer, location, startDate, endDate, 
                             showYearDropdown
                             yearDropdownItemNumber={10}
                             scrollableYearDropdown
-                            className="datepicker-inputbox"
+                            className="datepicker-inputbox form-control"
                         />
                     )}
                 />
@@ -203,7 +203,7 @@ function UserFilters({ filterChange, closeDrawer, location, startDate, endDate, 
                 <Button variant='secondary' type='reset' onClick={onReset} className='square reset-button'>
                     <FormattedMessage id='reset' />
                 </Button>
-                <Button variant='primary' type='submit' className='square apply-button'>
+                <Button variant='primary' type='submit' className='square secondary-btn'>
                     <FormattedMessage id='apply' />
                 </Button>
             </div>

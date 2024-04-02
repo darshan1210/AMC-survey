@@ -11,6 +11,69 @@
   transition: padding 0.3s ease-in-out;
   height: 76px;
 
+  .menu-bar {
+    display: flex;
+    align-items: center;
+    border-radius: 0;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    box-shadow: none;
+    outline: none;
+    position: relative;
+    margin-left: 10px;
+    &:focus{
+        outline: none;
+        box-shadow: none;
+    }
+    .navbar-toggler-icon {
+        width: 31px;
+        height: 24px;
+        background: none;
+        position: relative;
+        display: inline-block;
+        span {
+            height: 2px;
+            width: 31px;
+            background-color: $primary-color;
+            display: block;
+            position: absolute;
+            transition: $transition-animate;
+            &:nth-child(1) {
+                top: 0;
+                width: 21px;
+            }
+            &:nth-child(2),&:nth-child(3) {
+                top: 11px;
+            }
+            &:nth-child(4) {
+                top: 22px;
+            }
+        }
+    }
+    &[aria-expanded="true"],&.active{
+        .navbar-toggler-icon {
+            span{
+                &:nth-child(1),&:nth-child(4){
+                    top: 11px;
+                    opacity: 0;
+                }
+                &:nth-child(2){
+                    transform: rotate(-45deg);
+                }
+                &:nth-child(3){
+                    transform: rotate(45deg);
+                }
+            }
+        } 
+    }
+    @media only screen and (max-width: 1199px) {
+        &.active{
+            z-index: 999;
+        }
+    }
+}
+
   .logo {
     transition: all 0.3s;
     display: flex;
@@ -44,9 +107,6 @@
     justify-content: center;
     background: var(--primary-color);
     border-bottom: 1px solid rgba(0,0,0,0.08);
-    .menu-bar {
-      cursor: pointer;
-    }
 
     .logo {
       padding: 0 10px;
@@ -117,11 +177,7 @@
     justify-content: flex-end;
   }
 
-  .menu-bar{
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-  }
+
 
   .dropdown-toggle {
     &:hover {

@@ -9,12 +9,12 @@ import { route } from 'shared/constants/AllRoutes'
 import { toaster } from 'helper/helper'
 import CustomModal from 'shared/components/Modal'
 import logo from 'assets/images/logo.svg'
-import Mobile from 'assets/images/Main/amc-ahmedabad-logo.png'
+import logoIcon from 'assets/images/logo-icon.svg'
 import headerProfile from 'assets/images/header-profile.webp'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useMediaQuery from 'shared/hooks/useMediaQuery'
-import Menu from 'assets/images/icons/menu'
-import { Cancel } from 'assets/images/SVGs/Svg'
+// import Menu from 'assets/images/icons/menu'
+// import { Cancel } from 'assets/images/SVGs/Svg'
 // import LogoSvg from 'assets/images/SVGs/Logo'
 
 
@@ -89,7 +89,7 @@ function Header({ isNavmenu, setNavMenu }) {
     <header className='header'>
       <div className='header-left'>
         <Link className='logo' to={route.dashboard}>
-          <img src={width ? Mobile : logo} width={width ? 50 : 120} alt="AMC-logo" />
+          <img src={width ? logoIcon : logo} width={width ? 44 : 120} alt="AMC-logo" />
           {/* <LogoSvg height={width ? 50 : 70} width={width ? 50 : 70} /> */}
           {/* {!width && (<span className=''>
             Ahmedabad Survey
@@ -101,8 +101,8 @@ function Header({ isNavmenu, setNavMenu }) {
 
       <div className='header-main'>
         {width && (
-          <div className={`menu-bar me-auto ${isNavmenu ? 'active' : ''}`} onClick={() => setNavMenu(!isNavmenu)}>
-            {isNavmenu ? <Cancel className='ms-1' height='20' width='20' fill='#000' /> : <Menu height='30' width='30' />}
+          <div className={`menu-bar me-auto ms-3 ${isNavmenu ? 'active' : ''}`} onClick={() => setNavMenu(!isNavmenu)}>
+            {/* {isNavmenu ? <Cancel className='ms-1' height='20' width='20' fill='#000' /> : <Menu height='30' width='30' />} */}
             <span className='navbar-toggler-icon '>
               <span></span>
               <span></span>

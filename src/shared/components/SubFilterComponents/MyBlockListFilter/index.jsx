@@ -216,7 +216,7 @@ function MyBlockFilters({ filterChange, closeDrawer, }) {
                 <Button variant='secondary' type='reset' onClick={onReset} className='square reset-button'>
                     <FormattedMessage id='reset' />
                 </Button>
-                <Button variant='primary' type='submit' className='square apply-button'>
+                <Button variant='primary' type='submit' className='square secondary-btn'>
                     <FormattedMessage id='apply' />
                 </Button>
             </div>

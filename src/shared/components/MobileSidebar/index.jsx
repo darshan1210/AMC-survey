@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { Button, Offcanvas } from 'react-bootstrap'
+import { Offcanvas } from 'react-bootstrap'
 import SideBar from '../Sidebar'
 
 function MobileSideBar({ isNavmenu, setNavMenu, setIsOpen }) {
@@ -9,9 +9,9 @@ function MobileSideBar({ isNavmenu, setNavMenu, setIsOpen }) {
             <Offcanvas className='MobileSideBar' show={isNavmenu} onHide={() => { setNavMenu(false) }} keyboard={false} backdrop={true} placement='start'>
                 <Offcanvas.Header className='d-flex align-items-center justify-content-space'>
                     <Offcanvas.Title className='SidebarTitle'>{'AMC-Survey'}</Offcanvas.Title>
-                    <Button variant='link' onClick={() => { setNavMenu(false) }} className='square icon-btn'>
+                    <span variant='link' onClick={() => { setNavMenu(false) }} className='clos-btn'>
                         <i className='icon-close d-block'></i>
-                    </Button>
+                    </span>
                 </Offcanvas.Header>
                 <Offcanvas.Body className='SidebarBody'>
                     <SideBar isOpen={true} setIsOpen={setIsOpen} setNavMenu={setNavMenu} />

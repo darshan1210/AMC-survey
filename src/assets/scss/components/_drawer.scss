@@ -1,7 +1,7 @@
 .offcanvas {
   width: 460px;
   background-color: var(--boxes-color);
-
+  max-width: 100%;
   .offcanvas-header {
     padding: 15px;
 
@@ -25,29 +25,29 @@
     justify-content: center;
     gap: 15px;
 
-    button {
-      padding: 5px 15px;
-      font-size: 14px;
-      border: 1px solid;
-    }
+    // button {
+    //   padding: 5px 15px;
+    //   font-size: 14px;
+    //   border: 1px solid;
+    // }
 
-    .reset-button {
-      border-color: var(--secondary-600);
+    // .reset-button {
+    //   border-color: var(--secondary-600);
 
-      &:hover {
-        border-color: var(--secondary-700);
-        background-color: var(--secondary-700);
-      }
-    }
+    //   &:hover {
+    //     border-color: var(--secondary-700);
+    //     background-color: var(--secondary-700);
+    //   }
+    // }
 
-    .apply-button {
-      border-color: var(--primary-color) !important;
-    }
+    // .apply-button {
+    //   border-color: var(--primary-color) !important;
+    // }
 
-    .btn.btn-outline-secondary {
-      border-color: var(--secondary-600);
-      color: var(--secondary-200);
-    }
+    // .btn.btn-outline-secondary {
+    //   border-color: var(--secondary-600);
+    //   color: var(--secondary-200);
+    // }
   }
 }
 
@@ -61,8 +61,8 @@ body.dark {
   }
 }
 
-@media screen and (max-width:800px) {
-  .offcanvas {
-    width: 65vw !important;
-  }
-}
+// @media screen and (max-width:800px) {
+//   .offcanvas {
+//     width: 65vw !important;
+//   }
+// }
