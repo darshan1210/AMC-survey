@@ -2,9 +2,7 @@
 import { faChalkboardUser, faCircleCheck, faCity, faFileInvoice, faHouse, faListCheck, faMagnifyingGlassLocation, faSquarePollVertical } from '@fortawesome/free-solid-svg-icons'
 import { route } from 'shared/constants/AllRoutes'
 
-const GetUerData = JSON.parse(localStorage.getItem('userData'));
-
-console.log('GetUerData', GetUerData)
+// const GetUerData = JSON.parse(localStorage.getItem('userData'));
 
 
 export const sidebarConfig = [

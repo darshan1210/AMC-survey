@@ -90,7 +90,6 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
         try {
 
             const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
-
             // Clear watch if permission is granted
             if (permissionStatus.state === 'granted') {
                 navigator.geolocation.clearWatch(permissionStatus.id);
@@ -118,8 +117,8 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
             //         navigator.geolocation.clearWatch(permissionStatus.id);
             //     }
             // });
-            setError(`poi[${index}].location`, { type: 'manual', message: 'Please go to your browser settings and allow location access for this website.' });
-            toaster('Please go to your browser settings and allow location access for this website.', 'error')
+            setError(`poi[${index}].location`, { type: 'manual', message: 'To reset permissions in Chrome, go to Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed.' });
+            toaster('To reset permissions in Chrome, go to Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed.', 'error')
         }
     };
 

@@ -26,7 +26,6 @@ function MenuItem({ item, isMenuOpen, activeSubMenu, toggleSubMenu, setNavMenu }
 
   return (
     <li className={isOpen ? 'open' : ''}>
-      {console.log('item.title', item.title)}
       {item.children ? (
         <>
           <span onClick={toggle} className={(isOpen === true || item?.title == 'Block Management') ? "toggle-btn-open" : ""}>
