@@ -78,12 +78,12 @@
 
     .b-link {
       font-size: $fs-14;
-      color: var(--text-color);
       text-transform: uppercase;
+      color: #656565;
       font-weight: $fw-600;
 
       &:hover {
-        color: var(--white-color);
+        color: var(--primary-color);
       }
     }
 

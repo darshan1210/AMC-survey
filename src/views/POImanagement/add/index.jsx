@@ -223,9 +223,9 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
                                                                                 return "Unsupported file format";
                                                                             }
 
-                                                                            const maxSize = 2 * 1000 * 1000; // 1MB in bytes
+                                                                            const maxSize = 5 * 1000 * 1000; // 1MB in bytes
                                                                             if (value.size >= maxSize) {
-                                                                                return "File size must be less than 2MB";
+                                                                                return "File size must be less than 5MB";
                                                                             }
                                                                         }
                                                                         return true;

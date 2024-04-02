@@ -50,7 +50,7 @@ export default function CustomModal({
                 <Button variant='primary' onClick={() => handleConfirm(confirmValue)} disabled={isLoading}>
                   <FormattedMessage id='confirm' /> {isLoading && <Spinner animation='border' size='sm' />}
                 </Button>
-                <Button variant='secondary' onClick={handleClose}>
+                <Button variant='secondary' onClick={handleClose} disabled={isLoading}>
                   Cancel
                 </Button>
               </>
@@ -82,7 +82,7 @@ CustomModal.propTypes = {
   bodyTitle: PropTypes.node,
   size: PropTypes.string,
   className: PropTypes.string,
-  confirmValue:PropTypes.any,
-  singleButton:PropTypes.any,
-  disableFooter:PropTypes.any
+  confirmValue: PropTypes.any,
+  singleButton: PropTypes.any,
+  disableFooter: PropTypes.any
 }

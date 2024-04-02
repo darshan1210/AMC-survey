@@ -20,11 +20,12 @@ function ForgotPassword() {
 
   const { mutate, isLoading } = useMutation(forgotPassword, {
     onSuccess: (response) => {
-      navigate(route.resetPassword(response?.headers?.authorization))
+      navigate(route.login)
       toaster(response?.data?.message)
     }
   })
   function onSubmit(data) {
+    console.log('data', data)
     mutate({ sEmail: data?.sEmail })
   }
 
@@ -61,7 +62,7 @@ function ForgotPassword() {
             <FormattedMessage id='submit' /> {isLoading && <Spinner animation='border' size='sm' />}
           </Button>
         </div>
-      
+
         <Link to={'/login'} className='b-link'>
           <FormattedMessage id='backToLogin' />
         </Link>

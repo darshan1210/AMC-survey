@@ -55,7 +55,7 @@ const POIManagement = () => {
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-        { name: `Total POI (${Number(poiCount?.total_poi) - Number(poiCount?.inprogress_poi) || '0'})`, value: '1' },
+        { name: `Total POI (${Number(poiCount?.total_poi) - Number(poiCount?.inprogress_poi) - Number(poiCount?.completed_poi) || '0'})`, value: '1' },
         { name: `inProgress POI (${poiCount?.inprogress_poi || '0'})`, value: '2' },
         { name: `Complete POI (${poiCount?.completed_poi || '0'})`, value: '3' },
     ];

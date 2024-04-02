@@ -39,6 +39,10 @@ const DonutChart = ({ title, subtitle, dataPoints }) => {
         // Update options when dataPoints change
         setOptions(prevOptions => ({
             ...prevOptions,
+            subtitles: [{
+                ...prevOptions.subtitles[0],
+                text: subtitle
+            }],
             data: [{
                 ...prevOptions.data[0],
                 dataPoints: dataPoints
