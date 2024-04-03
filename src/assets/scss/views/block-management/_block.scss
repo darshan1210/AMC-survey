@@ -1,6 +1,9 @@
 .BlockButtonGroup {
     margin: 0 0 -1px;
-
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  
     .btn-outline-primary {
         background-color: var(--primary-color) !important;
         color: #fff;
@@ -25,7 +28,7 @@
         border: 1px solid #E9ECEF;
         white-space: nowrap;
         margin: 0 6px 0 0;
-
+        flex: none;
         &:hover{
             border-color: $cta-color;
             background: $cta-color;
