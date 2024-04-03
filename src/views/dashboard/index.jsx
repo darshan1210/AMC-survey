@@ -39,6 +39,7 @@ function Dashboard() {
   useEffect(() => {
     if (dashboardData) {
       const Data = convertToPercentage(dashboardData);
+      console.log('Data', Data)
       setDataPoints([
         { name: "Review Block", y: Number(Data?.review_block) },
         { name: "Allotted Block", y: Number(Data?.allocated_block) },
@@ -93,7 +94,7 @@ function Dashboard() {
           {/* <DoughnutChart title={"My Block Progress"} subtitle={"40% Completed"} dataPoints={DataPoints} /> */}
           {/* </div> */}
           <Row lg={12} className='d-flex justify-content-center'>
-            <Col lg={6} md={12} sm={12} className='mt-3'><DoughnutChart title={"My Block Progress"} subtitle={`${DataPoints[2]?.y}% Completed`} dataPoints={DataPoints} /></Col>
+            <Col lg={6} md={12} sm={12} className='mt-3'><DoughnutChart title={"My Block Progress"} subtitle={`${DataPoints[2]?.y || '0'}% Completed`} dataPoints={DataPoints} /></Col>
             {/* <Col lg={6} md={12} sm={12} className='mt-3'><DoughnutChart title={"My Property Progress"} subtitle={"60% Completed"} dataPoints={DataPoints2} /></Col> */}
           </Row>
         </>}

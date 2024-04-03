@@ -28,7 +28,7 @@ const PropertyManagement = () => {
     const [addProperty, setAddProperty] = useState(false)
     const [propertyList, setPropertyList] = useState(null)
     const [radioValue, setRadioValue] = useState('1');
-    const [submitToggle, setSubmitToggle] = useState(false)
+    const [submitToggle, setSubmitToggle] = useState(true)
     const [counterData, setCounterData] = useState({});
 
     const radios = [
@@ -85,11 +85,18 @@ const PropertyManagement = () => {
         onSuccess: () => {
             toaster('Property submit successfully', 'success');
             navigate(route.poiManagement(location?.state?.StateData?.blockId))
+
         }
     })
 
     const SubmitProperty = () => {
-        mutate({ poi_id: id })
+        const obj = {};
+        propertyList?.data?.forEach((e, i) => {
+            if (e?.is_review === 2 || e?.is_review === 0) {
+                obj[i.toString()] = e?.id.toString();
+            }
+        });
+        mutate({ poi_id: id, property_id: obj })
     }
 
 
@@ -211,7 +218,7 @@ const PropertyManagement = () => {
 
                 </Row>
             </div>
-            { }
+
 
             {(submitToggle) && (
                 <div className='d-flex justify-content-end pe-3'>
@@ -263,6 +270,8 @@ const PropertyManagement = () => {
                                 key={Property.id}
                                 index={index}
                                 Property={Property}
+                                StateData={location?.state?.StateData}
+                                counterData={counterData}
                                 onDelete={() => { }}
                                 onUpdate={() => { }}
                             />

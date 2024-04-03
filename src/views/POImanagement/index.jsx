@@ -26,6 +26,7 @@ const POIManagement = () => {
     const [poiCount, setPoiCount] = useState(null)
     const [poiToggle, setPoiToggle] = useState(false)
 
+
     const navigate = useNavigate()
     function getRequestParams(e) {
         const data = e ? parseParams(e) : params.current
@@ -75,7 +76,7 @@ const POIManagement = () => {
 
     const { mutate, isLoading: isLoad } = useMutation(SubmitAllPOI, {
         onSuccess: () => {
-            toaster('POI submit successfully', 'success');
+            toaster('Block submit successfully', 'success');
             navigate(route.reviewBlock);
         }
     })
@@ -148,7 +149,6 @@ const POIManagement = () => {
     }
 
     useEffect(() => {
-        console.log('first', location?.state?.totalPOI, poiListData?.total, requestParams?.eStatus)
         if (poiCount && poiCount?.total_poi === poiCount?.completed_poi && radioValue === '3') {
             setPoiToggle(true)
         } else {
@@ -159,6 +159,7 @@ const POIManagement = () => {
     useEffect(() => {
         document.title = 'Property Management | AMC Survey'
     }, [])
+
 
 
     return (

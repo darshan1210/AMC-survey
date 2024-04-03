@@ -1,13 +1,18 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
-import { Button, Modal } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { route } from 'shared/constants/AllRoutes';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
+import { CheckPOIstatus, VerifyPOI } from 'query/POI/poi.query';
+import AddPoi from 'views/POImanagement/add';
+import { toaster } from 'helper/helper';
 
 const POIListRow = ({ poi, index, blockId, radioValue }) => {
     const navigate = useNavigate();
+    const [POIStatus, setPOIstatus] = useState(false)
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    console.log('POIStatus', POIStatus)
 
     const StateData = {
         blockId: blockId,
@@ -17,6 +22,29 @@ const POIListRow = ({ poi, index, blockId, radioValue }) => {
         TotalProprty: poi?.total_number_of_house,
         TotalShops: poi?.total_number_of_shops
     }
+    const { mutate, } = useMutation(CheckPOIstatus, {
+        onSuccess: (data) => {
+            setPOIstatus(data?.data?.status);
+            if (data?.data?.status) {
+                navigate(route.propertyManagement(poi?.id), { state: { StateData } })
+            } else {
+                setShow(true)
+            }
+        }
+    })
+
+    // Function to check POI status
+    const checkPOIStatus = (ID) => {
+        mutate(ID)
+    };
+
+    const { mutate: VerifyPOImutate, isLoading: VerifyLoad } = useMutation(VerifyPOI, {
+        onSuccess: () => {
+            toaster('POI Verified successfully', 'success');
+            navigate(route.propertyManagement(poi?.id), { state: { StateData } })
+        }
+    })
+
 
     return (
         <>
@@ -24,29 +52,18 @@ const POIListRow = ({ poi, index, blockId, radioValue }) => {
                 <td>{index + 1}</td>
                 <td>{poi?.zone?.zone_name || '-'}</td>
                 <td>{poi?.ward?.ward_name || '-'}</td>
-                <td className='blockLink' onClick={() => navigate(route.propertyManagement(poi?.id), { state: { StateData } })}>{poi.geofence_name || '-'}</td>
+                <td className='blockLink' disabled={VerifyLoad} onClick={() => navigate(route.propertyManagement(poi?.id), { state: { StateData } })}>{poi.geofence_name || '-'}</td>
                 <td>{poi.total_number_of_house || '0'}</td>
                 <td>{poi.total_number_of_shops || '0'}</td>
                 <td>
-                    <Button className='ButtonListRow' onClick={() => navigate(route.propertyManagement(poi?.id), { state: { StateData } })}>
+                    {/* <Button className='ButtonListRow' onClick={() => navigate(route.propertyManagement(poi?.id), { state: { StateData } })}> */}
+                    <Button className='ButtonListRow' disabled={VerifyLoad} onClick={() => checkPOIStatus(poi?.id)}>
                         {radioValue === '1' ? 'Start Survey ' : 'Update Survey'}
                     </Button>
                 </td>
             </tr>
 
-            <Modal show={show} onHide={handleClose} className="passbook-view-modal">
-                <Modal.Header className='modal-heade' closeButton>
-                    <Modal.Title>POI Details</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className='modal-body'>
-                    <div><span>Zone&nbsp; -</span><span>{'zone' || '-'}</span></div>
-                    <div><span>Ward&nbsp; -</span><span>{'Ward' || '-'}</span></div>
-                    <div><span>Society&nbsp; -</span><span>{poi.geofence_name || '-'}</span></div>
-                    <div><span>Total House&nbsp; -</span><span>{poi.total_number_of_house || '0'}</span></div>
-                    <div><span>Total Shops&nbsp; -</span><span>{poi.total_number_of_shops || '0'}</span></div>
-                    {/* <div><span style={{ textWrap: 'nowrap' }}>POI&nbsp; -</span><span style={{ textAlign: 'right' }}>{poi.poi || '-'}</span></div> */}
-                </Modal.Body>
-            </Modal>
+            <AddPoi isModal={show} setModal={setShow} poiID={poi?.id} VerifyPOImutate={VerifyPOImutate} />
         </>
     )
 }
@@ -54,6 +71,7 @@ const POIListRow = ({ poi, index, blockId, radioValue }) => {
 POIListRow.propTypes = {
     poi: PropTypes.any,
     radioValue: PropTypes.any,
+    checkStatus: PropTypes.any,
     onDelete: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
     blockId: PropTypes.number.isRequired,

@@ -55,7 +55,7 @@ function Login() {
       if (response?.data?.is_attendace === 0) {
         setShow(true)
       } else if (response?.data?.is_attendace === 1) {
-        navigate(route.dashboard)
+        navigate(route.taskManagement)
       } else {
         localStorage.removeItem('token')
         localStorage.removeItem('userData')

@@ -15,3 +15,12 @@ export async function GetPOIList(requestParams, id) {
 export async function SubmitAllPOI(data) {
     return await axios.post('/change-block-status', data);
 }
+
+export async function CheckPOIstatus(ID) {
+    return await axios.get(`/poi/${ID}`);
+}
+
+
+export async function VerifyPOI({ formData, poiID }) {
+    return await axios.post(`/verify-poi/${poiID}`, formData);
+}

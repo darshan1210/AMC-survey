@@ -80,11 +80,10 @@ export const ConsolidatedReportColums = [
 
 export const ProptyColums = [
     { name: 'No', isSort: true },
-    { name: 'Zone', isSort: false },
-    { name: 'Ward', isSort: false },
     { name: 'POI', isSort: false },
     { name: 'Type', isSort: false },
     { name: 'Property Details', isSort: false },
+    { name: 'Property Status', isSort: false },
     { name: 'Actions', isSort: false },
 ]
 
@@ -151,6 +150,12 @@ export const zoneColums = [
     { "label": "Central Zone", "value": "Central Zone" },
     { "label": "South West Zone", "value": "South West Zone" },
     { "label": "North West Zone", "value": "North West Zone" }
+]
+
+export const OtherTypeEnum = [
+    { "label": "religious", "value": "religious" },
+    { "label": "bulk_generation", "value": "bulk_generation" },
+    { "label": "mobile_vendor", "value": "mobile_vendor" },
 ]
 
 export const PropertyTypeColums = [
