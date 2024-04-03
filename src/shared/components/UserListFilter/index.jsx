@@ -108,7 +108,7 @@ function UserFilters({ filterChange, closeDrawer, location, startDate, endDate, 
                             value={value}
                             placeholder='Select zone..'
                             options={zoneColums}
-                            className='react-select form-control'
+                            className='react-select'
                             classNamePrefix='select'
                             closeMenuOnSelect={true}
                             onChange={(e) => {

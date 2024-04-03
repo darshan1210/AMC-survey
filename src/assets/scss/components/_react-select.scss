@@ -1,7 +1,7 @@
 .react-select {
   width: 100%;
   font-size: $fs-14;
-  background-color: var(--input-background-color);
+  // background-color: var(--input-background-color);
   color: var(--heading-color);
   &.custom-select {
     .select__control {
@@ -10,8 +10,7 @@
     }
   }
   // width: 100px;
-  height: 38px;
-  border: 1px solid #dfe4ec;
+  // height: 38px;
   border-radius: 5px;
 
   &.select--is-disabled {
@@ -38,10 +37,13 @@
     box-shadow: none;
     border: 1px solid transparent;
     text-align: left;
-
+    height: 50px;
+    border: 1px solid $border-color;
+    background: $light-grey;
+    cursor: pointer;
     // var(--secondary-500)
     &:hover {
-      border-color: transparent;
+      border-color: $border-color;
     }
 
     &.select__control--is-focused {

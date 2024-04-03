@@ -35,7 +35,7 @@ function DataTable({
       <h2 className='label' style={{ textAlign: 'left' }}>{label}</h2>
       {header && (
         <div className='data-table-header d-sm-flex align-items-center justify-content-between flex-wrap'>
-          <div className='d-flex left mb-2'>
+          <div className='d-flex left mb-3 mb-sm-0'>
             {header.left.bulkAction && <Form.Group className='bulk-action only-border mb-0 form-group'></Form.Group>}
             {header.left.rows && (
               <Form.Group className='bulk-action only-border form-group mb-0 d-flex align-items-center'>

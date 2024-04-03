@@ -144,7 +144,9 @@
       &:hover{
         box-shadow: none;
       }
-
+      &:focus,&:active{
+        background: transparent !important;
+      }
       &.dropdown-toggle{
         &::after{
             content: "";

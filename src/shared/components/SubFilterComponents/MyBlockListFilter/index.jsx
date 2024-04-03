@@ -151,7 +151,7 @@ function MyBlockFilters({ filterChange, closeDrawer, }) {
                             showYearDropdown
                             yearDropdownItemNumber={10}
                             scrollableYearDropdown
-                            className="datepicker-inputbox"
+                            className="datepicker-inputbox form-control"
                         />
                     )}
                 />
@@ -176,7 +176,7 @@ function MyBlockFilters({ filterChange, closeDrawer, }) {
                             showYearDropdown
                             yearDropdownItemNumber={10}
                             scrollableYearDropdown
-                            className="datepicker-inputbox"
+                            className="datepicker-inputbox form-control"
                         />
                     )}
                 />

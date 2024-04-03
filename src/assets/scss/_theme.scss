@@ -122,15 +122,15 @@ button:focus {
 }
 
 .PageTitle {
-  margin: 7px 0 20px 0;
   font-size: 24px;
+  margin: 0 0 10px;
+  line-height: normal;
   font-weight: 600;
-}
-
-
-@media screen and (max-width:800px) {
-  .PageTitle {
-    margin: 7px 0 10px 0;
+  span{
+      font-weight: 300;
+  }
+  @media only screen and (max-width: 767px) {
+      font-size: 20px;
   }
 }
 

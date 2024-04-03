@@ -208,7 +208,7 @@ const UnAllottedBlockListRow = ({ user, index, }) => {
                                                 showYearDropdown
                                                 yearDropdownItemNumber={10}
                                                 scrollableYearDropdown
-                                                className="datepicker-inputbox"
+                                                className="datepicker-inputbox form-control"
                                             />
                                         )}
                                     />
@@ -271,7 +271,7 @@ const UnAllottedBlockListRow = ({ user, index, }) => {
                                                 showYearDropdown
                                                 yearDropdownItemNumber={10}
                                                 scrollableYearDropdown
-                                                className="datepicker-inputbox"
+                                                className="datepicker-inputbox form-control"
                                             />
                                         )}
                                     />
