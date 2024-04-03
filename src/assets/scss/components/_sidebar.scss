@@ -166,7 +166,7 @@
   }
 
 
-  @include media-max(xl) {
+  @include media-max(lg) {
     width: 300px;
     left: -300px;
     &.show{
@@ -461,7 +461,7 @@
         }
       }
 
-      // @include media-max(xl) {
+      // @include media-max(lg) {
       //   .menu {
       //     ul {
       //       li {
