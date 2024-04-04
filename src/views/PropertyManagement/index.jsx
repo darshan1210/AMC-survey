@@ -95,7 +95,7 @@ const PropertyManagement = () => {
             if (e?.is_review === 2 || e?.is_review === 0) {
                 obj[i.toString()] = e?.id.toString();
             }
-        });
+        })
         mutate({ poi_id: id, property_id: obj })
     }
 
@@ -158,7 +158,7 @@ const PropertyManagement = () => {
     }, [])
 
     useEffect(() => {
-        if (Number(counterData?.pending_property) <= 0 && Number(counterData?.completed_property) > 0) {
+        if (Number(counterData?.pending_house) <= 0 && Number(counterData?.pending_shop) <= 0 && Number(counterData?.completed_property) > 0) {
             setSubmitToggle(true)
         } else {
             setSubmitToggle(false)
@@ -167,7 +167,7 @@ const PropertyManagement = () => {
 
 
     function hendelAddProperty() {
-        if ((Number(counterData?.pending_property) <= 0) && (Number(counterData?.new_property) === 0)) {
+        if ((Number(counterData?.pending_house) <= 0) && (Number(counterData?.pending_shop) <= 0) && (Number(counterData?.new_property) === 0)) {
             setShow(true);
         } else {
             setAddProperty(true)
@@ -193,31 +193,40 @@ const PropertyManagement = () => {
             <div className='DashGrid'>
                 <Row className='dashboardCards' >
                     <Col className='mb-3 '>
-                        <Cards cardtext={counterData?.total_number_of_house || '0'} cardtitle={'Total Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
+                        <Cards cardtext={counterData?.total_number_of_house || '0'} cardtitle={'Total Residential Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
                     </Col>
                     <Col className='mb-3 '>
-                        <Cards cardtext={counterData?.total_number_of_shops || '0'} cardtitle={'Total Shop'} cardIcon={faCircleCheck} className='dashboard-card-4' />
+                        <Cards cardtext={counterData?.total_number_of_shops || '0'} cardtitle={'Total Commercial Property'} cardIcon={faCircleCheck} className='dashboard-card-4' />
                     </Col>
                 </Row>
+
                 <Row className='dashboardCards' >
                     <Col className='mb-3 '>
-                        <Cards cardtext={counterData?.pending_property || '0'} cardtitle={'Remaining Property'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
+                        <Cards cardtext={counterData?.pending_property || '0'} cardtitle={'Total Remaining Property'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
                     </Col>
                     <Col className='mb-3 '>
                         <Cards cardtext={counterData?.completed_property || '0'} cardtitle={'Completed Property'} cardIcon={faListCheck} className='dashboard-card-2' />
                     </Col>
                 </Row>
                 <Row className='dashboardCards' >
-
                     <Col className='mb-3 '>
                         <Cards cardtext={counterData?.new_property || '0'} cardtitle={'New Property'} cardIcon={faCircleCheck} className='dashboard-card-4' />
                     </Col>
                     <Col className='mb-3 '>
                         <Cards cardtext={counterData?.total_number_of_other_property || '0'} cardtitle={'Other Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
                     </Col>
-
                 </Row>
             </div>
+
+
+            {((!submitToggle && Number(counterData?.total_number_of_house) !== 0) && Number(counterData?.total_number_of_shops) !== 0) && <div className='ShowRemainMsg'>
+                <span>
+                    Out of :- <span className='numbers'>{counterData?.total_number_of_house}</span> Residential Property,  <span className='numbers'>{counterData?.pending_house}</span> are remaining
+                </span>
+                <span>
+                    Out of :-  <span className='numbers'>{counterData?.total_number_of_shops}</span> Commercial Property, <span className='numbers'>{counterData?.pending_shop}</span> are remaining
+                </span>
+            </div>}
 
 
             {(submitToggle) && (

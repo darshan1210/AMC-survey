@@ -43,7 +43,8 @@ const PropertyListRow = ({ Property, index, StateData, counterData }) => {
                     <div><span>POI</span><span>{Property?.poi?.geofence_name || '-'}</span></div>
                     <div><span>Property Type</span><span>{Property.type || '0'}</span></div>
                     <div><span>Property text</span><span>{Property.property_text || '0'}</span></div>
-                    <div className='d-flex justify-content-center'><img src={previewImage} height={200} width={250} alt="PropertyImage" /></div>
+                    {Property?.is_not_found === 0 ? (<div className='d-flex justify-content-center'><img src={previewImage} height={200} width={250} alt="PropertyImage" /></div>
+                    ) : (<div className='d-flex justify-content-center'><span>Property Not Found</span></div>)}
                 </Modal.Body>
             </Modal>
 

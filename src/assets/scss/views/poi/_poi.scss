@@ -61,3 +61,22 @@
         }
     }
 }
+
+.ShowRemainMsg {
+
+    display: flex;
+
+    flex-direction: column;
+    border: 2px solid #ff050559;
+    border-radius: 10px;
+    padding: 8px 19px;
+    font-size: 15px;
+    gap: 14px;
+    color: #760000;
+    align-items: center;
+    background-color: #fce2e2;
+
+    .numbers {
+        font-weight: bold;
+    }
+}

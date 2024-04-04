@@ -152,7 +152,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
     }
 
     useEffect(() => {
-        if (Number(counterData?.pending_property) <= 0) {
+        if ((Number(counterData?.pending_house) <= 0) && (Number(counterData?.pending_shop) <= 0)) {
             setValue('eNewProperty', true)
             setValue('ePropertyNotFound', false)
         }
@@ -306,7 +306,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
 
 
                             {!UpdateID && <>
-                                {/* chek Box */} {(Number(counterData?.pending_property) <= 0) && <Col sm={6}>
+                                {/* chek Box */} {((Number(counterData?.pending_house) <= 0) && (Number(counterData?.pending_shop) <= 0)) && <Col sm={6}>
                                     <Form.Group className='form-checkbox'>
                                         <Controller
                                             name='eNewProperty'
@@ -336,7 +336,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                                     </Form.Group>
                                 </Col>}
 
-                                {/* chek Box */}  {!(Number(counterData?.pending_property) <= 0) && <Col sm={6}>
+                                {/* chek Box */}  {!((Number(counterData?.pending_house) <= 0) && (Number(counterData?.pending_shop) <= 0)) && <Col sm={6}>
                                     <Form.Group className='form-checkbox'>
                                         <Controller
                                             name='ePropertyNotFound'
@@ -382,7 +382,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                                                         ref={ref}
                                                         value='house'
                                                         id={'id6'}
-                                                        label={'house'}
+                                                        label={'Residential'}
                                                         className={` ${errors.type && 'error'}`}
                                                         checked={value === 'house'} // Check if this value is selected
                                                         onChange={(e) => {
@@ -409,7 +409,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                                                         ref={ref}
                                                         value='shop'
                                                         id={'id7'}
-                                                        label={'Shop'}
+                                                        label={'Commercial'}
                                                         className={` ${errors.type && 'error'}`}
                                                         checked={value === 'shop'} // Check if this value is selected
                                                         onChange={(e) => {
