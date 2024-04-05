@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useMediaQuery from 'shared/hooks/useMediaQuery';
 
 function MenuItem({ item, isMenuOpen, activeSubMenu, toggleSubMenu, setNavMenu }) {
-  const width = useMediaQuery('(max-width: 800px)')
+  const width = useMediaQuery('(max-width: 767px)')
   const [isOpen, setIsOpen] = useState(false);
   const childPaths = item.children && item.children.map((i) => i.path.split('/')[1]);
   const location = useLocation();
@@ -28,7 +28,7 @@ function MenuItem({ item, isMenuOpen, activeSubMenu, toggleSubMenu, setNavMenu }
     <li className={isOpen ? 'open' : ''}>
       {item.children ? (
         <>
-          <span onClick={toggle} className={isOpen === true ? "toggle-btn-open" : ""}>
+          <span onClick={toggle} className={(isOpen === true || item?.title == 'Block Management') ? "toggle-btn-open" : ""}>
             <span
               // eslint-disable-next-line
               activeclassName={`active ${!item.children && 'pe-none'} `}

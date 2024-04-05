@@ -3,7 +3,7 @@
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
-  
+
     .btn-outline-primary {
         background-color: var(--primary-color) !important;
         color: #fff;
@@ -18,25 +18,26 @@
     .btn {
         color: $secondary-font-color !important;
         background: transparent;
-        padding: 12px 20px;
+        padding: 10px 15px;
         border: none;
         font-weight: 500;
         line-height: normal;
-        font-size: 16px;
+        font-size: 13px;
         position: relative;
         border-radius: 10px 10px 0px 0px !important;
         border: 1px solid #E9ECEF;
         white-space: nowrap;
         margin: 0 6px 0 0;
         flex: none;
-        &:hover{
+
+        &:hover {
             border-color: $cta-color;
             background: $cta-color;
         }
     }
 }
 
-@media screen and (max-width:800px) {
+@media screen and (max-width:767px) {
     .FilterModal {
         width: 65vw !important;
     }

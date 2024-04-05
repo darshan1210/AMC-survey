@@ -15,7 +15,7 @@ function MainLayout({ children }) {
     <div className='main-layout'>
       {/* <MobileSide Bar isNavmenu={isNavmenu} setNavMenu={setNavMenu} setIsOpen={setIsOpen} /> */}
       <Header setNavMenu={setNavMenu} isNavmenu={isNavmenu} />
-      <SideBar isOpen={isOpen} setIsOpen={setIsOpen} isNavmenu={isNavmenu} />
+      <SideBar isOpen={isOpen} setIsOpen={setIsOpen} isNavmenu={isNavmenu} setNavMenu={setNavMenu} />
 
 
       <div className={`main-container ${width ? !isOpen && 'active' : isOpen && 'active'}`}>

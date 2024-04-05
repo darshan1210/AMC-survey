@@ -85,7 +85,7 @@
   padding: 0;
 
   .islabel {
-    display: flex;
+    // display: flex;
 
     color: #121e30;
   }
@@ -147,7 +147,7 @@
   }
 }
 
-@media screen and (max-width:800px) {
+@media screen and (max-width:767px) {
   .document-preview-group {
     flex-wrap: wrap;
   }

@@ -1,5 +1,5 @@
 export const route = {
-  login: '/',
+  login: '/login',
   forgotPassword: '/forgot-password',
   resetPassword: (token) => `/reset-password/${token}`,
   changePassword: '/change-password',

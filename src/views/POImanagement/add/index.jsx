@@ -1,71 +1,115 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types';
-import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { Button, Col, Form, Modal, Row, Spinner } from 'react-bootstrap';
+import { Controller, useForm } from 'react-hook-form';
 import CommonInput from 'shared/components/CommonInput';
 import { useMutation, useQueryClient } from 'react-query';
 import { AddPOI } from 'query/POI/poi.query';
 import { toaster } from 'helper/helper';
 
-function AddPoi({ isModal, setModal, StateData, blockId }) {
+function AddPoi({ isModal, setModal, StateData, blockId, poiID, VerifyPOImutate }) {
     const fileInputRef = useRef(null)
-    const query = useQueryClient()
-    const [imagePreviews, setImagePreviews] = useState([]);
-    const { control, watch, register, formState: { errors }, handleSubmit, reset, setValue, setError } = useForm({ mode: 'onSubmit', defaultValues: { poi: [{ sDescription: '', sPoiImage: '' }] } });
-    const { fields } = useFieldArray({
-        control,
-        name: "poi",
-    });
-
-    const { mutate } = useMutation(AddPOI, {
+    const query = useQueryClient();
+    const [location, setLocation] = useState({ latitude: null, longitude: null });
+    const { control, watch, register, formState: { errors }, handleSubmit, reset, setError } = useForm({ mode: 'onSubmit' });
+    const { mutate, isLoading } = useMutation(AddPOI, {
         onSuccess: (response) => {
             toaster(response?.message, 'success');
             query.invalidateQueries('poiList');
+            reset();
             setModal(false);
-            reset({});
         }
     })
 
 
+
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    setLocation({ latitude, longitude });
+                },
+                function (error) {
+                    setError(`poi`, { type: 'manual', message: 'To reset permissions in Chrome, go to Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed.' });
+                    toaster('To reset permissions in Chrome, go to Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed.', 'error')
+                    console.error("Error getting location:", error.message);
+                }
+            );
+        } else {
+            setError(`poi`, { type: 'manual', message: 'To reset permissions in Chrome, go to Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed.' });
+            console.error("Geolocation is not supported by this browser.");
+        }
+    }, [watch('sIcon')]);
+
     const onSubmit = async (Data) => {
 
-
         try {
-            const userData = JSON.parse(localStorage.getItem('userData'));
 
-            const finalData = {
-                block_id: blockId,
-                society_name: Data?.sSociety,
-                zone_id: StateData?.zone.id,
-                ward_id: StateData?.ward.id,
-                surveyor_id: userData?.roles?.id,
-                comment: Data?.comment
-            };
+            if (poiID) {
+                const finalData = {
+                    new_latitude: location?.latitude,
+                    new_longitude: location?.longitude,
+                    image: Data?.sIcon,
 
-            const formData = new FormData();
-            Object.entries(finalData).forEach(([key, value]) => {
-                if (Array.isArray(value)) {
-                    value.forEach((item) => {
-                        formData.append(key, item);
-                    });
-                } else {
-                    formData.append(key, value);
                 }
-            });
 
-            Data?.poi?.forEach((poi) => {
-                formData.append(`poi`, poi.sDescription);
-                formData.append(`image`, poi.sPoiImage);
-                formData.append(`latitude`, poi.latitude);
-                formData.append(`longitude`, poi.longitude);
-            })
+                const formData = new FormData();
 
-            // // Display the key/value pairs
-            // for (var pair of formData.entries()) {
-            //     console.log(pair[0] + ', ' + pair[1]);
-            // }
+                Object.entries(finalData).forEach(([key, value]) => {
+                    if (Array.isArray(value)) {
+                        value.forEach((item) => {
+                            formData.append(key, item);
+                        });
+                    } else {
+                        formData.append(key, value);
+                    }
+                });
 
-            mutate(formData);
+
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
+                }
+                VerifyPOImutate({ formData, poiID })
+            } else {
+                const userData = JSON.parse(localStorage.getItem('userData'));
+                console.log('StateData', StateData)
+
+                const finalData = {
+                    block_id: blockId,
+                    zone_id: StateData?.zone.id,
+                    ward_id: StateData?.ward.id,
+                    surveyor_id: userData?.roles?.id,
+                    image: Data?.sIcon,
+                    comment: Data?.comment || '',
+                    poi: Data?.poi,
+                    latitude: location?.latitude,
+                    longitude: location?.longitude
+                };
+
+                const formData = new FormData();
+
+                Object.entries(finalData).forEach(([key, value]) => {
+                    if (Array.isArray(value)) {
+                        value.forEach((item) => {
+                            formData.append(key, item);
+                        });
+                    } else {
+                        formData.append(key, value);
+                    }
+                });
+
+
+                // for (var pair of formData.entries()) {
+                //     console.log(pair[0] + ', ' + pair[1]);
+                // }
+
+                mutate(formData);
+            }
+
+
         } catch (error) {
             console.error('Error getting user data:', error);
         }
@@ -77,51 +121,7 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
             fileInputRef.current.click()
         }
     }
-
-    const handleFileInputChange = (index, event) => {
-        const file = event.target.files[0];
-        const newImagePreviews = [...imagePreviews];
-        newImagePreviews[index] = URL.createObjectURL(file);
-        setImagePreviews(newImagePreviews);
-    };
-
-    const getLocation = async (index) => {
-        try {
-
-            const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
-
-            // Clear watch if permission is granted
-            if (permissionStatus.state === 'granted') {
-                navigator.geolocation.clearWatch(permissionStatus.id);
-            }
-
-            const pos = await new Promise((resolve, reject) => {
-                navigator.geolocation.getCurrentPosition(
-                    (pos) => resolve(pos.coords),
-                    (err) => reject(err)
-                );
-            });
-            console.log('pos', pos)
-            // update('poi', updatedFields);
-            setValue(`poi[${index}].latitude`, pos.latitude);
-            setValue(`poi[${index}].longitude`, pos.longitude);
-            // setValue(`poi[${index}].location`, true);
-
-            toaster('Location updated successfully', 'success');
-        } catch (err) {
-            console.log('err', err)
-            setValue(`poi[${index}].location`, false);
-
-            // navigator.permissions.query({ name: 'geolocation' }).then(permissionStatus => {
-            //     if (permissionStatus.state === 'granted') {
-            //         navigator.geolocation.clearWatch(permissionStatus.id);
-            //     }
-            // });
-            setError(`poi[${index}].location`, { type: 'manual', message: 'Please go to your browser settings and allow location access for this website.' });
-            toaster('Please go to your browser settings and allow location access for this website.', 'error')
-        }
-    };
-
+    console.log('watch',)
     return (
         <div>
 
@@ -132,198 +132,144 @@ function AddPoi({ isModal, setModal, StateData, blockId }) {
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
-
-                            {/* Society */}  <Col sm={12}>
+                            {/* POI*/}{!poiID && <Col sm={12}>
                                 <CommonInput
                                     type='text'
                                     register={register}
                                     errors={errors}
-                                    className={`form-control ${errors?.sSociety && 'error'}`}
-                                    name='sSociety'
-                                    label='Society'
-                                    placeholder='Enter Society Name'
+                                    label='Poi Details'
                                     required
-                                    onChange={(e) => {
-                                        e.target.value =
-                                            e.target.value?.trim() &&
-                                            e.target.value.replace(/^[0-9]+$/g, '')
-                                    }}
+                                    className={`form-control ${errors?.poi && 'error'}`}
+                                    name='poi'
+                                    placeholder='Enter poi details...'
+                                    onChange={(e) => e.target.value}
                                     validation={{
                                         required: {
                                             value: true,
-                                            message: 'Society Name Is Required.'
+                                            message: 'poi details is required'
                                         },
+                                        minLength: {
+                                            value: 2,
+                                            message: 'Poi details must be between 2 and 30 characters'
+                                        },
+                                        maxLength: {
+                                            value: 30,
+                                            message: 'Poi details must be between 2 and 30 characters'
+                                        }
                                     }}
                                 />
+                            </Col>}
+
+                            <Col sm={12}>
+                                <div className='fileinput'>
+                                    <label className='islabel'>Add POI Images<span className='inputStar'>*</span></label>
+                                    <div className='inputtypefile'>
+                                        <div className='inputMSG'>
+                                            {watch('sIcon') ? (
+                                                <div className="document-preview-group">
+                                                    <div className='img-over' onClick={handleFileInputClick}>Change POI Image</div>
+                                                    {
+                                                        (typeof watch('sIcon') !== 'string' && watch('sIcon')) ? (
+                                                            <div className="document-preview">
+                                                                <img src={URL.createObjectURL(watch('sIcon'))} alt='altImage' />
+                                                            </div>
+                                                        ) : (
+                                                            <div className="document-preview">
+                                                                <img src={watch('sIcon')} alt='altImage' />
+                                                            </div>
+                                                        )
+                                                    }
+                                                </div>
+                                            ) : <span>Add POI Image</span>}
+                                        </div>
+                                        <Controller
+                                            name={`sIcon`}
+                                            control={control}
+                                            rules={{
+                                                required: "Please add POI Image",
+                                                validate: {
+                                                    fileType: (value) => {
+                                                        if (value && Array.isArray(value)) {
+                                                            const allowedFormats = ['jpeg', 'png', 'jpg', 'heic', 'HEIC', 'JPEG', 'PNG', 'JPG'];
+                                                            for (const file of value) {
+                                                                const fileExtension = file.name.split('.').pop().toLowerCase();
+                                                                if (!allowedFormats.includes(fileExtension)) {
+                                                                    return "Unsupported file format";
+                                                                }
+                                                            }
+
+                                                            const maxSize = 5 * 1000 * 1000; // 1MB in bytes
+                                                            for (const file of value) {
+                                                                if (file.size >= maxSize) {
+                                                                    return "File size must be less than 5MB";
+                                                                }
+                                                            }
+                                                        } else if (value && typeof value === 'object') {
+                                                            const allowedFormats = ['jpeg', 'png', 'jpg', 'JPEG', 'PNG', 'JPG'];
+                                                            const fileExtension = value.name.split('.').pop().toLowerCase();
+
+                                                            if (!allowedFormats.includes(fileExtension)) {
+                                                                return "Unsupported file format";
+                                                            }
+
+                                                            const maxSize = 5 * 1000 * 1000; // 1MB in bytes
+                                                            if (value.size >= maxSize) {
+                                                                return "File size must be less than 5MB";
+                                                            }
+                                                        }
+                                                        return true;
+                                                    },
+                                                }
+                                            }}
+                                            render={({ field: { onChange, ref } }) => {
+                                                return (
+                                                    <Form.Control
+                                                        ref={(e) => {
+                                                            ref(e);
+                                                            fileInputRef.current = e;
+                                                        }}
+                                                        type='file'
+                                                        name={`sIcon`}
+                                                        // disabled={updateFlag}
+                                                        accept='.jpg,.jpeg,.png,.JPEG,.JPG,.PNG'
+                                                        errors={errors}
+                                                        className={errors?.sIcon && 'error'}
+                                                        onChange={(e) => {
+                                                            const files = Array.from(e.target.files);
+                                                            onChange(files.length === 1 ? files[0] : '');
+                                                        }}
+                                                        multiple // Enable multi-file selection
+                                                    />
+                                                );
+                                            }}
+                                        />
+                                    </div>
+                                    <span className='card-error'>{errors && errors?.sIcon && <Form.Control.Feedback type="invalid">{errors?.sIcon.message}</Form.Control.Feedback>}</span>
+                                </div>
+
                             </Col>
 
-                            {
-                                fields.map((field, index) => {
-                                    return (
-                                        <Row key={field?.id} className='poiModule'>
-                                            {/* <div className='addPOIbutton'>
-                                                <Button onClick={() => { append({ sDescription: '', sPoiImage: '' }) }}>Add POI</Button>
-                                                {fields.length > 1 && <Button onClick={() => { remove(index) }}>Remove POI</Button>}
-
-                                            </div> */}
-                                            {/* POI*/} <Col sm={12}>
-                                                <CommonInput
-                                                    type='textarea'
-                                                    register={register}
-                                                    errors={errors}
-                                                    customerror={errors?.poi?.[`${index}`]?.sDescription}
-                                                    customerrorMsg={errors?.poi?.[`${index}`]?.sDescription?.message}
-                                                    label={`POI - ${index + 1}`}
-                                                    required
-                                                    className={`form-control ${errors?.poi?.[`${index}`]?.sDescription && 'error'}`}
-                                                    name={`poi[${index}].sDescription`}
-                                                    placeholder='Enter POI Adress...'
-                                                    onChange={(e) => e.target.value}
-                                                    validation={{
-                                                        required: {
-                                                            value: true,
-                                                            message: 'POI Adress is required'
-                                                        },
-                                                    }}
-                                                />
-                                            </Col>
-                                            <Col sm={12}>
-                                                <div className='fileinput'>
-                                                    <div className='islabel'>
-                                                        <label>Add POI - {index + 1} Image<span className='inputStar'>*</span></label>
-                                                    </div>
-                                                    <div className='inputtypefile'>
-                                                        <div className='inputMSG'>
-                                                            {watch(`poi`)[index]?.sPoiImage ? (
-                                                                <div className="document-preview-group">
-                                                                    <div className='img-over' onClick={() => handleFileInputClick(index)}>Change POI Image</div>
-                                                                    {imagePreviews[index] && (
-                                                                        <div className="document-preview">
-                                                                            <img src={imagePreviews[index]} alt='altImage' />
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            ) : (
-                                                                <span>Upload POI Image</span>
-                                                            )}
-                                                        </div>
-
-                                                        <Controller
-                                                            name={`poi[${index}].sPoiImage`}
-                                                            control={control}
-                                                            rules={{
-                                                                required: "Please add POI Image",
-                                                                validate: {
-                                                                    fileType: (value) => {
-                                                                        if (value && typeof (watch(`poi`)[index]?.sPoiImage) !== 'string') {
-                                                                            const allowedFormats = ['jpeg', 'png', 'jpg', 'JPEG', 'PNG', 'JPG'];
-                                                                            const fileExtension = value.name.split('.').pop().toLowerCase();
-
-                                                                            if (!allowedFormats.includes(fileExtension)) {
-                                                                                return "Unsupported file format";
-                                                                            }
-
-                                                                            const maxSize = 2 * 1000 * 1000; // 1MB in bytes
-                                                                            if (value.size >= maxSize) {
-                                                                                return "File size must be less than 2MB";
-                                                                            }
-                                                                        }
-                                                                        return true;
-                                                                    },
-                                                                }
-                                                            }}
-                                                            render={({ field: { onChange, ref } }) => {
-                                                                return <>
-                                                                    <Form.Control
-                                                                        ref={(e) => {
-                                                                            ref(e);
-                                                                            fileInputRef.current = e;
-                                                                        }}
-                                                                        type='file'
-                                                                        name={`poi[${index}].sPoiImage`}
-                                                                        accept='.jpg,.jpeg,.png,.JPEG,.JPG,.PNG'
-                                                                        errors={errors}
-                                                                        className={errors?.poi?.[`${index}`]?.sPoiImage && 'error'}
-                                                                        onChange={(e) => {
-                                                                            onChange(e.target.files[0])
-                                                                            handleFileInputChange(index, e);
-                                                                        }}
-                                                                    />
-                                                                </>
-                                                            }}
-                                                        />
-                                                    </div>
-
-                                                    <span className='card-error'>{errors && errors?.poi?.[`${index}`]?.sPoiImage && <Form.Control.Feedback type="invalid">{errors?.poi?.[`${index}`]?.sPoiImage.message}</Form.Control.Feedback>}</span>
-                                                </div>
-                                            </Col>
-
-
-                                            {/* chek Box */}  <Col sm={12}>
-                                                <Form.Group className='poi-form-checkbox'>
-                                                    <Controller
-                                                        name={`poi[${index}].location`}
-                                                        control={control}
-                                                        rules={{
-                                                            required: "Please detect nearby location",
-                                                        }}
-                                                        render={({ field: { onChange, value = [], ref } }) => (
-                                                            <Form.Check
-                                                                type='checkbox'
-                                                                ref={ref}
-                                                                value={value}
-                                                                id={`${field?.id}`}
-                                                                label={'Auto detect POI Location'}
-                                                                className={` ${errors?.poi?.[`${index}`]?.location && 'error'}`}
-                                                                onChange={(e) => {
-                                                                    onChange(e)
-                                                                    console.log('e', e.target.value)
-                                                                    if (e.target.value !== 'true') {
-                                                                        getLocation(index)
-                                                                    }
-                                                                }}
-                                                            />
-                                                        )}
-                                                    />
-                                                    {errors?.poi?.[`${index}`]?.location && (
-                                                        <Form.Control.Feedback type='invalid'>
-                                                            {errors?.poi?.[`${index}`]?.location.message}
-                                                        </Form.Control.Feedback>
-                                                    )}
-                                                </Form.Group>
-                                            </Col>
-                                        </Row>
-                                    )
-                                })
-                            }
-                            <Col sm={12}>
+                            {!poiID && <Col sm={12}>
                                 <CommonInput
                                     type='text'
                                     register={register}
                                     errors={errors}
                                     label='Comment'
-                                    required
                                     className={`form-control ${errors?.comment && 'error'}`}
                                     name='comment'
                                     placeholder='Enter Comment...'
                                     onChange={(e) => e.target.value}
-                                    validation={{
-                                        required: {
-                                            value: true,
-                                            message: 'Comment is required'
-                                        },
-                                    }}
                                 />
-                            </Col>
+                            </Col>}
 
                         </Row>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={() => { setModal(false); reset() }}>
+                        <Button variant="secondary" disabled={isLoading} onClick={() => { setModal(false); reset() }}>
                             Cancel
                         </Button>
-                        <Button variant="primary" type='submit' onClick={handleSubmit(onSubmit)}>
-                            Submit
+                        <Button variant="primary" disabled={isLoading} type='submit' onClick={handleSubmit(onSubmit)}>
+                            Submit {isLoading && <Spinner size='sm' />}
                         </Button>
                     </Modal.Footer>
                 </Form >
@@ -336,7 +282,9 @@ AddPoi.propTypes = {
     isModal: PropTypes.bool.isRequired,
     setModal: PropTypes.func.isRequired,
     StateData: PropTypes.any,
-    blockId: PropTypes.string
+    blockId: PropTypes.string,
+    poiID: PropTypes.string,
+    VerifyPOImutate: PropTypes.any
 };
 
 export default AddPoi;

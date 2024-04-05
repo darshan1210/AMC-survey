@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 
@@ -5,20 +7,19 @@ import { Modal } from 'react-bootstrap';
 
 const CompletedBlockListRow = ({ user, index, }) => {
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
     return (
         <>
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
                 <td>{index + 1}</td>
-                <td className='blockLink'>{user.Blockname || '-'}</td>
-                <td>{user.Ward || '-'}</td>
-                <td>{user.zone || '-'}</td>
-                <td>{user.TotalProperty || '-'}</td>
-                <td>{user.Createdby || '-'}</td>
-                <td>{user.CreatedDate || '-'}</td>
+                <td>{user.block_name || '-'}</td>
+                <td>{user?.zone.zone_name || '-'}</td>
+                <td>{user?.ward.ward_name || '-'}</td>
+                <td>{user?.points_of_interest_count || '0'}</td>
+                <td>{user?.allocated_date || '--'}</td>
+                <td>{user?.complete_date || '--'}</td>
+                {/* <td className="date-data-field">{moment(user?.created_at).format('DD-MM-YYYY') || '-'}</td> */}
                 <td>
                     <div className='SingleDataTabeIcon' onClick={handleShow}>
                         <i className='icon-visibility d-block' />
@@ -31,11 +32,14 @@ const CompletedBlockListRow = ({ user, index, }) => {
                     <Modal.Title>Block Details</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className='modal-body'>
-                    <div><span>Ward</span><span>-</span><span>{user.Ward || '-'}</span></div>
-                    <div><span>Ward</span><span>-</span><span>{user.Ward || '-'}</span></div>
-                    <div><span>TotalProperty</span><span>-</span><span>{user.TotalProperty || '-'}</span></div>
-                    <div><span>Createdby</span><span>-</span><span>{user.Createdby || '-'}</span></div>
-                    <div><span>CreatedDate</span><span>-</span><span>{user.CreatedDate || '-'}</span></div>
+                    <div><span>Block</span><span>{user?.block_name || '-'}</span></div>
+                    <div><span>Zone</span><span>{user?.zone.zone_name || '-'}</span></div>
+                    <div><span>Ward</span><span>{user?.ward.ward_name || '-'}</span></div>
+                    <div><span>Total POI</span><span>{user?.points_of_interest_count || '0'}</span></div>
+                    <div><span>Total Property</span><span>{user?.total_number_of_house || '0'}</span></div>
+                    <div><span>Total shop</span><span>{user?.total_number_of_shops || '0'}</span></div>
+                    <div><span>Allocated Date</span><span>{user?.allocated_date || '0'}</span></div>
+                    <div><span>Complete Date</span><span>{user?.complete_date || '0'}</span></div>
                 </Modal.Body>
             </Modal>
         </>
@@ -51,3 +55,5 @@ CompletedBlockListRow.propTypes = {
 
 
 export default CompletedBlockListRow
+
+

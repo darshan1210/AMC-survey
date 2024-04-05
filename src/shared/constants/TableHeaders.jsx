@@ -16,11 +16,34 @@
 export const TaskColumm = [
     { name: 'No', isSort: true },
     { name: 'Block name', isSort: false },
-    { name: 'Ward', isSort: false },
     { name: 'zone', isSort: false },
+    { name: 'Ward', isSort: false },
     { name: 'Total POI', isSort: false },
     { name: 'Created by', isSort: false },
     { name: 'Created Date', isSort: false },
+    { name: 'Actions', isSort: false },
+]
+
+export const ReviewBlockColumm = [
+    { name: 'No', isSort: true },
+    { name: 'Block name', isSort: false },
+    { name: 'zone', isSort: false },
+    { name: 'Ward', isSort: false },
+    { name: 'Total POI', isSort: false },
+    { name: 'Allocated Date', isSort: false },
+    { name: 'Survey Date', isSort: false },
+    { name: 'Actions', isSort: false },
+]
+
+
+export const CompletdBlockColumm = [
+    { name: 'No', isSort: true },
+    { name: 'Block name', isSort: false },
+    { name: 'Zone', isSort: false },
+    { name: 'Ward', isSort: false },
+    { name: 'Total POI', isSort: false },
+    { name: 'Allocated Date', isSort: false },
+    { name: 'Complete Date', isSort: false },
     { name: 'Actions', isSort: false },
 ]
 
@@ -57,10 +80,10 @@ export const ConsolidatedReportColums = [
 
 export const ProptyColums = [
     { name: 'No', isSort: true },
-    { name: 'Ward', isSort: false },
-    { name: 'Zone', isSort: false },
-    { name: 'Society', isSort: false },
+    { name: 'POI', isSort: false },
+    { name: 'Type', isSort: false },
     { name: 'Property Details', isSort: false },
+    { name: 'Property Status', isSort: false },
     { name: 'Actions', isSort: false },
 ]
 
@@ -68,7 +91,7 @@ export const POIColums = [
     { name: 'No', isSort: true },
     { name: 'Zone', isSort: false },
     { name: 'Ward', isSort: false },
-    { name: 'Society', isSort: false },
+    { name: 'POI', isSort: false },
     { name: 'Total House', isSort: false },
     { name: 'Total Shops', isSort: false },
     { name: 'Actions', isSort: false }
@@ -76,13 +99,12 @@ export const POIColums = [
 
 export const RevviewSurveyColums = [
     { name: 'No', isSort: true },
+    { name: 'Block name', isSort: false },
     { name: 'Ward', isSort: false },
-    { name: 'Zone', isSort: false },
-    { name: 'Society', isSort: false },
-    { name: 'Created By', isSort: false },
+    { name: 'zone', isSort: false },
+    { name: 'Total POI', isSort: false },
+    { name: 'Created by', isSort: false },
     { name: 'Created Date', isSort: false },
-    { name: 'Owner Name', isSort: false },
-    { name: 'Phone No', isSort: false },
     { name: 'Actions', isSort: false },
 ]
 
@@ -128,6 +150,12 @@ export const zoneColums = [
     { "label": "Central Zone", "value": "Central Zone" },
     { "label": "South West Zone", "value": "South West Zone" },
     { "label": "North West Zone", "value": "North West Zone" }
+]
+
+export const OtherTypeEnum = [
+    { "label": "religious", "value": "religious" },
+    { "label": "bulk_generation", "value": "bulk_generation" },
+    { "label": "mobile_vendor", "value": "mobile_vendor" },
 ]
 
 export const PropertyTypeColums = [

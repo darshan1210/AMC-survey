@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Form, InputGroup, Spinner } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
-import { login } from 'query/auth/auth.query'
+import { login, markAttendance } from 'query/auth/auth.query'
 import { route } from 'shared/constants/AllRoutes'
 import { validationErrors } from 'shared/constants/ValidationErrors'
 import { useMutation } from 'react-query'
 import { toaster } from 'helper/helper'
 import { EMAIL } from 'shared/constants'
+import { KeyIcon, MailIcon } from 'assets/images/SVGs/Svg'
+import CustomModal from 'shared/components/Modal'
+
 function Login() {
   const navigate = useNavigate()
   const {
@@ -19,6 +22,26 @@ function Login() {
   } = useForm({ mode: 'onSubmit' })
   const [showPassword, setShowPassword] = useState(true)
   const [mobileToggle, setMobileToggle] = useState(false)
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('userData')
+    navigate('/login')
+    setShow(false)
+  }
+
+  const { mutate: attendanceMutate, isLoading: attendanceIsLoad } = useMutation(markAttendance, {
+    onSuccess: (response) => {
+      navigate(route.dashboard)
+      toaster(response?.data?.message, 'success')
+    }
+  })
+
+  const handleConfirm = () => {
+    attendanceMutate()
+    setShow(false)
+  }
 
   function handlePasswordToggle() {
     setShowPassword(!showPassword)
@@ -27,9 +50,18 @@ function Login() {
   const { mutate, isLoading } = useMutation(login, {
     onSuccess: (response) => {
       localStorage.setItem('token', response?.data?.token)
-      toaster(response?.data?.message, 'success')
       localStorage.setItem('userData', JSON.stringify(response?.data?.user))
-      navigate(route.dashboard)
+      toaster(response?.data?.message, 'success')
+      if (response?.data?.is_attendace === 0) {
+        setShow(true)
+      } else if (response?.data?.is_attendace === 1) {
+        navigate(route.taskManagement)
+      } else {
+        localStorage.removeItem('token')
+        localStorage.removeItem('userData')
+        navigate('/login')
+        setShow(false)
+      }
     }
   })
 
@@ -39,6 +71,7 @@ function Login() {
   const toggleLogin = () => {
     setMobileToggle(!mobileToggle)
     reset()
+    toggleLogin()
   }
 
   useEffect(() => {
@@ -102,7 +135,7 @@ function Login() {
                 <FormattedMessage id='emailAddress' />
               </Form.Label>
               <InputGroup>
-                <InputGroup.Text id="basic-addon1">
+                <InputGroup.Text id="basic-addon1"><MailIcon fill='#b3e232' height='20' width='20' />
                   <Form.Control
                     type='text'
                     required
@@ -124,7 +157,7 @@ function Login() {
                 <FormattedMessage id='password' />
               </Form.Label>
               <InputGroup>
-                <InputGroup.Text id="basic-addon2">
+                <InputGroup.Text id="basic-addon2"><KeyIcon fill='#b3e232' height='20' width='20' />
                   <Form.Control
                     type={showPassword ? 'password' : 'text'}
                     required
@@ -153,12 +186,25 @@ function Login() {
           </Button>
         </div>
 
+        <Link to={'/forgot-password'} className='b-link'>
+          Forgot password
+        </Link>
+
         <div className='phone-login'>
           <span onClick={toggleLogin}>
             {mobileToggle ? 'Log-in with Email' : 'Log-in with Phone'}
           </span>
         </div>
       </Form>
+
+      <CustomModal
+        open={show}
+        handleClose={handleClose}
+        handleConfirm={handleConfirm}
+        disableHeader
+        bodyTitle="Please click to Confirm for the login and today's attendance."
+        isLoading={attendanceIsLoad}
+      />
     </>
   )
 }

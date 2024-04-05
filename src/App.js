@@ -10,6 +10,7 @@ export const queryClient = new QueryClient({
       retry: false,
       refetchOnWindowFocus: false,
       onSettled: (_d, e) => {
+        console.log('e', e)
         if (e?.message === 'Network Error') {
           queryClient.invalidateQueries('toast')
           queryClient.setQueryData('message', () => ({ message: e?.message, type: 'error' }))
@@ -30,6 +31,7 @@ export const queryClient = new QueryClient({
   },
   mutationCache: new MutationCache({
     onError: (e, query) => {
+      console.log('e?.response?.status', e)
       if (!query?.disableToast)
         if (e?.message === 'Network Error') {
           queryClient.defaultOptions.message(e?.message, 'error')

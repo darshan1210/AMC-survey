@@ -1,7 +1,7 @@
 import { faChalkboardUser, faCircleCheck, faListCheck, faMagnifyingGlassLocation } from '@fortawesome/free-solid-svg-icons'
 import React, { useEffect, useRef, useState } from 'react'
-import { ButtonGroup, Col, Row, ToggleButton } from 'react-bootstrap'
-import { useLocation, useParams } from 'react-router-dom'
+import { Button, ButtonGroup, Col, Row, Spinner, ToggleButton } from 'react-bootstrap'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import Cards from 'shared/components/Card'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
@@ -13,20 +13,26 @@ import { appendParams, parseParams } from 'shared/utils'
 import AddProperty from './Add'
 import TopBar from 'shared/components/Topbar'
 import { GetPropertyList } from 'query/property/property.query'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
+import { ChangePOIStatus } from 'query/POI/poi.query'
+import { route } from 'shared/constants/AllRoutes'
+import { toaster } from 'helper/helper'
+import CustomModal from 'shared/components/Modal'
 
 const PropertyManagement = () => {
     const { id } = useParams()
+    const navigate = useNavigate()
     const location = useLocation()
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
     const [addProperty, setAddProperty] = useState(false)
     const [propertyList, setPropertyList] = useState(null)
-    console.log('propertyList', propertyList)
     const [radioValue, setRadioValue] = useState('1');
+    const [submitToggle, setSubmitToggle] = useState(true)
+    const [counterData, setCounterData] = useState({});
 
     const radios = [
-        { name: 'inProgress Property - (13)', value: '1' },
+        { name: `inProgress Property (${propertyList?.total})`, value: '1' },
     ];
 
 
@@ -55,17 +61,43 @@ const PropertyManagement = () => {
     const [requestParams, setRequestParams] = useState(getRequestParams())
     const [columns, setColumns] = useState(getSortedColumns(ProptyColums, parsedData))
     const [modal, setModal] = useState({ open: false, type: '' })
-
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange
 
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false)
+    const handleConfirm = () => {
+        setAddProperty(true);
+        setShow(false)
+    }
+
+
     const { isLoading, isFetching } = useQuery(['propertyList', requestParams], () => GetPropertyList(requestParams, id), {
         enabled: !!id,
-        select: (data) => data.data.data,
+        select: (data) => data.data,
         onSuccess: (data) => {
-            setPropertyList(data);
+            setCounterData(data?.couters);
+            setPropertyList(data?.data);
         }
     })
+
+    const { isLoading: SubmitProptyLoad, mutate } = useMutation(ChangePOIStatus, {
+        onSuccess: () => {
+            toaster('Property submit successfully', 'success');
+            navigate(route.poiManagement(location?.state?.StateData?.blockId))
+
+        }
+    })
+
+    const SubmitProperty = () => {
+        const obj = {};
+        propertyList?.data?.forEach((e, i) => {
+            if (e?.is_review === 2 || e?.is_review === 0) {
+                obj[i.toString()] = e?.id.toString();
+            }
+        })
+        mutate({ poi_id: id, property_id: obj })
+    }
 
 
     function handleSort(field) {
@@ -125,6 +157,23 @@ const PropertyManagement = () => {
         document.title = 'Property Management | AMC Survey'
     }, [])
 
+    useEffect(() => {
+        if (Number(counterData?.pending_house) <= 0 && Number(counterData?.pending_shop) <= 0 && Number(counterData?.completed_property) > 0) {
+            setSubmitToggle(true)
+        } else {
+            setSubmitToggle(false)
+        }
+    }, [propertyList, location])
+
+
+    function hendelAddProperty() {
+        if ((Number(counterData?.pending_house) <= 0) && (Number(counterData?.pending_shop) <= 0) && (Number(counterData?.new_property) === 0)) {
+            setShow(true);
+        } else {
+            setAddProperty(true)
+            setShow(false)
+        }
+    }
 
     return (
         <>
@@ -136,28 +185,58 @@ const PropertyManagement = () => {
                         icon: 'icon-add',
                         type: 'primary',
                         clickEventName: 'createBot',
-                        btnEvent: () => { setAddProperty(true) }
+                        btnEvent: () => { hendelAddProperty() }
                     },
                 ]}
             />
+
             <div className='DashGrid'>
                 <Row className='dashboardCards' >
                     <Col className='mb-3 '>
-                        <Cards cardtext={'82'} cardtitle={'Total Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
+                        <Cards cardtext={counterData?.total_number_of_house || '0'} cardtitle={'Total Residential Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
                     </Col>
                     <Col className='mb-3 '>
-                        <Cards cardtext={'30'} cardtitle={'In Progress Property'} cardIcon={faListCheck} className='dashboard-card-2' />
+                        <Cards cardtext={counterData?.total_number_of_shops || '0'} cardtitle={'Total Commercial Property'} cardIcon={faCircleCheck} className='dashboard-card-4' />
+                    </Col>
+                </Row>
+
+                <Row className='dashboardCards' >
+                    <Col className='mb-3 '>
+                        <Cards cardtext={counterData?.pending_property || '0'} cardtitle={'Total Remaining Property'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
+                    </Col>
+                    <Col className='mb-3 '>
+                        <Cards cardtext={counterData?.completed_property || '0'} cardtitle={'Completed Property'} cardIcon={faListCheck} className='dashboard-card-2' />
                     </Col>
                 </Row>
                 <Row className='dashboardCards' >
                     <Col className='mb-3 '>
-                        <Cards cardtext={'41'} cardtitle={'Remaining Property'} cardIcon={faMagnifyingGlassLocation} className='dashboard-card-3' />
+                        <Cards cardtext={counterData?.new_property || '0'} cardtitle={'New Property'} cardIcon={faCircleCheck} className='dashboard-card-4' />
                     </Col>
                     <Col className='mb-3 '>
-                        <Cards cardtext={'55'} cardtitle={'Completed Property'} cardIcon={faCircleCheck} className='dashboard-card-4' />
+                        <Cards cardtext={counterData?.total_number_of_other_property || '0'} cardtitle={'Other Property'} cardIcon={faChalkboardUser} className='dashboard-card-1' />
                     </Col>
                 </Row>
             </div>
+
+
+            {((!submitToggle && Number(counterData?.total_number_of_house) !== 0) && Number(counterData?.total_number_of_shops) !== 0) && <div className='ShowRemainMsg'>
+                <span>
+                    Out of :- <span className='numbers'>{counterData?.total_number_of_house}</span> Residential Property,  <span className='numbers'>{counterData?.pending_house}</span> are remaining
+                </span>
+                <span>
+                    Out of :-  <span className='numbers'>{counterData?.total_number_of_shops}</span> Commercial Property, <span className='numbers'>{counterData?.pending_shop}</span> are remaining
+                </span>
+            </div>}
+
+
+            {(submitToggle) && (
+                <div className='d-flex justify-content-end pe-3'>
+                    <Button className='rounded-3' disabled={SubmitProptyLoad} onClick={SubmitProperty}>
+                        Submit All Property {SubmitProptyLoad && <Spinner size='sm' />}
+                    </Button>
+                </div>
+            )}
+
             <ButtonGroup className='BlockButtonGroup'>
                 {radios.map((radio, idx) => (
                     <ToggleButton
@@ -200,6 +279,8 @@ const PropertyManagement = () => {
                                 key={Property.id}
                                 index={index}
                                 Property={Property}
+                                StateData={location?.state?.StateData}
+                                counterData={counterData}
                                 onDelete={() => { }}
                                 onUpdate={() => { }}
                             />
@@ -218,7 +299,16 @@ const PropertyManagement = () => {
                     </Drawer>
                 </DataTable>
             </div>
-            <AddProperty isModal={addProperty} setModal={setAddProperty} StateData={location?.state?.StateData} id={id} />
+
+            <CustomModal
+                open={show}
+                handleClose={handleClose}
+                handleConfirm={handleConfirm}
+                disableHeader
+                bodyTitle='Are you sure you want to add new Property?'
+                isLoading={false}
+            />
+            <AddProperty isModal={addProperty} setModal={setAddProperty} StateData={location?.state?.StateData} counterData={counterData} id={id} />
         </>
     )
 }
