@@ -52,7 +52,7 @@ const POIListRow = ({ poi, index, blockId, radioValue }) => {
                 <td>{index + 1}</td>
                 <td>{poi?.zone?.zone_name || '-'}</td>
                 <td>{poi?.ward?.ward_name || '-'}</td>
-                <td className='blockLink' disabled={VerifyLoad} onClick={() => navigate(route.propertyManagement(poi?.id), { state: { StateData } })}>{poi.geofence_name || '-'}</td>
+                <td className='blockLink' disabled={VerifyLoad} onClick={() => checkPOIStatus(poi?.id)}>{poi.geofence_name || '-'}</td>
                 <td>{poi.total_number_of_house || '0'}</td>
                 <td>{poi.total_number_of_shops || '0'}</td>
                 <td>
@@ -63,7 +63,7 @@ const POIListRow = ({ poi, index, blockId, radioValue }) => {
                 </td>
             </tr>
 
-            <AddPoi isModal={show} setModal={setShow} poiID={poi?.id} VerifyPOImutate={VerifyPOImutate} />
+            <AddPoi isModal={show} setModal={setShow} poiID={poi?.id} VerifyPOImutate={VerifyPOImutate} VerifyLoad={VerifyLoad} />
         </>
     )
 }

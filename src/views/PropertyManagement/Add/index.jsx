@@ -8,14 +8,18 @@ import { useMutation, useQueryClient } from 'react-query';
 import { UpdateProperty, addProperty } from 'query/property/property.query';
 import { toaster } from 'helper/helper';
 import { OtherTypeEnum } from 'shared/constants/TableHeaders';
+import heic2any from 'heic2any';
+
 
 function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, oldData }) {
     const fileInputRef = useRef(null)
     const query = useQueryClient()
+    const [isFileLoading, setIsLoading] = useState(false);
     const [location, setLocation] = useState({ latitude: null, longitude: null });
     const { control, watch, register, formState: { errors }, handleSubmit, reset, setValue, setError } = useForm({ mode: 'onSubmit' });
 
     const handleFileInputClick = () => {
+        setValue('sIcon', '');
         if (fileInputRef.current) {
             fileInputRef.current.click()
         }
@@ -73,79 +77,85 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                     setLocation({ latitude, longitude });
                 },
                 function (error) {
-                    setError(`sPropertyInfo`, { type: 'manual', message: 'To reset permissions in Chrome, go to Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed.' });
-                    toaster('To reset permissions in Chrome, go to Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed.', 'error')
+                    setError(`sPropertyInfo`, { type: 'manual', message: 'Check Network or To reset Location permissions , go to this site in Chrome Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed for Location.' });
+                    toaster('Check Network or To reset Location permissions , go to this site in Chrome Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed for Location.', 'error')
                     console.error("Error getting location:", error.message);
                 }
             );
         } else {
-            setError(`sPropertyInfo`, { type: 'manual', message: 'To reset permissions in Chrome, go to Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed.' });
+            setError(`sPropertyInfo`, { type: 'manual', message: 'Check Network or To reset Location permissions , go to this site in Chrome Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed for Location.' });
             console.error("Geolocation is not supported by this browser.");
         }
     }, [watch('sIcon')]);
-
+    console.log('watchiii', watch('sIcon'))
     const onSubmit = async (data) => {
-        if (UpdateID) {
-            const FinalData = {
-                property_text: data?.sPropertyInfo,
+        if (location?.latitude && location?.longitude) {
+            if (UpdateID) {
+                const FinalData = {
+                    property_text: data?.sPropertyInfo,
 
-            }
-            if (data?.sIcon && typeof (data?.sIcon) !== 'string') {
-                FinalData.property_image = data?.sIcon
-            }
-            const formData = new FormData();
-
-
-            Object.entries(FinalData).forEach(([key, value]) => {
-                if (Array.isArray(value)) {
-                    value.forEach((item) => {
-                        formData.append(key, item);
-                    });
-                } else {
-                    formData.append(key, value);
                 }
-            });
+                if (data?.sIcon && typeof (data?.sIcon) !== 'string') {
+                    FinalData.property_image = data?.sIcon
+                }
+                const formData = new FormData();
 
-            updateMutate({ formData, UpdateID })
+
+                Object.entries(FinalData).forEach(([key, value]) => {
+                    if (Array.isArray(value)) {
+                        value.forEach((item) => {
+                            formData.append(key, item);
+                        });
+                    } else {
+                        formData.append(key, value);
+                    }
+                });
+
+                updateMutate({ formData, UpdateID })
+
+            } else {
+                const FinalData = {
+                    latitude: location?.latitude,
+                    longitude: location?.longitude,
+                    ward_id: StateData?.ward?.id,
+                    zone_id: StateData?.zone?.id,
+                    poi_id: id,
+                    property_text: data?.sPropertyInfo,
+                    is_not_found: data?.ePropertyNotFound ? 1 : 0,
+                    is_new: data?.eNewProperty ? 1 : 0,
+                    type: data?.type,
+                    other_type: data?.other_type?.value || '',
+                    comment: data?.sComment || ''
+                }
+
+                if (data?.sIcon) {
+                    FinalData.property_image = data?.sIcon
+                }
+
+
+                const formData = new FormData();
+
+
+                Object.entries(FinalData).forEach(([key, value]) => {
+                    if (Array.isArray(value)) {
+                        value.forEach((item) => {
+                            formData.append(key, item);
+                        });
+                    } else {
+                        formData.append(key, value);
+                    }
+                });
+
+                // Display the key/value pairs
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
+                }
+                mutate(formData)
+            }
 
         } else {
-            const FinalData = {
-                latitude: location?.latitude,
-                longitude: location?.longitude,
-                ward_id: StateData?.ward?.id,
-                zone_id: StateData?.zone?.id,
-                poi_id: id,
-                property_text: data?.sPropertyInfo,
-                is_not_found: data?.ePropertyNotFound ? 1 : 0,
-                is_new: data?.eNewProperty ? 1 : 0,
-                type: data?.type,
-                other_type: data?.other_type?.value || '',
-                comment: data?.sComment || ''
-            }
-
-            if (data?.sIcon) {
-                FinalData.property_image = data?.sIcon
-            }
-
-
-            const formData = new FormData();
-
-
-            Object.entries(FinalData).forEach(([key, value]) => {
-                if (Array.isArray(value)) {
-                    value.forEach((item) => {
-                        formData.append(key, item);
-                    });
-                } else {
-                    formData.append(key, value);
-                }
-            });
-
-            // Display the key/value pairs
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ', ' + pair[1]);
-            }
-            mutate(formData)
+            setError(`sIcon`, { type: 'manual', message: 'Check Network or To reset Location permissions , go to this site in Chrome Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed for Location.' });
+            toaster('Check Network or To reset Location permissions , go to this site in Chrome Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed for Location.', 'error')
         }
 
 
@@ -159,6 +169,43 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
     }, [counterData])
 
 
+
+    const handleFileChange = async (file) => {
+        setIsLoading(true)
+        try {
+
+            if (file) {
+                // Check if the file is in HEIC format
+                if (file.type === '') {
+                    try {
+                        // Convert HEIC to JPEG format
+                        const jpegFile = await heic2any({
+                            blob: file,
+                            toType: 'image/jpeg'
+                        });
+                        const convertedFile = new File([jpegFile], file.name, {
+                            type: 'image/jpeg', // or 'image/png'
+                        });
+                        // Now you can process the JPEG file
+                        console.log(convertedFile)
+                        return convertedFile
+                    } catch (error) {
+                        console.error('Error converting HEIC to JPEG:', error);
+                        // Handle the error
+                    }
+                } else {
+                    // For other formats, proceed with processing the file
+                    return file
+                }
+            }
+        } catch (e) {
+            console.log('e', e)
+        } finally {
+            setIsLoading(false)
+        }
+
+    }
+
     return (
         <>
             <Modal show={isModal} onHide={() => { setModal(false); reset() }} id='add-ticket' className='bigModal' size='lg'>
@@ -168,113 +215,6 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
-                            {/* Ward */}
-                            {/* <Col sm={6}>
-                                <Form.Group className='form-group'>
-                                    <Form.Label>
-                                        <span>
-                                            Ward
-                                            <span className='inputStar'>*</span>
-                                        </span>
-                                    </Form.Label>
-                                    <Controller
-                                        name='eWard'
-                                        control={control}
-                                        rules={{
-                                            required: {
-                                                value: true,
-                                                message: 'Ward is required'
-                                            }
-                                        }}
-                                        render={({ field: { onChange, value = [], ref } }) => (
-                                            <Select
-                                                ref={ref}
-                                                value={value}
-                                                options={zoneColums}
-                                                isDisabled={true}
-                                                className={`react-select border-0 ${errors.eWard && 'error'}`}
-                                                classNamePrefix='select'
-                                                closeMenuOnSelect={true}
-                                                onChange={(e) => {
-                                                    onChange(e)
-                                                }}
-                                            />
-                                        )}
-                                    />
-                                    {errors.eWard && (
-                                        <Form.Control.Feedback type='invalid'>
-                                            {errors.eWard.message}
-                                        </Form.Control.Feedback>
-                                    )}
-                                </Form.Group>
-                            </Col> */}
-
-                            {/* Zone */}
-                            {/* <Col sm={6}>
-                                <Form.Group className='form-group'>
-                                    <Form.Label>
-                                        <span>
-                                            Zone
-                                            <span className='inputStar'>*</span>
-                                        </span>
-                                    </Form.Label>
-                                    <Controller
-                                        name='eZone'
-                                        control={control}
-                                        rules={{
-                                            required: {
-                                                value: true,
-                                                message: 'Zone is required'
-                                            }
-                                        }}
-                                        render={({ field: { onChange, value = [], ref } }) => (
-                                            <Select
-                                                ref={ref}
-                                                value={value}
-                                                options={zoneColums}
-                                                className={`react-select border-0 ${errors.eZone && 'error'}`}
-                                                classNamePrefix='select'
-                                                isDisabled={true}
-                                                closeMenuOnSelect={true}
-                                                onChange={(e) => {
-                                                    onChange(e)
-                                                }}
-                                            />
-                                        )}
-                                    />
-                                    {errors.eZone && (
-                                        <Form.Control.Feedback type='invalid'>
-                                            {errors.eZone.message}
-                                        </Form.Control.Feedback>
-                                    )}
-                                </Form.Group>
-                            </Col> */}
-
-                            {/* Society */}
-                            {/* <Col sm={6}>
-                                <CommonInput
-                                    type='text'
-                                    register={register}
-                                    errors={errors}
-                                    className={`form-control ${errors?.sSociety && 'error'}`}
-                                    name='sSociety'
-                                    label='Society'
-                                    disabled={true}
-                                    placeholder='Enter Society Name'
-                                    required
-                                    onChange={(e) => {
-                                        e.target.value =
-                                            e.target.value?.trim() &&
-                                            e.target.value.replace(/^[0-9]+$/g, '')
-                                    }}
-                                    validation={{
-                                        required: {
-                                            value: true,
-                                            message: 'Society Name Is Required.'
-                                        },
-                                    }}
-                                />
-                            </Col> */}
 
                             {/* POI*/}<Col sm={12}>
                                 <CommonInput
@@ -549,7 +489,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                                                         )
                                                     }
                                                 </div>
-                                            ) : <span>Add Property Image</span>}
+                                            ) : <span>Add Property Image {isFileLoading && <Spinner size='sm' />}</span>}
                                         </div>
                                         <Controller
                                             name={`sIcon`}
@@ -574,7 +514,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                                                                 }
                                                             }
                                                         } else if (value && typeof value === 'object') {
-                                                            const allowedFormats = ['jpeg', 'png', 'jpg', 'JPEG', 'PNG', 'JPG'];
+                                                            const allowedFormats = ['jpeg', 'png', 'jpg', 'heic', 'HEIC', 'JPEG', 'PNG', 'JPG'];
                                                             const fileExtension = value.name.split('.').pop().toLowerCase();
 
                                                             if (!allowedFormats.includes(fileExtension)) {
@@ -599,13 +539,19 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                                                         }}
                                                         type='file'
                                                         name={`sIcon`}
-                                                        // disabled={updateFlag}
-                                                        accept='.jpg,.jpeg,.png,.JPEG,.JPG,.PNG'
+                                                        disabled={isFileLoading}
+                                                        accept='.jpg,.jpeg,.png,.JPEG,.JPG,.PNG,.HEIC,.heic'
                                                         errors={errors}
                                                         className={errors?.sIcon && 'error'}
                                                         onChange={(e) => {
                                                             const files = Array.from(e.target.files);
-                                                            onChange(files.length === 1 ? files[0] : files);
+                                                            if (files.length === 1) {
+                                                                handleFileChange(files[0]).then(result => (onChange(result))).catch(e => console.log(e))
+                                                            } else {
+                                                                onChange('');
+                                                            }
+
+                                                            // onChange(files.length === 1 ? files[0] : '');
                                                         }}
                                                         multiple // Enable multi-file selection
                                                     />
@@ -617,6 +563,8 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                                 </div>
 
                             </Col>}
+
+
                             {(UpdateID && oldData?.is_not_found !== 1) && (
                                 <Col sm={12}>
                                     <div className='fileinput'>
@@ -638,7 +586,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                                                             )
                                                         }
                                                     </div>
-                                                ) : <span>Add Property Image</span>}
+                                                ) : <span>Add Property Image {isFileLoading && <Spinner size='sm' />}</span>}
                                             </div>
                                             <Controller
                                                 name={`sIcon`}
@@ -648,7 +596,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                                                     validate: {
                                                         fileType: (value) => {
                                                             if (value && Array.isArray(value)) {
-                                                                const allowedFormats = ['jpeg', 'png', 'jpg', 'JPEG', 'PNG', 'JPG'];
+                                                                const allowedFormats = ['jpeg', 'png', 'jpg', 'heic', 'HEIC', 'JPEG', 'PNG', 'JPG'];
                                                                 for (const file of value) {
                                                                     const fileExtension = file.name.split('.').pop().toLowerCase();
                                                                     if (!allowedFormats.includes(fileExtension)) {
@@ -689,12 +637,16 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                                                             type='file'
                                                             name={`sIcon`}
                                                             // disabled={updateFlag}
-                                                            accept='.jpg,.jpeg,.png,.JPEG,.JPG,.PNG'
+                                                            accept='.jpg,.jpeg,.png,.JPEG,.JPG,.PNG,.HEIC,.heic'
                                                             errors={errors}
                                                             className={errors?.sIcon && 'error'}
                                                             onChange={(e) => {
                                                                 const files = Array.from(e.target.files);
-                                                                onChange(files.length === 1 ? files[0] : files);
+                                                                if (files.length === 1) {
+                                                                    handleFileChange(files[0]).then(result => (onChange(result))).catch(e => console.log(e))
+                                                                } else {
+                                                                    onChange('');
+                                                                }
                                                             }}
                                                             multiple // Enable multi-file selection
                                                         />
@@ -707,6 +659,14 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
 
                                 </Col>
                             )}
+
+
+
+
+
+
+
+
 
                             {!UpdateID &&
                                 <>
@@ -730,10 +690,10 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
 
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" disabled={isLoading || UpdateisLoad} onClick={() => { setModal(false); reset() }}>
+                        <Button variant="secondary" disabled={isLoading || UpdateisLoad || isFileLoading} onClick={() => { setModal(false); reset() }}>
                             Cancel
                         </Button>
-                        <Button variant="primary" type='submit' disabled={isLoading || UpdateisLoad} onClick={handleSubmit(onSubmit)}>
+                        <Button variant="primary" type='submit' disabled={isLoading || UpdateisLoad || isFileLoading} onClick={handleSubmit(onSubmit)}>
                             {UpdateID ? 'Update' : 'Submit'} {(isLoading || UpdateisLoad) && <Spinner size='sm' />}
                         </Button>
                     </Modal.Footer>

@@ -5,13 +5,15 @@ import { Controller, useForm } from 'react-hook-form';
 import CommonInput from 'shared/components/CommonInput';
 import { useMutation, useQueryClient } from 'react-query';
 import { AddPOI } from 'query/POI/poi.query';
+import heic2any from 'heic2any';
 import { toaster } from 'helper/helper';
 
-function AddPoi({ isModal, setModal, StateData, blockId, poiID, VerifyPOImutate }) {
+function AddPoi({ isModal, setModal, StateData, blockId, poiID, VerifyPOImutate, VerifyLoad }) {
     const fileInputRef = useRef(null)
     const query = useQueryClient();
+    const [isFileLoading, setIsLoading] = useState(false);
     const [location, setLocation] = useState({ latitude: null, longitude: null });
-    const { control, watch, register, formState: { errors }, handleSubmit, reset, setError } = useForm({ mode: 'onSubmit' });
+    const { control, watch, register, formState: { errors }, handleSubmit, reset, setError, setValue } = useForm({ mode: 'onSubmit' });
     const { mutate, isLoading } = useMutation(AddPOI, {
         onSuccess: (response) => {
             toaster(response?.message, 'success');
@@ -33,31 +35,28 @@ function AddPoi({ isModal, setModal, StateData, blockId, poiID, VerifyPOImutate 
                     setLocation({ latitude, longitude });
                 },
                 function (error) {
-                    setError(`poi`, { type: 'manual', message: 'To reset permissions in Chrome, go to Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed.' });
-                    toaster('To reset permissions in Chrome, go to Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed.', 'error')
+                    setError(`poi`, { type: 'manual', message: 'Check Network or To reset Location permissions , go to this site in Chrome Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed for Location.' });
+                    toaster('Check Network or To reset Location permissions , go to this site in Chrome Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed for Location.', 'error')
                     console.error("Error getting location:", error.message);
                 }
             );
         } else {
-            setError(`poi`, { type: 'manual', message: 'To reset permissions in Chrome, go to Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed.' });
+            setError(`poi`, { type: 'manual', message: 'Check Network or To reset Location permissions , go to this site in Chrome Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed for Location.' });
             console.error("Geolocation is not supported by this browser.");
         }
     }, [watch('sIcon')]);
 
     const onSubmit = async (Data) => {
-
-        try {
+        if (location?.latitude && location?.longitude) {
 
             if (poiID) {
                 const finalData = {
                     new_latitude: location?.latitude,
                     new_longitude: location?.longitude,
                     image: Data?.sIcon,
-
                 }
 
                 const formData = new FormData();
-
                 Object.entries(finalData).forEach(([key, value]) => {
                     if (Array.isArray(value)) {
                         value.forEach((item) => {
@@ -108,27 +107,68 @@ function AddPoi({ isModal, setModal, StateData, blockId, poiID, VerifyPOImutate 
 
                 mutate(formData);
             }
-
-
-        } catch (error) {
-            console.error('Error getting user data:', error);
+        } else {
+            setError(`sIcon`, { type: 'manual', message: 'Check Network or To reset Location permissions , go to this site in Chrome Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed for Location.' });
+            toaster('Check Network or To reset Location permissions , go to this site in Chrome Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed for Location.', 'error')
         }
+
     };
 
 
     const handleFileInputClick = () => {
-        if (fileInputRef.current) {
-            fileInputRef.current.click()
+        if (location?.latitude && location?.longitude) {
+            setValue('sIcon', '');
+            if (fileInputRef.current) {
+                fileInputRef.current.click()
+            }
+        } else {
+            setError(`sIcon`, { type: 'manual', message: 'Check Network or To reset Location permissions , go to this site in Chrome Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed for Location.' });
+            toaster('Check Network or To reset Location permissions , go to this site in Chrome Settings > Privacy and Security > Site Settings > Permissions, then adjust permissions as needed for Location.', 'error')
         }
     }
-    console.log('watch',)
+    const handleFileChange = async (file) => {
+        setIsLoading(true)
+        try {
+
+            if (file) {
+                // Check if the file is in HEIC format
+                if (file.type === '') {
+                    try {
+                        // Convert HEIC to JPEG format
+                        const jpegFile = await heic2any({
+                            blob: file,
+                            toType: 'image/jpeg'
+                        });
+                        const convertedFile = new File([jpegFile], file.name, {
+                            type: 'image/jpeg', // or 'image/png'
+                        });
+                        // Now you can process the JPEG file
+                        console.log(convertedFile)
+                        return convertedFile
+                    } catch (error) {
+                        console.error('Error converting HEIC to JPEG:', error);
+                        // Handle the error
+                    }
+                } else {
+                    // For other formats, proceed with processing the file
+                    return file
+                }
+            }
+        } catch (e) {
+            console.log('e', e)
+        } finally {
+            setIsLoading(false)
+        }
+
+    }
+
     return (
         <div>
 
             <Modal show={isModal} onHide={() => { setModal(false); reset() }} id='add-ticket' className='addPOIModal' size='md'>
                 <Form className='step-one' autoComplete='off'>
                     <Modal.Header closeButton>
-                        <Modal.Title className='add-ticket-header'>Add POI Details</Modal.Title>
+                        <Modal.Title className='add-ticket-header'> {poiID ? 'Verify POI Details' : 'Add POI Details'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
@@ -180,7 +220,7 @@ function AddPoi({ isModal, setModal, StateData, blockId, poiID, VerifyPOImutate 
                                                         )
                                                     }
                                                 </div>
-                                            ) : <span>Add POI Image</span>}
+                                            ) : <span>Add POI Image {isFileLoading && <Spinner size='sm' />}</span>}
                                         </div>
                                         <Controller
                                             name={`sIcon`}
@@ -205,7 +245,7 @@ function AddPoi({ isModal, setModal, StateData, blockId, poiID, VerifyPOImutate 
                                                                 }
                                                             }
                                                         } else if (value && typeof value === 'object') {
-                                                            const allowedFormats = ['jpeg', 'png', 'jpg', 'JPEG', 'PNG', 'JPG'];
+                                                            const allowedFormats = ['jpeg', 'png', 'jpg', 'heic', 'HEIC', 'JPEG', 'PNG', 'JPG'];
                                                             const fileExtension = value.name.split('.').pop().toLowerCase();
 
                                                             if (!allowedFormats.includes(fileExtension)) {
@@ -231,12 +271,16 @@ function AddPoi({ isModal, setModal, StateData, blockId, poiID, VerifyPOImutate 
                                                         type='file'
                                                         name={`sIcon`}
                                                         // disabled={updateFlag}
-                                                        accept='.jpg,.jpeg,.png,.JPEG,.JPG,.PNG'
+                                                        accept='.jpg,.jpeg,.png,.JPEG,.JPG,.PNG,.heic,.HEIC'
                                                         errors={errors}
                                                         className={errors?.sIcon && 'error'}
                                                         onChange={(e) => {
                                                             const files = Array.from(e.target.files);
-                                                            onChange(files.length === 1 ? files[0] : '');
+                                                            if (files.length === 1) {
+                                                                handleFileChange(files[0]).then(result => (onChange(result))).catch(e => console.log(e))
+                                                            } else {
+                                                                onChange('');
+                                                            }
                                                         }}
                                                         multiple // Enable multi-file selection
                                                     />
@@ -265,11 +309,11 @@ function AddPoi({ isModal, setModal, StateData, blockId, poiID, VerifyPOImutate 
                         </Row>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" disabled={isLoading} onClick={() => { setModal(false); reset() }}>
+                        <Button variant="secondary" disabled={isLoading || isFileLoading || VerifyLoad} onClick={() => { setModal(false); reset() }}>
                             Cancel
                         </Button>
-                        <Button variant="primary" disabled={isLoading} type='submit' onClick={handleSubmit(onSubmit)}>
-                            Submit {isLoading && <Spinner size='sm' />}
+                        <Button variant="primary" disabled={isLoading || isFileLoading || VerifyLoad} type='submit' onClick={handleSubmit(onSubmit)}>
+                            Submit {(isLoading || VerifyLoad) && <Spinner size='sm' />}
                         </Button>
                     </Modal.Footer>
                 </Form >
@@ -284,7 +328,8 @@ AddPoi.propTypes = {
     StateData: PropTypes.any,
     blockId: PropTypes.string,
     poiID: PropTypes.string,
-    VerifyPOImutate: PropTypes.any
+    VerifyPOImutate: PropTypes.any,
+    VerifyLoad: PropTypes.bool,
 };
 
 export default AddPoi;

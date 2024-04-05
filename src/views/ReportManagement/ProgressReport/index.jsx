@@ -3,24 +3,26 @@ import { useLocation } from 'react-router-dom'
 import DataTable from 'shared/components/DataTable'
 import Drawer from 'shared/components/Drawer'
 import UserFilters from 'shared/components/UserListFilter'
-import { ProgressReportColums } from 'shared/constants/TableHeaders'
+import { ProgressReportColums, ProgressReportMonthColums, ProgressReportWeekColums } from 'shared/constants/TableHeaders'
 import { appendParams, parseParams } from 'shared/utils'
 import PageTitle from 'shared/components/PageTitle'
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ProgressReportListRow from 'shared/components/ProgressReportListRow'
+import { GetReportList } from 'query/Report/report.query'
+import { useQuery } from 'react-query'
 
 const ProgressReport = () => {
     const location = useLocation()
     const parsedData = parseParams(location.search)
     const params = useRef(parseParams(location.search))
     const [radioValue, setRadioValue] = useState('1');
+    const [reportData, setReportData] = useState(null)
 
     const radios = [
         { name: 'All', value: '1' },
         { name: 'Week', value: '2' },
-        { name: 'Month', value: '3' },
-        { name: 'Year', value: '4' },
+        { name: 'Month', value: '3' }
     ];
 
     function getRequestParams(e) {
@@ -30,6 +32,7 @@ const ProgressReport = () => {
             nStart: (+data?.pageNumber?.[0] - 1) || 0,
             nLimit: data?.nLimit || 10,
             eStatus: data?.eStatus || 'y',
+            type: data?.type || 'all',
             eState: data?.eState || '',
             date: data?.date || '',
             startDate: data.startDate || '',
@@ -51,93 +54,22 @@ const ProgressReport = () => {
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange
 
-    const data = {
-        "bots": [
-            {
-                Assigndate: '31/12/2023',
-                AllocatedBlock: '20',
-                InProgressBlock: '30',
-                ReviewBlock: '60',
-                CompletedBlock: '80',
-                TotalProgress: '80%'
-            },
-            {
-                Assigndate: '15/07/2023',
-                AllocatedBlock: '100',
-                InProgressBlock: '30',
-                ReviewBlock: '70',
-                CompletedBlock: '80',
-                TotalProgress: '70%'
-            },
-            {
-                Assigndate: '03/11/2023',
-                AllocatedBlock: '50',
-                InProgressBlock: '30',
-                ReviewBlock: '70',
-                CompletedBlock: '80',
-                TotalProgress: '70%'
-            },
-            {
-                Assigndate: '19/05/2023',
-                AllocatedBlock: '80',
-                InProgressBlock: '30',
-                ReviewBlock: '50',
-                CompletedBlock: '70',
-                TotalProgress: '50%'
-            },
-            {
-                Assigndate: '28/09/2023',
-                AllocatedBlock: '90',
-                InProgressBlock: '40',
-                ReviewBlock: '60',
-                CompletedBlock: '40',
-                TotalProgress: '45%'
-            },
-            {
-                Assigndate: '10/02/2023',
-                AllocatedBlock: '100',
-                InProgressBlock: '40',
-                ReviewBlock: '60',
-                CompletedBlock: '40',
-                TotalProgress: '40%',
-            },
-            {
-                Assigndate: '24/04/2023',
-                AllocatedBlock: '70',
-                InProgressBlock: '60',
-                ReviewBlock: '20',
-                CompletedBlock: '10',
-                TotalProgress: '10%',
-            },
-            {
-                Assigndate: '07/08/2023',
-                AllocatedBlock: '80',
-                InProgressBlock: '65',
-                ReviewBlock: '25',
-                CompletedBlock: '20',
-                TotalProgress: '20%',
-            },
-            {
-                Assigndate: '12/01/2023',
-                AllocatedBlock: '90',
-                InProgressBlock: '65',
-                ReviewBlock: '25',
-                CompletedBlock: '30',
-                TotalProgress: '30%',
-            },
-            {
-                Assigndate: '30/06/2023',
-                AllocatedBlock: '10',
-                InProgressBlock: '65',
-                ReviewBlock: '25',
-                CompletedBlock: '60',
-                TotalProgress: '60%'
-            }
-        ],
-        "count": {
-            "totalData": 38
+
+    const { isLoading, isFetching } = useQuery(['myReportList', requestParams], () => GetReportList(requestParams), {
+        select: (data) => data.data.data,
+        onSuccess: (data) => {
+            setReportData(data);
         }
-    }
+    })
+    useEffect(() => {
+        if (requestParams?.type === 'all') {
+            setColumns(getSortedColumns(ProgressReportColums, parsedData))
+        } else if (requestParams?.type === 'week') {
+            setColumns(getSortedColumns(ProgressReportWeekColums, parsedData))
+        } else if (requestParams?.type === 'month') {
+            setColumns(getSortedColumns(ProgressReportMonthColums, parsedData))
+        }
+    }, [requestParams?.type])
 
     function handleSort(field) {
         let selectedFilter
@@ -195,8 +127,17 @@ const ProgressReport = () => {
     useEffect(() => {
         document.title = 'Task Management | AMC Survey'
     }, [])
-
-
+    function hendelFilter(value) {
+        console.log('value', value)
+        if (value === '1') {
+            setRequestParams({ ...requestParams, type: 'all', pageNumber: 1 })
+        } else if (value === '2') {
+            setRequestParams({ ...requestParams, type: 'week', pageNumber: 1 })
+        } else if (value === '3') {
+            setRequestParams({ ...requestParams, type: 'month', pageNumber: 1 })
+        }
+    }
+    console.log('radioValue', radioValue)
     return (
         <>
             <PageTitle title={'Progress Report'} />
@@ -211,7 +152,7 @@ const ProgressReport = () => {
                         defaultValue={'1'}
                         value={radio.value}
                         checked={radioValue === radio.value}
-                        onChange={(e) => setRadioValue(e.currentTarget.value)}
+                        onChange={(e) => { setRadioValue(e.currentTarget.value); hendelFilter(e.currentTarget.value) }}
                     >
                         {radio.name}
                     </ToggleButton>
@@ -226,23 +167,24 @@ const ProgressReport = () => {
                             rows: true
                         },
                         right: {
-                            search: true,
-                            filter: true
+                            search: false,
+                            filter: false
                         }
                     }}
                     sortEvent={handleSort}
                     headerEvent={(name, value) => handleHeaderEvent(name, value)}
-                    totalRecord={data && (data?.count?.totalData || 0)}
+                    totalRecord={reportData && (reportData?.total || 0)}
                     pageChangeEvent={handlePageEvent}
-                    isLoading={false}
+                    isLoading={isLoading || isFetching}
                     pagination={{ currentPage: requestParams.pageNumber, pageSize: requestParams.nLimit }}
                 >
-                    {data && data?.bots?.map((user, index) => {
+                    {reportData && reportData?.data?.map((user, index) => {
                         return (
                             <ProgressReportListRow
                                 key={user._id}
                                 index={index}
                                 user={user}
+                                requestParams={requestParams}
                                 onDelete={() => { }}
                                 onUpdate={() => { }}
                             />

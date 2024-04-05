@@ -67,6 +67,25 @@ export const ProgressReportColums = [
     { name: 'Completed Block', isSort: false },
     { name: 'Total progress (%)', isSort: false }
 ]
+export const ProgressReportWeekColums = [
+    { name: 'No', isSort: true },
+    { name: 'Week', isSort: false },
+    { name: 'Allocated Block', isSort: false },
+    { name: 'InProgress Block', isSort: false },
+    { name: 'Review  Block', isSort: false },
+    { name: 'Completed Block', isSort: false },
+    { name: 'Total progress (%)', isSort: false }
+]
+export const ProgressReportMonthColums = [
+    { name: 'No', isSort: true },
+    { name: 'Month', isSort: false },
+    { name: 'Allocated Block', isSort: false },
+    { name: 'InProgress Block', isSort: false },
+    { name: 'Review  Block', isSort: false },
+    { name: 'Completed Block', isSort: false },
+    { name: 'Total progress (%)', isSort: false }
+]
+
 
 export const ConsolidatedReportColums = [
     { name: 'No', isSort: true },
@@ -153,9 +172,9 @@ export const zoneColums = [
 ]
 
 export const OtherTypeEnum = [
-    { "label": "religious", "value": "religious" },
-    { "label": "bulk_generation", "value": "bulk_generation" },
-    { "label": "mobile_vendor", "value": "mobile_vendor" },
+    { "label": "Religious", "value": "religious" },
+    { "label": "Bulk generation", "value": "bulk_generation" },
+    { "label": "Mobile vendor", "value": "mobile_vendor" },
 ]
 
 export const PropertyTypeColums = [

@@ -5,23 +5,33 @@ import PropTypes from 'prop-types';
 
 import { Modal } from 'react-bootstrap';
 
-const ProgressReportListRow = ({ user, index, }) => {
+const ProgressReportListRow = ({ user, index, requestParams }) => {
     // const navigate = useNavigate()
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     // const handleShow = () => setShow(true);
 
+
+    function hendeltime() {
+        if (requestParams?.type === 'all') {
+            return user?.date
+        } else if (requestParams?.type === 'week') {
+            return `Week ${user?.week || '1'}`
+        } else if (requestParams?.type === 'month') {
+            return `${user?.month || '-'}`
+        }
+    }
     return (
         <>
             <tr key={user._id} className={user.eStatus === 'd' && 'deleted-user'} >
                 <td>{index + 1}</td>
-                <td>{user.Assigndate || '-'}</td>
-                <td>{user.AllocatedBlock || '-'}</td>
-                <td>{user.InProgressBlock || '-'}</td>
-                <td>{user.ReviewBlock || '-'}</td>
-                <td>{user.CompletedBlock || '-'}</td>
-                <td>{user.TotalProgress || '-'}</td>
+                <td>{hendeltime() || '-'}</td>
+                <td>{user.allocated_block || '0'}</td>
+                <td>{user.inprogress_block || '0'}</td>
+                <td>{user.review_block || '0'}</td>
+                <td>{user.complated_block || '0'}</td>
+                <td>{user.total_progress + '%' || '0 %'}</td>
                 {/* <td>
                     <div className='dropdown-datatable-items-icon' onClick={handleShow}>
                         <i className='icon-visibility d-block' />
@@ -47,6 +57,7 @@ const ProgressReportListRow = ({ user, index, }) => {
 
 ProgressReportListRow.propTypes = {
     user: PropTypes.any,
+    requestParams: PropTypes.any,
     index: PropTypes.number.isRequired,
     onDelete: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
