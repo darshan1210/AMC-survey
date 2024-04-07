@@ -56,9 +56,10 @@ const POIManagement = () => {
     const [radioValue, setRadioValue] = useState('1');
 
     const radios = [
-        { name: `Total POI (${Number(poiCount?.total_poi) - Number(poiCount?.inprogress_poi) - Number(poiCount?.completed_poi) || '0'})`, value: '1' },
+        { name: `Total POI (${Number(poiCount?.total_poi) - Number(poiCount?.inprogress_poi) - Number(poiCount?.completed_poi) - Number(poiCount?.review_poi) || '0'})`, value: '1' },
         { name: `inProgress POI (${poiCount?.inprogress_poi || '0'})`, value: '2' },
-        { name: `Complete POI (${poiCount?.completed_poi || '0'})`, value: '3' },
+        { name: `Review POI (${poiCount?.review_poi || '0'})`, value: '3' },
+        { name: `Complete POI (${poiCount?.completed_poi || '0'})`, value: '4' },
     ];
 
     const [dateRange, setDateRange] = useState([null, null]);
@@ -71,6 +72,7 @@ const POIManagement = () => {
         onSuccess: (data) => {
             setPoiCount(data?.counters)
             setPoilistData(data?.data);
+            // console.log(data?.data?.some((e) => e?.is_review !== 2))
         }
     })
 
@@ -145,11 +147,13 @@ const POIManagement = () => {
             setRequestParams({ ...requestParams, eStatus: 2, pageNumber: 1 })
         } else if (value === '3') {
             setRequestParams({ ...requestParams, eStatus: 3, pageNumber: 1 })
+        } else if (value === '4') {
+            setRequestParams({ ...requestParams, eStatus: 4, pageNumber: 1 })
         }
     }
 
     useEffect(() => {
-        if (poiCount && poiCount?.total_poi === poiCount?.completed_poi && radioValue === '3') {
+        if (poiCount && poiCount?.total_poi === (poiCount?.completed_poi + poiCount?.review_poi) && (radioValue === '3' || radioValue === '4')) {
             setPoiToggle(true)
         } else {
             setPoiToggle(false)
@@ -164,7 +168,7 @@ const POIManagement = () => {
 
     return (
         <>
-            <PageTitle title={'POI Management'} />
+            <PageTitle title={`POI Management - ${location?.state?.block}`} />
             <TopBar
                 buttons={[
                     {

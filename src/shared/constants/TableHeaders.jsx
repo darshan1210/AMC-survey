@@ -14,7 +14,7 @@
 
 
 export const TaskColumm = [
-    { name: 'No', isSort: true },
+    { name: 'No', isSort: false },
     { name: 'Block name', isSort: false },
     { name: 'zone', isSort: false },
     { name: 'Ward', isSort: false },
@@ -25,7 +25,7 @@ export const TaskColumm = [
 ]
 
 export const ReviewBlockColumm = [
-    { name: 'No', isSort: true },
+    { name: 'No', isSort: false },
     { name: 'Block name', isSort: false },
     { name: 'zone', isSort: false },
     { name: 'Ward', isSort: false },
@@ -37,7 +37,7 @@ export const ReviewBlockColumm = [
 
 
 export const CompletdBlockColumm = [
-    { name: 'No', isSort: true },
+    { name: 'No', isSort: false },
     { name: 'Block name', isSort: false },
     { name: 'Zone', isSort: false },
     { name: 'Ward', isSort: false },
@@ -48,7 +48,7 @@ export const CompletdBlockColumm = [
 ]
 
 export const InProgressBlockColum = [
-    { name: 'No', isSort: true },
+    { name: 'No', isSort: false },
     { name: 'Block name', isSort: false },
     { name: 'Total POI', isSort: false },
     { name: 'Survey POI', isSort: false },
@@ -59,7 +59,7 @@ export const InProgressBlockColum = [
 ]
 
 export const ProgressReportColums = [
-    { name: 'No', isSort: true },
+    { name: 'No', isSort: false },
     { name: 'Date', isSort: false },
     { name: 'Allocated Block', isSort: false },
     { name: 'InProgress Block', isSort: false },
@@ -68,7 +68,7 @@ export const ProgressReportColums = [
     { name: 'Total progress (%)', isSort: false }
 ]
 export const ProgressReportWeekColums = [
-    { name: 'No', isSort: true },
+    { name: 'No', isSort: false },
     { name: 'Week', isSort: false },
     { name: 'Allocated Block', isSort: false },
     { name: 'InProgress Block', isSort: false },
@@ -77,7 +77,7 @@ export const ProgressReportWeekColums = [
     { name: 'Total progress (%)', isSort: false }
 ]
 export const ProgressReportMonthColums = [
-    { name: 'No', isSort: true },
+    { name: 'No', isSort: false },
     { name: 'Month', isSort: false },
     { name: 'Allocated Block', isSort: false },
     { name: 'InProgress Block', isSort: false },
@@ -88,7 +88,7 @@ export const ProgressReportMonthColums = [
 
 
 export const ConsolidatedReportColums = [
-    { name: 'No', isSort: true },
+    { name: 'No', isSort: false },
     { name: 'Date', isSort: false },
     { name: 'Allocated Property', isSort: false },
     { name: 'InProgress Property', isSort: false },
@@ -98,7 +98,7 @@ export const ConsolidatedReportColums = [
 ]
 
 export const ProptyColums = [
-    { name: 'No', isSort: true },
+    { name: 'No', isSort: false },
     { name: 'POI', isSort: false },
     { name: 'Type', isSort: false },
     { name: 'Property Details', isSort: false },
@@ -107,7 +107,7 @@ export const ProptyColums = [
 ]
 
 export const POIColums = [
-    { name: 'No', isSort: true },
+    { name: 'No', isSort: false },
     { name: 'Zone', isSort: false },
     { name: 'Ward', isSort: false },
     { name: 'POI', isSort: false },
@@ -117,7 +117,7 @@ export const POIColums = [
 ]
 
 export const RevviewSurveyColums = [
-    { name: 'No', isSort: true },
+    { name: 'No', isSort: false },
     { name: 'Block name', isSort: false },
     { name: 'Ward', isSort: false },
     { name: 'zone', isSort: false },

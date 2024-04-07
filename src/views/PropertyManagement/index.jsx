@@ -32,7 +32,7 @@ const PropertyManagement = () => {
     const [counterData, setCounterData] = useState({});
 
     const radios = [
-        { name: `inProgress Property (${propertyList?.total})`, value: '1' },
+        { name: `Property List (${propertyList?.total})`, value: '1' },
     ];
 
 
@@ -178,7 +178,7 @@ const PropertyManagement = () => {
     return (
         <>
             <PageTitle title={'Property Management'} />
-            <TopBar
+            {location?.state?.StateData?.radioValue !== "4" && <TopBar
                 buttons={[
                     {
                         text: 'Add Property',
@@ -188,7 +188,7 @@ const PropertyManagement = () => {
                         btnEvent: () => { hendelAddProperty() }
                     },
                 ]}
-            />
+            />}
 
             <div className='DashGrid'>
                 <Row className='dashboardCards' >
@@ -219,7 +219,7 @@ const PropertyManagement = () => {
             </div>
 
 
-            {((!submitToggle && Number(counterData?.total_number_of_house) !== 0) && Number(counterData?.total_number_of_shops) !== 0) && <div className='ShowRemainMsg'>
+            {((!submitToggle && Number(counterData?.total_number_of_house) !== 0 && Number(counterData?.total_number_of_shops) !== 0) && Number(counterData?.total_number_of_shops) !== 0) && <div className='ShowRemainMsg'>
                 <span>
                     Out of :- <span className='numbers'>{counterData?.total_number_of_house}</span> Residential Property,  <span className='numbers'>{counterData?.pending_house}</span> are remaining
                 </span>
@@ -229,7 +229,7 @@ const PropertyManagement = () => {
             </div>}
 
 
-            {(submitToggle) && (
+            {(submitToggle && location?.state?.StateData?.radioValue !== "4") && (
                 <div className='d-flex justify-content-end pe-3'>
                     <Button className='rounded-3' disabled={SubmitProptyLoad} onClick={SubmitProperty}>
                         Submit All Property {SubmitProptyLoad && <Spinner size='sm' />}

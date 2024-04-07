@@ -18,10 +18,9 @@ function Login() {
     register: fields,
     handleSubmit,
     formState: { errors },
-    reset
   } = useForm({ mode: 'onSubmit' })
   const [showPassword, setShowPassword] = useState(true)
-  const [mobileToggle, setMobileToggle] = useState(false)
+  const [mobileToggle] = useState(false)
   const [show, setShow] = useState(false);
 
   const handleClose = () => {
@@ -68,11 +67,11 @@ function Login() {
   function onSubmit(data) {
     mutate({ sEmail: data.sEmail, sPassword: data.sPassword })
   }
-  const toggleLogin = () => {
-    setMobileToggle(!mobileToggle)
-    reset()
-    toggleLogin()
-  }
+  // const toggleLogin = () => {
+  //   setMobileToggle(!mobileToggle)
+  //   reset()
+  //   // toggleLogin()
+  // }
 
   useEffect(() => {
     document.title = 'Login'
@@ -190,11 +189,11 @@ function Login() {
           Forgot password
         </Link>
 
-        <div className='phone-login'>
+        {/* <div className='phone-login'>
           <span onClick={toggleLogin}>
             {mobileToggle ? 'Log-in with Email' : 'Log-in with Phone'}
           </span>
-        </div>
+        </div> */}
       </Form>
 
       <CustomModal

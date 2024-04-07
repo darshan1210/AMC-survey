@@ -28,7 +28,7 @@ function AllRoutes() {
   return (
     <>
       <Toaster limit={5} />
-      <BrowserRouter>
+      <BrowserRouter basename='~amc/property-survey/build'>
         <Routes>
           {Router?.map(({ isPrivateRoute, children, Component }) => {
             return (

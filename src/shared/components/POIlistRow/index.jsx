@@ -20,7 +20,8 @@ const POIListRow = ({ poi, index, blockId, radioValue }) => {
         ward: poi?.ward,
         socity: poi?.geofence_name,
         TotalProprty: poi?.total_number_of_house,
-        TotalShops: poi?.total_number_of_shops
+        TotalShops: poi?.total_number_of_shops,
+        radioValue: radioValue
     }
     const { mutate, } = useMutation(CheckPOIstatus, {
         onSuccess: (data) => {

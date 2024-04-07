@@ -165,6 +165,9 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
         if ((Number(counterData?.pending_house) <= 0) && (Number(counterData?.pending_shop) <= 0)) {
             setValue('eNewProperty', true)
             setValue('ePropertyNotFound', false)
+        } else {
+            setValue('eNewProperty', false)
+            setValue('ePropertyNotFound', false)
         }
     }, [counterData])
 
@@ -276,34 +279,64 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                                     </Form.Group>
                                 </Col>}
 
-                                {/* chek Box */}  {!((Number(counterData?.pending_house) <= 0) && (Number(counterData?.pending_shop) <= 0)) && <Col sm={6}>
-                                    <Form.Group className='form-checkbox'>
-                                        <Controller
-                                            name='ePropertyNotFound'
-                                            control={control}
-                                            render={({ field: { onChange, value, ref } }) => (
-                                                <Form.Check
-                                                    type='checkbox'
-                                                    ref={ref}
-                                                    value={value}
-                                                    checked={value}
-                                                    id={'id3'}
-                                                    label={'is Property Not Found'}
-                                                    className={` ${errors.ePropertyNotFound && 'error'}`}
-                                                    onChange={(e) => {
-                                                        onChange(e)
-                                                        setValue('eNewProperty', false)
-                                                    }}
-                                                />
+                                {/* chek Box */}  {!((Number(counterData?.pending_house) <= 0) && (Number(counterData?.pending_shop) <= 0)) && (<>
+                                    <Col sm={6}>
+                                        <Form.Group className='form-checkbox'>
+                                            <Controller
+                                                name='ePropertyNotFound'
+                                                control={control}
+                                                render={({ field: { onChange, value, ref } }) => (
+                                                    <Form.Check
+                                                        type='checkbox'
+                                                        ref={ref}
+                                                        value={value}
+                                                        checked={value}
+                                                        id={'id3'}
+                                                        label={'is Property Not Found'}
+                                                        className={` ${errors.ePropertyNotFound && 'error'}`}
+                                                        onChange={(e) => {
+                                                            onChange(e)
+                                                            setValue('eNewProperty', false)
+                                                        }}
+                                                    />
+                                                )}
+                                            />
+                                            {errors.ePropertyNotFound && (
+                                                <Form.Control.Feedback type='invalid'>
+                                                    {errors.ePropertyNotFound.message}
+                                                </Form.Control.Feedback>
                                             )}
-                                        />
-                                        {errors.ePropertyNotFound && (
-                                            <Form.Control.Feedback type='invalid'>
-                                                {errors.ePropertyNotFound.message}
-                                            </Form.Control.Feedback>
-                                        )}
-                                    </Form.Group>
-                                </Col>}
+                                        </Form.Group>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <Form.Group className='form-checkbox'>
+                                            <Controller
+                                                name='eNewProperty'
+                                                control={control}
+                                                render={({ field: { onChange, value = true, ref } }) => {
+                                                    return <Form.Check
+                                                        type='checkbox'
+                                                        ref={ref}
+                                                        value={value}
+                                                        id={'id1'}
+                                                        checked={value}
+                                                        label={'is New Property'}
+                                                        className={` ${errors.eNewProperty && 'error'}`}
+                                                        onChange={(e) => {
+                                                            onChange(e)
+                                                            setValue('ePropertyNotFound', false)
+                                                        }}
+                                                    />
+                                                }}
+                                            />
+                                            {errors.eNewProperty && (
+                                                <Form.Control.Feedback type='invalid'>
+                                                    {errors.eNewProperty.message}
+                                                </Form.Control.Feedback>
+                                            )}
+                                        </Form.Group>
+                                    </Col>
+                                </>)}
 
                                 <Row>
                                     {/* radio Box */}
@@ -456,6 +489,7 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                                     </Form.Group>
                                 </Col>}
                             </>}
+
 
 
 
@@ -685,7 +719,16 @@ function AddProperty({ isModal, setModal, StateData, counterData, id, UpdateID, 
                                 </>
                             }
 
-
+                            {UpdateID && oldData?.admin_comment && <>
+                                <Col md={12} className='mt-2'>
+                                    <Form.Group className='form-group'>
+                                        <Form.Label className='light-font'>
+                                            Admin Comment
+                                        </Form.Label>
+                                        <Form.Control type='text' name='sRole' value={oldData?.admin_comment || '-'} disabled />
+                                    </Form.Group>
+                                </Col>
+                            </>}
                         </Row>
 
                     </Modal.Body>
